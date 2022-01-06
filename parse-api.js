@@ -9,26 +9,6 @@ let contents = fs.readFileSync(path.join(__dirname, 'z3', 'src', 'api', 'z3_api.
 // but that's super painful
 // and the files are regular enough that we can get away without it
 
-// let types = Object.create(null);
-
-// let typeMatches = contents.matchAll(/def_Type\(\s*'(?<name>[A-Za-z0-9_]+)',\s*'(?<cname>[A-Za-z0-9_]+)',\s*'(?<pname>[A-Za-z0-9_]+)'\)/g);
-// for (let { groups } of typeMatches) {
-//   types[groups.name] = groups.cname;
-// }
-
-
-// let apiLines = contents.split('\n').filter(l => l.includes('def_API('));
-// // we filter first to ensure our regex isn't too strict
-// for (let line of apiLines) {
-//   console.log(line)
-//   let match = line.match(/^\s*def_API\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\)\s*$/);
-//   if (match == null) {
-//     throw new Error(`failed to match ${JSON.stringify(line)}`);
-//   }
-//   console.log(match);
-// }
-
-
 // parse type declarations
 let types = {
   bool: 'boolean',
