@@ -1,5 +1,6 @@
 node_modules/
 z3/
 example.js
+example-raw.js
 build/*.js
 build/lib.ts

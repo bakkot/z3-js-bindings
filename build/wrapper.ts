@@ -12,6 +12,7 @@ function pointerArrayToByteArr(pointers: number[]) {
 }
 
 type bool = boolean;
+type Z3_bool = boolean;
 type Z3_string = string;
 type Z3_char_ptr = string;
 type unsigned = number;
@@ -23,7 +24,7 @@ type int64_t = number;
 export type Z3_sort_opt = Pointer<'Z3_sort_opt'>;
 export type Z3_ast_opt = Pointer<'Z3_ast_opt'>;
 export type Z3_func_interp_opt = Pointer<'Z3_func_interp_opt'>;
-export type Z3_bool_opt = Pointer<'Z3_bool_opt'>;
+export type Z3_string_ptr = Pointer<'Z3_string_ptr'>;
 export type Z3_error_handler = Pointer<'Z3_error_handler'>;
 export type Z3_push_eh = Pointer<'Z3_push_eh'>;
 export type Z3_pop_eh = Pointer<'Z3_pop_eh'>;
@@ -440,6 +441,18 @@ export async function init() {
         );
       },
       global_param_reset_all: Mod._Z3_global_param_reset_all as () => void,
+      global_param_get: function (param_id: string): string | null {
+        let ret = Mod.ccall(
+          'Z3_global_param_get',
+          'boolean',
+          ['string', 'number'],
+          [param_id, outPtrAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return Mod.UTF8ToString(getOutPtr());
+      },
       mk_config: Mod._Z3_mk_config as () => Z3_config,
       del_config: Mod._Z3_del_config as (c: Z3_config) => void,
       set_param_value: function (

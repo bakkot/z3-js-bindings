@@ -35,13 +35,19 @@ function isZ3PointerType(type) {
 }
 
 function toEm(p) {
+  let { type } = p;
+  if (p.kind === 'out') {
+    if (type === 'Z3_string_ptr' || type.startsWith('Z3_') && type !== 'Z3_string') {
+      return 'outPtrAddress';
+    }
+    throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
+  }
   if (p.isArray) {
-    if (!isZ3PointerType(p.type)) {
-      throw new Error(`only know how to deal with arrays of pointers (got ${p.type})`);
+    if (!isZ3PointerType(type)) {
+      throw new Error(`only know how to deal with arrays of pointers (got ${type})`);
     }
     return `pointerArrayToByteArr(${p.name} as unknown as number[])`;
   }
-  let { type } = p;
   if (type in primitiveTypes) {
     type = primitiveTypes[type];
   }
@@ -50,9 +56,6 @@ function toEm(p) {
     return p.name;
   }
   if (type.startsWith('Z3_')) {
-    if (p.kind === 'out') {
-      return 'outPtrAddress';
-    }
     return p.name;
   }
   throw new Error(`unknown parameter type ${JSON.stringify(p)}`);
@@ -69,26 +72,22 @@ function wrapFunction(fn) {
       || p.type === 'Z3_string_ptr'
       || p.type === 'Z3_char_ptr'
       || p.isArray && !isZ3PointerType(p.type)
-    )) {
-  if (fn.name === 'Z3_model_eval') {
-    console.error('hi2')
-  }
-
+    ) || outParams.length > 1) {
+    console.error(`skipping ${fn.name}`);
     return null;
   }
 
-  if (outParams.length > 1) {
-    return null;
-  }
   let outParam = null;
   if (outParams.length === 1) {
     // this special case is basically just Z3_model_eval
     outParam = outParams[0];
-    if (fn.ret !== 'Z3_bool_opt' || outParam.kind !== 'out' || !outParam.isPtr || outParam.isArray || !isZ3PointerType(outParam.type)) {
+    if (fn.ret !== 'Z3_bool' || outParam.kind !== 'out' || outParam.isArray || !(outParam.isPtr && isZ3PointerType(outParam.type) || !outParam.isPtr && outParam.type === 'Z3_string_ptr')) {
+      console.error(`skipping ${fn.name}`);
       return null;
     }
   }
   if (fn.ret === 'Z3_string_ptr' || fn.ret === 'Z3_char_ptr') {
+    console.error(`skipping ${fn.name}`);
     return null;
   }
   // console.error(fn.name);
@@ -122,12 +121,15 @@ function wrapFunction(fn) {
   let ctypes = fn.params.map(p => p.isArray ? 'array' : toEmType(p.type));
   let invocation = `Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}])`;
   if (outParam !== null) {
-    return `${name}: function(${params}): ${outParam.type} | null {
+    let returnVal = outParam.type === 'Z3_string_ptr'
+      ? `Mod.UTF8ToString(getOutPtr())`
+      : `getOutPtr() as unknown as ${outParam.type}`;
+    return `${name}: function(${params}): ${outParam.type === 'Z3_string_ptr' ? 'string' : outParam.type} | null {
       let ret = Mod.ccall('${fn.name}', 'boolean', ${JSON.stringify(ctypes)}, [${args}]);
       if (!ret) {
         return null;
       }
-      return getOutPtr() as unknown as ${outParam.type};
+      return ${returnVal};
     }`;
   }
 
@@ -136,55 +138,6 @@ function wrapFunction(fn) {
   }`;
 
 }
-
-// function wrapFunction(fn) {
-//   // we'll figure out how to deal with these later
-//   if (fn.params.some(p => p.kind !== 'in' || p.isConst || p.isPtr || p.isArray|| p.type === 'Z3_string_ptr' || p.type === 'Z3_char_ptr')) {
-//     return null;
-//   }
-//   if (fn.ret === 'Z3_string_ptr' || fn.ret === 'Z3_char_ptr') {
-//     return null;
-//   }
-//   let isAsync = asyncFns.includes(fn.name);
-//   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
-//   let params = fn.params.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}`).join(', ');
-//   let args = fn.params.map((p, i) => p.type === 'Z3_string' ? '_str_' + i : p.name).join(', ');
-//   let ret = isAsync ? `Promise<${fn.ret}>` : fn.ret;
-
-//   let invocation = isAsync ? `Mod.async_call(Mod._async_${fn.name}, ${args})` : `Mod._${fn.name}(${args})`;
-
-//   if (fn.ret === 'Z3_string') {
-//     invocation = `Mod.UTF8ToString(${invocation})`;
-//   }
-
-//   let stringCount = fn.params.filter(p => p.type === 'Z3_string').length; // ugh, no .count
-//   if (stringCount > 0) {
-//     // gotta make a wrapper to handle strings
-//     // TODO maybe just use ccall?
-//     let wrappers = fn.params.map((p, i) => {
-//       if (p.type !== 'Z3_string') {
-//         return '';
-//       }
-//       return {
-//         alloc: `let _str_${i} = Mod.allocate(Mod.intArrayFromString(${p.name}), Mod.ALLOC_NORMAL);\n`,
-//         free: `Mod._free(_str_${i});\n`
-//       };
-//     });
-//     return `${name}: function (${params}): ${ret} {
-//       ${wrappers.map(w => w.alloc).join('')}
-//       try {
-//         return ${invocation};
-//       } finally {
-//         ${wrappers.map(w => w.free).join('')}
-//       }
-//     }`;
-//   }
-
-//   // TODO actually just give it the type, instead of a full wrapper, for the simple cases
-//   return `${name}: function (${params}): ${ret} {
-//     return ${invocation};
-//   }`;
-// }
 
 function wrapEnum(name, values) {
   let enumEntries = Object.entries(values);

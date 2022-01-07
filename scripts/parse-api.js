@@ -65,9 +65,9 @@ for (let line of apiLines) {
 let primitiveTypes = {
   __proto__: null,
   bool: 'boolean',
+  Z3_bool: 'boolean',
   Z3_string: 'string',
   Z3_char_ptr: 'string',
-  Z3_string_ptr: 'string_ptr',
   unsigned: 'number',
   double: 'number',
   int: 'number',
@@ -84,7 +84,7 @@ let types = {
   Z3_sort_opt: 'Z3_sort',
   Z3_ast_opt: 'Z3_ast',
   Z3_func_interp_opt: 'Z3_func_interp',
-  Z3_bool_opt: 'Z3_bool',
+  Z3_string_ptr: 'Z3_string_ptr',
 
   // these are function types I can't be bothered to parse
   Z3_error_handler: 'Z3_error_handler',
