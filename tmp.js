@@ -307,10 +307,12 @@ let mod = require('./build/lib.js');
 `);
   
   console.log('starting...');
-  let ret = await Z.Z3.solver_check(c, solver);
+  let ret = await Z.Z3.solver_check(c.ref(), solver);
   console.log(ret);
 
 
   // console.log(Z3.solver_check(c, solver));
   console.log(s);
+
+  Z.em.PThread.terminateAllThreads();
 })().catch(e => {console.error(e); process.exit(1);});

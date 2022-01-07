@@ -6,7 +6,7 @@
 
 extern "C" void async_Z3_solver_check(int idx, Z3_context c, Z3_solver s) {
   // gotta capture idx by value
-  std::thread t([idx, &c, &s] {
+  std::thread t([idx, c, s] {
     try {
       auto result = Z3_solver_check(c, s);
       MAIN_THREAD_ASYNC_EM_ASM({

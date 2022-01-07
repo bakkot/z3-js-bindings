@@ -7,6 +7,10 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
   readonly __typeName2: T;
 }
 
+function pointerArrayToByteArr(pointers: number[]) {
+  return new Uint8Array(new Int32Array(pointers).buffer);
+}
+
 type bool = boolean;
 type Z3_string = string;
 type Z3_char_ptr = string;
@@ -33,7 +37,7 @@ export type Z3_literals = Pointer<'Z3_literals'>;
 export type Z3_config = Pointer<'Z3_config'>;
 export type Z3_context = Pointer<'Z3_context'>;
 export type Z3_sort = Subpointer<'Z3_sort', 'Z3_ast'>;
-export type Z3_func_decl = Pointer<'Z3_func_decl'>;
+export type Z3_func_decl = Subpointer<'Z3_func_decl', 'Z3_ast'>;
 export type Z3_ast = Pointer<'Z3_ast'>;
 export type Z3_app = Pointer<'Z3_app'>;
 export type Z3_pattern = Pointer<'Z3_pattern'>;
@@ -422,2075 +426,2590 @@ export async function init() {
     em: Mod,
     Z3: {
       global_param_set: function (param_id: string, param_value: string): void {
-        let _str_0 = Mod.allocate(
-          Mod.intArrayFromString(param_id),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_global_param_set',
+          'void',
+          ['string', 'string'],
+          [param_id, param_value]
         );
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(param_value),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_global_param_set(_str_0, _str_1);
-        } finally {
-          Mod._free(_str_0);
-          Mod._free(_str_1);
-        }
       },
-      global_param_reset_all: function (): void {
-        return Mod._Z3_global_param_reset_all();
-      },
-      mk_config: function (): Z3_config {
-        return Mod._Z3_mk_config();
-      },
-      del_config: function (c: Z3_config): void {
-        return Mod._Z3_del_config(c);
-      },
+      global_param_reset_all: Mod._Z3_global_param_reset_all as () => void,
+      mk_config: Mod._Z3_mk_config as () => Z3_config,
+      del_config: Mod._Z3_del_config as (c: Z3_config) => void,
       set_param_value: function (
         c: Z3_config,
         param_id: string,
         param_value: string
       ): void {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(param_id),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_set_param_value',
+          'void',
+          ['number', 'string', 'string'],
+          [c, param_id, param_value]
         );
-        let _str_2 = Mod.allocate(
-          Mod.intArrayFromString(param_value),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_set_param_value(c, _str_1, _str_2);
-        } finally {
-          Mod._free(_str_1);
-          Mod._free(_str_2);
-        }
       },
-      mk_context: function (c: Z3_config): Z3_context {
-        return Mod._Z3_mk_context(c);
-      },
-      mk_context_rc: function (c: Z3_config): Z3_context {
-        return Mod._Z3_mk_context_rc(c);
-      },
-      del_context: function (c: Z3_context): void {
-        return Mod._Z3_del_context(c);
-      },
-      inc_ref: function (c: Z3_context, a: Z3_ast): void {
-        return Mod._Z3_inc_ref(c, a);
-      },
-      dec_ref: function (c: Z3_context, a: Z3_ast): void {
-        return Mod._Z3_dec_ref(c, a);
-      },
+      mk_context: Mod._Z3_mk_context as (c: Z3_config) => Z3_context,
+      mk_context_rc: Mod._Z3_mk_context_rc as (c: Z3_config) => Z3_context,
+      del_context: Mod._Z3_del_context as (c: Z3_context) => void,
+      inc_ref: Mod._Z3_inc_ref as (c: Z3_context, a: Z3_ast) => void,
+      dec_ref: Mod._Z3_dec_ref as (c: Z3_context, a: Z3_ast) => void,
       update_param_value: function (
         c: Z3_context,
         param_id: string,
         param_value: string
       ): void {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(param_id),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_update_param_value',
+          'void',
+          ['number', 'string', 'string'],
+          [c, param_id, param_value]
         );
-        let _str_2 = Mod.allocate(
-          Mod.intArrayFromString(param_value),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_update_param_value(c, _str_1, _str_2);
-        } finally {
-          Mod._free(_str_1);
-          Mod._free(_str_2);
-        }
       },
-      interrupt: function (c: Z3_context): void {
-        return Mod._Z3_interrupt(c);
-      },
-      mk_params: function (c: Z3_context): Z3_params {
-        return Mod._Z3_mk_params(c);
-      },
-      params_inc_ref: function (c: Z3_context, p: Z3_params): void {
-        return Mod._Z3_params_inc_ref(c, p);
-      },
-      params_dec_ref: function (c: Z3_context, p: Z3_params): void {
-        return Mod._Z3_params_dec_ref(c, p);
-      },
-      params_set_bool: function (
+      interrupt: Mod._Z3_interrupt as (c: Z3_context) => void,
+      mk_params: Mod._Z3_mk_params as (c: Z3_context) => Z3_params,
+      params_inc_ref: Mod._Z3_params_inc_ref as (
+        c: Z3_context,
+        p: Z3_params
+      ) => void,
+      params_dec_ref: Mod._Z3_params_dec_ref as (
+        c: Z3_context,
+        p: Z3_params
+      ) => void,
+      params_set_bool: Mod._Z3_params_set_bool as (
         c: Z3_context,
         p: Z3_params,
         k: Z3_symbol,
         v: bool
-      ): void {
-        return Mod._Z3_params_set_bool(c, p, k, v);
-      },
-      params_set_uint: function (
+      ) => void,
+      params_set_uint: Mod._Z3_params_set_uint as (
         c: Z3_context,
         p: Z3_params,
         k: Z3_symbol,
         v: unsigned
-      ): void {
-        return Mod._Z3_params_set_uint(c, p, k, v);
-      },
-      params_set_double: function (
+      ) => void,
+      params_set_double: Mod._Z3_params_set_double as (
         c: Z3_context,
         p: Z3_params,
         k: Z3_symbol,
         v: double
-      ): void {
-        return Mod._Z3_params_set_double(c, p, k, v);
-      },
-      params_set_symbol: function (
+      ) => void,
+      params_set_symbol: Mod._Z3_params_set_symbol as (
         c: Z3_context,
         p: Z3_params,
         k: Z3_symbol,
         v: Z3_symbol
-      ): void {
-        return Mod._Z3_params_set_symbol(c, p, k, v);
-      },
-      params_to_string: function (c: Z3_context, p: Z3_params): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_params_to_string(c, p));
-      },
-      params_validate: function (
+      ) => void,
+      params_to_string: Mod._Z3_params_to_string as (
+        c: Z3_context,
+        p: Z3_params
+      ) => Z3_string,
+      params_validate: Mod._Z3_params_validate as (
         c: Z3_context,
         p: Z3_params,
         d: Z3_param_descrs
-      ): void {
-        return Mod._Z3_params_validate(c, p, d);
-      },
-      param_descrs_inc_ref: function (c: Z3_context, p: Z3_param_descrs): void {
-        return Mod._Z3_param_descrs_inc_ref(c, p);
-      },
-      param_descrs_dec_ref: function (c: Z3_context, p: Z3_param_descrs): void {
-        return Mod._Z3_param_descrs_dec_ref(c, p);
-      },
-      param_descrs_get_kind: function (
+      ) => void,
+      param_descrs_inc_ref: Mod._Z3_param_descrs_inc_ref as (
+        c: Z3_context,
+        p: Z3_param_descrs
+      ) => void,
+      param_descrs_dec_ref: Mod._Z3_param_descrs_dec_ref as (
+        c: Z3_context,
+        p: Z3_param_descrs
+      ) => void,
+      param_descrs_get_kind: Mod._Z3_param_descrs_get_kind as (
         c: Z3_context,
         p: Z3_param_descrs,
         n: Z3_symbol
-      ): Z3_param_kind {
-        return Mod._Z3_param_descrs_get_kind(c, p, n);
-      },
-      param_descrs_size: function (
+      ) => Z3_param_kind,
+      param_descrs_size: Mod._Z3_param_descrs_size as (
         c: Z3_context,
         p: Z3_param_descrs
-      ): unsigned {
-        return Mod._Z3_param_descrs_size(c, p);
-      },
-      param_descrs_get_name: function (
+      ) => unsigned,
+      param_descrs_get_name: Mod._Z3_param_descrs_get_name as (
         c: Z3_context,
         p: Z3_param_descrs,
         i: unsigned
-      ): Z3_symbol {
-        return Mod._Z3_param_descrs_get_name(c, p, i);
-      },
-      param_descrs_get_documentation: function (
-        c: Z3_context,
-        p: Z3_param_descrs,
-        s: Z3_symbol
-      ): Z3_string {
-        return Mod.UTF8ToString(
-          Mod._Z3_param_descrs_get_documentation(c, p, s)
-        );
-      },
-      param_descrs_to_string: function (
+      ) => Z3_symbol,
+      param_descrs_get_documentation:
+        Mod._Z3_param_descrs_get_documentation as (
+          c: Z3_context,
+          p: Z3_param_descrs,
+          s: Z3_symbol
+        ) => Z3_string,
+      param_descrs_to_string: Mod._Z3_param_descrs_to_string as (
         c: Z3_context,
         p: Z3_param_descrs
-      ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_param_descrs_to_string(c, p));
-      },
-      mk_int_symbol: function (c: Z3_context, i: int): Z3_symbol {
-        return Mod._Z3_mk_int_symbol(c, i);
-      },
+      ) => Z3_string,
+      mk_int_symbol: Mod._Z3_mk_int_symbol as (
+        c: Z3_context,
+        i: int
+      ) => Z3_symbol,
       mk_string_symbol: function (c: Z3_context, s: string): Z3_symbol {
-        let _str_1 = Mod.allocate(Mod.intArrayFromString(s), Mod.ALLOC_NORMAL);
-
-        try {
-          return Mod._Z3_mk_string_symbol(c, _str_1);
-        } finally {
-          Mod._free(_str_1);
-        }
+        return Mod.ccall(
+          'Z3_mk_string_symbol',
+          'number',
+          ['number', 'string'],
+          [c, s]
+        );
       },
-      mk_uninterpreted_sort: function (c: Z3_context, s: Z3_symbol): Z3_sort {
-        return Mod._Z3_mk_uninterpreted_sort(c, s);
-      },
-      mk_bool_sort: function (c: Z3_context): Z3_sort {
-        return Mod._Z3_mk_bool_sort(c);
-      },
-      mk_int_sort: function (c: Z3_context): Z3_sort {
-        return Mod._Z3_mk_int_sort(c);
-      },
-      mk_real_sort: function (c: Z3_context): Z3_sort {
-        return Mod._Z3_mk_real_sort(c);
-      },
-      mk_bv_sort: function (c: Z3_context, sz: unsigned): Z3_sort {
-        return Mod._Z3_mk_bv_sort(c, sz);
-      },
-      mk_finite_domain_sort: function (
+      mk_uninterpreted_sort: Mod._Z3_mk_uninterpreted_sort as (
+        c: Z3_context,
+        s: Z3_symbol
+      ) => Z3_sort,
+      mk_bool_sort: Mod._Z3_mk_bool_sort as (c: Z3_context) => Z3_sort,
+      mk_int_sort: Mod._Z3_mk_int_sort as (c: Z3_context) => Z3_sort,
+      mk_real_sort: Mod._Z3_mk_real_sort as (c: Z3_context) => Z3_sort,
+      mk_bv_sort: Mod._Z3_mk_bv_sort as (
+        c: Z3_context,
+        sz: unsigned
+      ) => Z3_sort,
+      mk_finite_domain_sort: Mod._Z3_mk_finite_domain_sort as (
         c: Z3_context,
         name: Z3_symbol,
         size: uint64_t
-      ): Z3_sort {
-        return Mod._Z3_mk_finite_domain_sort(c, name, size);
-      },
-      mk_array_sort: function (
+      ) => Z3_sort,
+      mk_array_sort: Mod._Z3_mk_array_sort as (
         c: Z3_context,
         domain: Z3_sort,
         range: Z3_sort
-      ): Z3_sort {
-        return Mod._Z3_mk_array_sort(c, domain, range);
+      ) => Z3_sort,
+      del_constructor: Mod._Z3_del_constructor as (
+        c: Z3_context,
+        constr: Z3_constructor
+      ) => void,
+      mk_constructor_list: function (
+        c: Z3_context,
+        num_constructors: unsigned,
+        constructors: Z3_constructor[]
+      ): Z3_constructor_list {
+        return Mod.ccall(
+          'Z3_mk_constructor_list',
+          'number',
+          ['number', 'number', 'array'],
+          [
+            c,
+            num_constructors,
+            pointerArrayToByteArr(constructors as unknown as number[]),
+          ]
+        );
       },
-      del_constructor: function (c: Z3_context, constr: Z3_constructor): void {
-        return Mod._Z3_del_constructor(c, constr);
-      },
-      del_constructor_list: function (
+      del_constructor_list: Mod._Z3_del_constructor_list as (
         c: Z3_context,
         clist: Z3_constructor_list
-      ): void {
-        return Mod._Z3_del_constructor_list(c, clist);
+      ) => void,
+      mk_func_decl: function (
+        c: Z3_context,
+        s: Z3_symbol,
+        domain_size: unsigned,
+        domain: Z3_sort[],
+        range: Z3_sort
+      ): Z3_func_decl {
+        return Mod.ccall(
+          'Z3_mk_func_decl',
+          'number',
+          ['number', 'number', 'number', 'array', 'number'],
+          [
+            c,
+            s,
+            domain_size,
+            pointerArrayToByteArr(domain as unknown as number[]),
+            range,
+          ]
+        );
       },
-      mk_const: function (c: Z3_context, s: Z3_symbol, ty: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_const(c, s, ty);
+      mk_app: function (
+        c: Z3_context,
+        d: Z3_func_decl,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_app',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [c, d, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
+      },
+      mk_const: Mod._Z3_mk_const as (
+        c: Z3_context,
+        s: Z3_symbol,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_fresh_func_decl: function (
+        c: Z3_context,
+        prefix: string,
+        domain_size: unsigned,
+        domain: Z3_sort[],
+        range: Z3_sort
+      ): Z3_func_decl {
+        return Mod.ccall(
+          'Z3_mk_fresh_func_decl',
+          'number',
+          ['number', 'string', 'number', 'array', 'number'],
+          [
+            c,
+            prefix,
+            domain_size,
+            pointerArrayToByteArr(domain as unknown as number[]),
+            range,
+          ]
+        );
       },
       mk_fresh_const: function (
         c: Z3_context,
         prefix: string,
         ty: Z3_sort
       ): Z3_ast {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(prefix),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_mk_fresh_const',
+          'number',
+          ['number', 'string', 'number'],
+          [c, prefix, ty]
         );
-
-        try {
-          return Mod._Z3_mk_fresh_const(c, _str_1, ty);
-        } finally {
-          Mod._free(_str_1);
-        }
       },
-      mk_true: function (c: Z3_context): Z3_ast {
-        return Mod._Z3_mk_true(c);
+      mk_rec_func_decl: function (
+        c: Z3_context,
+        s: Z3_symbol,
+        domain_size: unsigned,
+        domain: Z3_sort[],
+        range: Z3_sort
+      ): Z3_func_decl {
+        return Mod.ccall(
+          'Z3_mk_rec_func_decl',
+          'number',
+          ['number', 'number', 'number', 'array', 'number'],
+          [
+            c,
+            s,
+            domain_size,
+            pointerArrayToByteArr(domain as unknown as number[]),
+            range,
+          ]
+        );
       },
-      mk_false: function (c: Z3_context): Z3_ast {
-        return Mod._Z3_mk_false(c);
+      add_rec_def: function (
+        c: Z3_context,
+        f: Z3_func_decl,
+        n: unsigned,
+        args: Z3_ast[],
+        body: Z3_ast
+      ): void {
+        return Mod.ccall(
+          'Z3_add_rec_def',
+          'void',
+          ['number', 'number', 'number', 'array', 'number'],
+          [c, f, n, pointerArrayToByteArr(args as unknown as number[]), body]
+        );
       },
-      mk_eq: function (c: Z3_context, l: Z3_ast, r: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_eq(c, l, r);
+      mk_true: Mod._Z3_mk_true as (c: Z3_context) => Z3_ast,
+      mk_false: Mod._Z3_mk_false as (c: Z3_context) => Z3_ast,
+      mk_eq: Mod._Z3_mk_eq as (c: Z3_context, l: Z3_ast, r: Z3_ast) => Z3_ast,
+      mk_distinct: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_distinct',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_not: function (c: Z3_context, a: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_not(c, a);
-      },
-      mk_ite: function (
+      mk_not: Mod._Z3_mk_not as (c: Z3_context, a: Z3_ast) => Z3_ast,
+      mk_ite: Mod._Z3_mk_ite as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
         t3: Z3_ast
+      ) => Z3_ast,
+      mk_iff: Mod._Z3_mk_iff as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_implies: Mod._Z3_mk_implies as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_xor: Mod._Z3_mk_xor as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_and: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
       ): Z3_ast {
-        return Mod._Z3_mk_ite(c, t1, t2, t3);
+        return Mod.ccall(
+          'Z3_mk_and',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_iff: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_iff(c, t1, t2);
+      mk_or: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_or',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_implies: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_implies(c, t1, t2);
+      mk_add: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_add',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_xor: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_xor(c, t1, t2);
+      mk_mul: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_mul',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_unary_minus: function (c: Z3_context, arg: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_unary_minus(c, arg);
+      mk_sub: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_sub',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_div: function (c: Z3_context, arg1: Z3_ast, arg2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_div(c, arg1, arg2);
-      },
-      mk_mod: function (c: Z3_context, arg1: Z3_ast, arg2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_mod(c, arg1, arg2);
-      },
-      mk_rem: function (c: Z3_context, arg1: Z3_ast, arg2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_rem(c, arg1, arg2);
-      },
-      mk_power: function (c: Z3_context, arg1: Z3_ast, arg2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_power(c, arg1, arg2);
-      },
-      mk_lt: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_lt(c, t1, t2);
-      },
-      mk_le: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_le(c, t1, t2);
-      },
-      mk_gt: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_gt(c, t1, t2);
-      },
-      mk_ge: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_ge(c, t1, t2);
-      },
-      mk_divides: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_divides(c, t1, t2);
-      },
-      mk_int2real: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_int2real(c, t1);
-      },
-      mk_real2int: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_real2int(c, t1);
-      },
-      mk_is_int: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_is_int(c, t1);
-      },
-      mk_bvnot: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvnot(c, t1);
-      },
-      mk_bvredand: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvredand(c, t1);
-      },
-      mk_bvredor: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvredor(c, t1);
-      },
-      mk_bvand: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvand(c, t1, t2);
-      },
-      mk_bvor: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvor(c, t1, t2);
-      },
-      mk_bvxor: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvxor(c, t1, t2);
-      },
-      mk_bvnand: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvnand(c, t1, t2);
-      },
-      mk_bvnor: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvnor(c, t1, t2);
-      },
-      mk_bvxnor: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvxnor(c, t1, t2);
-      },
-      mk_bvneg: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvneg(c, t1);
-      },
-      mk_bvadd: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvadd(c, t1, t2);
-      },
-      mk_bvsub: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsub(c, t1, t2);
-      },
-      mk_bvmul: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvmul(c, t1, t2);
-      },
-      mk_bvudiv: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvudiv(c, t1, t2);
-      },
-      mk_bvsdiv: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsdiv(c, t1, t2);
-      },
-      mk_bvurem: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvurem(c, t1, t2);
-      },
-      mk_bvsrem: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsrem(c, t1, t2);
-      },
-      mk_bvsmod: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsmod(c, t1, t2);
-      },
-      mk_bvult: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvult(c, t1, t2);
-      },
-      mk_bvslt: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvslt(c, t1, t2);
-      },
-      mk_bvule: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvule(c, t1, t2);
-      },
-      mk_bvsle: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsle(c, t1, t2);
-      },
-      mk_bvuge: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvuge(c, t1, t2);
-      },
-      mk_bvsge: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsge(c, t1, t2);
-      },
-      mk_bvugt: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvugt(c, t1, t2);
-      },
-      mk_bvsgt: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvsgt(c, t1, t2);
-      },
-      mk_concat: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_concat(c, t1, t2);
-      },
-      mk_extract: function (
+      mk_unary_minus: Mod._Z3_mk_unary_minus as (
+        c: Z3_context,
+        arg: Z3_ast
+      ) => Z3_ast,
+      mk_div: Mod._Z3_mk_div as (
+        c: Z3_context,
+        arg1: Z3_ast,
+        arg2: Z3_ast
+      ) => Z3_ast,
+      mk_mod: Mod._Z3_mk_mod as (
+        c: Z3_context,
+        arg1: Z3_ast,
+        arg2: Z3_ast
+      ) => Z3_ast,
+      mk_rem: Mod._Z3_mk_rem as (
+        c: Z3_context,
+        arg1: Z3_ast,
+        arg2: Z3_ast
+      ) => Z3_ast,
+      mk_power: Mod._Z3_mk_power as (
+        c: Z3_context,
+        arg1: Z3_ast,
+        arg2: Z3_ast
+      ) => Z3_ast,
+      mk_lt: Mod._Z3_mk_lt as (c: Z3_context, t1: Z3_ast, t2: Z3_ast) => Z3_ast,
+      mk_le: Mod._Z3_mk_le as (c: Z3_context, t1: Z3_ast, t2: Z3_ast) => Z3_ast,
+      mk_gt: Mod._Z3_mk_gt as (c: Z3_context, t1: Z3_ast, t2: Z3_ast) => Z3_ast,
+      mk_ge: Mod._Z3_mk_ge as (c: Z3_context, t1: Z3_ast, t2: Z3_ast) => Z3_ast,
+      mk_divides: Mod._Z3_mk_divides as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_int2real: Mod._Z3_mk_int2real as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_real2int: Mod._Z3_mk_real2int as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_is_int: Mod._Z3_mk_is_int as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_bvnot: Mod._Z3_mk_bvnot as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_bvredand: Mod._Z3_mk_bvredand as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_bvredor: Mod._Z3_mk_bvredor as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_bvand: Mod._Z3_mk_bvand as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvor: Mod._Z3_mk_bvor as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvxor: Mod._Z3_mk_bvxor as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvnand: Mod._Z3_mk_bvnand as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvnor: Mod._Z3_mk_bvnor as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvxnor: Mod._Z3_mk_bvxnor as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvneg: Mod._Z3_mk_bvneg as (c: Z3_context, t1: Z3_ast) => Z3_ast,
+      mk_bvadd: Mod._Z3_mk_bvadd as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsub: Mod._Z3_mk_bvsub as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvmul: Mod._Z3_mk_bvmul as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvudiv: Mod._Z3_mk_bvudiv as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsdiv: Mod._Z3_mk_bvsdiv as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvurem: Mod._Z3_mk_bvurem as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsrem: Mod._Z3_mk_bvsrem as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsmod: Mod._Z3_mk_bvsmod as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvult: Mod._Z3_mk_bvult as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvslt: Mod._Z3_mk_bvslt as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvule: Mod._Z3_mk_bvule as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsle: Mod._Z3_mk_bvsle as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvuge: Mod._Z3_mk_bvuge as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsge: Mod._Z3_mk_bvsge as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvugt: Mod._Z3_mk_bvugt as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_bvsgt: Mod._Z3_mk_bvsgt as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_concat: Mod._Z3_mk_concat as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_extract: Mod._Z3_mk_extract as (
         c: Z3_context,
         high: unsigned,
         low: unsigned,
         t1: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_extract(c, high, low, t1);
-      },
-      mk_sign_ext: function (c: Z3_context, i: unsigned, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_sign_ext(c, i, t1);
-      },
-      mk_zero_ext: function (c: Z3_context, i: unsigned, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_zero_ext(c, i, t1);
-      },
-      mk_repeat: function (c: Z3_context, i: unsigned, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_repeat(c, i, t1);
-      },
-      mk_bvshl: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvshl(c, t1, t2);
-      },
-      mk_bvlshr: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvlshr(c, t1, t2);
-      },
-      mk_bvashr: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvashr(c, t1, t2);
-      },
-      mk_rotate_left: function (
+      ) => Z3_ast,
+      mk_sign_ext: Mod._Z3_mk_sign_ext as (
         c: Z3_context,
         i: unsigned,
         t1: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_rotate_left(c, i, t1);
-      },
-      mk_rotate_right: function (
+      ) => Z3_ast,
+      mk_zero_ext: Mod._Z3_mk_zero_ext as (
         c: Z3_context,
         i: unsigned,
         t1: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_rotate_right(c, i, t1);
-      },
-      mk_ext_rotate_left: function (
+      ) => Z3_ast,
+      mk_repeat: Mod._Z3_mk_repeat as (
+        c: Z3_context,
+        i: unsigned,
+        t1: Z3_ast
+      ) => Z3_ast,
+      mk_bvshl: Mod._Z3_mk_bvshl as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_ext_rotate_left(c, t1, t2);
-      },
-      mk_ext_rotate_right: function (
+      ) => Z3_ast,
+      mk_bvlshr: Mod._Z3_mk_bvlshr as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_ext_rotate_right(c, t1, t2);
-      },
-      mk_int2bv: function (c: Z3_context, n: unsigned, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_int2bv(c, n, t1);
-      },
-      mk_bv2int: function (c: Z3_context, t1: Z3_ast, is_signed: bool): Z3_ast {
-        return Mod._Z3_mk_bv2int(c, t1, is_signed);
-      },
-      mk_bvadd_no_overflow: function (
+      ) => Z3_ast,
+      mk_bvashr: Mod._Z3_mk_bvashr as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_rotate_left: Mod._Z3_mk_rotate_left as (
+        c: Z3_context,
+        i: unsigned,
+        t1: Z3_ast
+      ) => Z3_ast,
+      mk_rotate_right: Mod._Z3_mk_rotate_right as (
+        c: Z3_context,
+        i: unsigned,
+        t1: Z3_ast
+      ) => Z3_ast,
+      mk_ext_rotate_left: Mod._Z3_mk_ext_rotate_left as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_ext_rotate_right: Mod._Z3_mk_ext_rotate_right as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_int2bv: Mod._Z3_mk_int2bv as (
+        c: Z3_context,
+        n: unsigned,
+        t1: Z3_ast
+      ) => Z3_ast,
+      mk_bv2int: Mod._Z3_mk_bv2int as (
+        c: Z3_context,
+        t1: Z3_ast,
+        is_signed: bool
+      ) => Z3_ast,
+      mk_bvadd_no_overflow: Mod._Z3_mk_bvadd_no_overflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
         is_signed: bool
-      ): Z3_ast {
-        return Mod._Z3_mk_bvadd_no_overflow(c, t1, t2, is_signed);
-      },
-      mk_bvadd_no_underflow: function (
+      ) => Z3_ast,
+      mk_bvadd_no_underflow: Mod._Z3_mk_bvadd_no_underflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_bvadd_no_underflow(c, t1, t2);
-      },
-      mk_bvsub_no_overflow: function (
+      ) => Z3_ast,
+      mk_bvsub_no_overflow: Mod._Z3_mk_bvsub_no_overflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_bvsub_no_overflow(c, t1, t2);
-      },
-      mk_bvsub_no_underflow: function (
+      ) => Z3_ast,
+      mk_bvsub_no_underflow: Mod._Z3_mk_bvsub_no_underflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
         is_signed: bool
-      ): Z3_ast {
-        return Mod._Z3_mk_bvsub_no_underflow(c, t1, t2, is_signed);
-      },
-      mk_bvsdiv_no_overflow: function (
+      ) => Z3_ast,
+      mk_bvsdiv_no_overflow: Mod._Z3_mk_bvsdiv_no_overflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_bvsdiv_no_overflow(c, t1, t2);
-      },
-      mk_bvneg_no_overflow: function (c: Z3_context, t1: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_bvneg_no_overflow(c, t1);
-      },
-      mk_bvmul_no_overflow: function (
+      ) => Z3_ast,
+      mk_bvneg_no_overflow: Mod._Z3_mk_bvneg_no_overflow as (
+        c: Z3_context,
+        t1: Z3_ast
+      ) => Z3_ast,
+      mk_bvmul_no_overflow: Mod._Z3_mk_bvmul_no_overflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
         is_signed: bool
-      ): Z3_ast {
-        return Mod._Z3_mk_bvmul_no_overflow(c, t1, t2, is_signed);
-      },
-      mk_bvmul_no_underflow: function (
+      ) => Z3_ast,
+      mk_bvmul_no_underflow: Mod._Z3_mk_bvmul_no_underflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_bvmul_no_underflow(c, t1, t2);
-      },
-      mk_select: function (c: Z3_context, a: Z3_ast, i: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_select(c, a, i);
-      },
-      mk_store: function (
+      ) => Z3_ast,
+      mk_select: Mod._Z3_mk_select as (
+        c: Z3_context,
+        a: Z3_ast,
+        i: Z3_ast
+      ) => Z3_ast,
+      mk_store: Mod._Z3_mk_store as (
         c: Z3_context,
         a: Z3_ast,
         i: Z3_ast,
         v: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_store(c, a, i, v);
-      },
-      mk_const_array: function (
+      ) => Z3_ast,
+      mk_const_array: Mod._Z3_mk_const_array as (
         c: Z3_context,
         domain: Z3_sort,
         v: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_const_array(c, domain, v);
-      },
-      mk_array_default: function (c: Z3_context, array: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_array_default(c, array);
-      },
-      mk_as_array: function (c: Z3_context, f: Z3_func_decl): Z3_ast {
-        return Mod._Z3_mk_as_array(c, f);
-      },
-      mk_set_has_size: function (
+      ) => Z3_ast,
+      mk_array_default: Mod._Z3_mk_array_default as (
+        c: Z3_context,
+        array: Z3_ast
+      ) => Z3_ast,
+      mk_as_array: Mod._Z3_mk_as_array as (
+        c: Z3_context,
+        f: Z3_func_decl
+      ) => Z3_ast,
+      mk_set_has_size: Mod._Z3_mk_set_has_size as (
         c: Z3_context,
         set: Z3_ast,
         k: Z3_ast
+      ) => Z3_ast,
+      mk_set_sort: Mod._Z3_mk_set_sort as (
+        c: Z3_context,
+        ty: Z3_sort
+      ) => Z3_sort,
+      mk_empty_set: Mod._Z3_mk_empty_set as (
+        c: Z3_context,
+        domain: Z3_sort
+      ) => Z3_ast,
+      mk_full_set: Mod._Z3_mk_full_set as (
+        c: Z3_context,
+        domain: Z3_sort
+      ) => Z3_ast,
+      mk_set_add: Mod._Z3_mk_set_add as (
+        c: Z3_context,
+        set: Z3_ast,
+        elem: Z3_ast
+      ) => Z3_ast,
+      mk_set_del: Mod._Z3_mk_set_del as (
+        c: Z3_context,
+        set: Z3_ast,
+        elem: Z3_ast
+      ) => Z3_ast,
+      mk_set_union: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
       ): Z3_ast {
-        return Mod._Z3_mk_set_has_size(c, set, k);
+        return Mod.ccall(
+          'Z3_mk_set_union',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_set_sort: function (c: Z3_context, ty: Z3_sort): Z3_sort {
-        return Mod._Z3_mk_set_sort(c, ty);
+      mk_set_intersect: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_set_intersect',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_empty_set: function (c: Z3_context, domain: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_empty_set(c, domain);
-      },
-      mk_full_set: function (c: Z3_context, domain: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_full_set(c, domain);
-      },
-      mk_set_add: function (c: Z3_context, set: Z3_ast, elem: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_set_add(c, set, elem);
-      },
-      mk_set_del: function (c: Z3_context, set: Z3_ast, elem: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_set_del(c, set, elem);
-      },
-      mk_set_difference: function (
+      mk_set_difference: Mod._Z3_mk_set_difference as (
         c: Z3_context,
         arg1: Z3_ast,
         arg2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_set_difference(c, arg1, arg2);
-      },
-      mk_set_complement: function (c: Z3_context, arg: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_set_complement(c, arg);
-      },
-      mk_set_member: function (
+      ) => Z3_ast,
+      mk_set_complement: Mod._Z3_mk_set_complement as (
+        c: Z3_context,
+        arg: Z3_ast
+      ) => Z3_ast,
+      mk_set_member: Mod._Z3_mk_set_member as (
         c: Z3_context,
         elem: Z3_ast,
         set: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_set_member(c, elem, set);
-      },
-      mk_set_subset: function (
+      ) => Z3_ast,
+      mk_set_subset: Mod._Z3_mk_set_subset as (
         c: Z3_context,
         arg1: Z3_ast,
         arg2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_set_subset(c, arg1, arg2);
-      },
-      mk_array_ext: function (
+      ) => Z3_ast,
+      mk_array_ext: Mod._Z3_mk_array_ext as (
         c: Z3_context,
         arg1: Z3_ast,
         arg2: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_array_ext(c, arg1, arg2);
-      },
+      ) => Z3_ast,
       mk_numeral: function (
         c: Z3_context,
         numeral: string,
         ty: Z3_sort
       ): Z3_ast {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(numeral),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_mk_numeral',
+          'number',
+          ['number', 'string', 'number'],
+          [c, numeral, ty]
         );
-
-        try {
-          return Mod._Z3_mk_numeral(c, _str_1, ty);
-        } finally {
-          Mod._free(_str_1);
-        }
       },
-      mk_real: function (c: Z3_context, num: int, den: int): Z3_ast {
-        return Mod._Z3_mk_real(c, num, den);
-      },
-      mk_int: function (c: Z3_context, v: int, ty: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_int(c, v, ty);
-      },
-      mk_unsigned_int: function (
+      mk_real: Mod._Z3_mk_real as (c: Z3_context, num: int, den: int) => Z3_ast,
+      mk_int: Mod._Z3_mk_int as (c: Z3_context, v: int, ty: Z3_sort) => Z3_ast,
+      mk_unsigned_int: Mod._Z3_mk_unsigned_int as (
         c: Z3_context,
         v: unsigned,
         ty: Z3_sort
-      ): Z3_ast {
-        return Mod._Z3_mk_unsigned_int(c, v, ty);
-      },
-      mk_int64: function (c: Z3_context, v: int64_t, ty: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_int64(c, v, ty);
-      },
-      mk_unsigned_int64: function (
+      ) => Z3_ast,
+      mk_int64: Mod._Z3_mk_int64 as (
+        c: Z3_context,
+        v: int64_t,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_unsigned_int64: Mod._Z3_mk_unsigned_int64 as (
         c: Z3_context,
         v: uint64_t,
         ty: Z3_sort
-      ): Z3_ast {
-        return Mod._Z3_mk_unsigned_int64(c, v, ty);
-      },
-      mk_seq_sort: function (c: Z3_context, s: Z3_sort): Z3_sort {
-        return Mod._Z3_mk_seq_sort(c, s);
-      },
-      is_seq_sort: function (c: Z3_context, s: Z3_sort): bool {
-        return Mod._Z3_is_seq_sort(c, s);
-      },
-      get_seq_sort_basis: function (c: Z3_context, s: Z3_sort): Z3_sort {
-        return Mod._Z3_get_seq_sort_basis(c, s);
-      },
-      mk_re_sort: function (c: Z3_context, seq: Z3_sort): Z3_sort {
-        return Mod._Z3_mk_re_sort(c, seq);
-      },
-      is_re_sort: function (c: Z3_context, s: Z3_sort): bool {
-        return Mod._Z3_is_re_sort(c, s);
-      },
-      get_re_sort_basis: function (c: Z3_context, s: Z3_sort): Z3_sort {
-        return Mod._Z3_get_re_sort_basis(c, s);
-      },
-      mk_string_sort: function (c: Z3_context): Z3_sort {
-        return Mod._Z3_mk_string_sort(c);
-      },
-      mk_char_sort: function (c: Z3_context): Z3_sort {
-        return Mod._Z3_mk_char_sort(c);
-      },
-      is_string_sort: function (c: Z3_context, s: Z3_sort): bool {
-        return Mod._Z3_is_string_sort(c, s);
-      },
-      is_char_sort: function (c: Z3_context, s: Z3_sort): bool {
-        return Mod._Z3_is_char_sort(c, s);
-      },
+      ) => Z3_ast,
+      mk_seq_sort: Mod._Z3_mk_seq_sort as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => Z3_sort,
+      is_seq_sort: Mod._Z3_is_seq_sort as (c: Z3_context, s: Z3_sort) => bool,
+      get_seq_sort_basis: Mod._Z3_get_seq_sort_basis as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => Z3_sort,
+      mk_re_sort: Mod._Z3_mk_re_sort as (
+        c: Z3_context,
+        seq: Z3_sort
+      ) => Z3_sort,
+      is_re_sort: Mod._Z3_is_re_sort as (c: Z3_context, s: Z3_sort) => bool,
+      get_re_sort_basis: Mod._Z3_get_re_sort_basis as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => Z3_sort,
+      mk_string_sort: Mod._Z3_mk_string_sort as (c: Z3_context) => Z3_sort,
+      mk_char_sort: Mod._Z3_mk_char_sort as (c: Z3_context) => Z3_sort,
+      is_string_sort: Mod._Z3_is_string_sort as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => bool,
+      is_char_sort: Mod._Z3_is_char_sort as (c: Z3_context, s: Z3_sort) => bool,
       mk_string: function (c: Z3_context, s: string): Z3_ast {
-        let _str_1 = Mod.allocate(Mod.intArrayFromString(s), Mod.ALLOC_NORMAL);
-
-        try {
-          return Mod._Z3_mk_string(c, _str_1);
-        } finally {
-          Mod._free(_str_1);
-        }
+        return Mod.ccall(
+          'Z3_mk_string',
+          'number',
+          ['number', 'string'],
+          [c, s]
+        );
       },
       mk_lstring: function (c: Z3_context, len: unsigned, s: string): Z3_ast {
-        let _str_2 = Mod.allocate(Mod.intArrayFromString(s), Mod.ALLOC_NORMAL);
-
-        try {
-          return Mod._Z3_mk_lstring(c, len, _str_2);
-        } finally {
-          Mod._free(_str_2);
-        }
+        return Mod.ccall(
+          'Z3_mk_lstring',
+          'number',
+          ['number', 'number', 'string'],
+          [c, len, s]
+        );
       },
-      is_string: function (c: Z3_context, s: Z3_ast): bool {
-        return Mod._Z3_is_string(c, s);
+      is_string: Mod._Z3_is_string as (c: Z3_context, s: Z3_ast) => bool,
+      get_string: Mod._Z3_get_string as (c: Z3_context, s: Z3_ast) => Z3_string,
+      get_string_length: Mod._Z3_get_string_length as (
+        c: Z3_context,
+        s: Z3_ast
+      ) => unsigned,
+      mk_seq_empty: Mod._Z3_mk_seq_empty as (
+        c: Z3_context,
+        seq: Z3_sort
+      ) => Z3_ast,
+      mk_seq_unit: Mod._Z3_mk_seq_unit as (c: Z3_context, a: Z3_ast) => Z3_ast,
+      mk_seq_concat: function (
+        c: Z3_context,
+        n: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_seq_concat',
+          'number',
+          ['number', 'number', 'array'],
+          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      get_string: function (c: Z3_context, s: Z3_ast): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_string(c, s));
-      },
-      get_string_length: function (c: Z3_context, s: Z3_ast): unsigned {
-        return Mod._Z3_get_string_length(c, s);
-      },
-      mk_seq_empty: function (c: Z3_context, seq: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_seq_empty(c, seq);
-      },
-      mk_seq_unit: function (c: Z3_context, a: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_seq_unit(c, a);
-      },
-      mk_seq_prefix: function (
+      mk_seq_prefix: Mod._Z3_mk_seq_prefix as (
         c: Z3_context,
         prefix: Z3_ast,
         s: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_seq_prefix(c, prefix, s);
-      },
-      mk_seq_suffix: function (
+      ) => Z3_ast,
+      mk_seq_suffix: Mod._Z3_mk_seq_suffix as (
         c: Z3_context,
         suffix: Z3_ast,
         s: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_seq_suffix(c, suffix, s);
-      },
-      mk_seq_contains: function (
+      ) => Z3_ast,
+      mk_seq_contains: Mod._Z3_mk_seq_contains as (
         c: Z3_context,
         container: Z3_ast,
         containee: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_seq_contains(c, container, containee);
-      },
-      mk_str_lt: function (c: Z3_context, prefix: Z3_ast, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_str_lt(c, prefix, s);
-      },
-      mk_str_le: function (c: Z3_context, prefix: Z3_ast, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_str_le(c, prefix, s);
-      },
-      mk_seq_extract: function (
+      ) => Z3_ast,
+      mk_str_lt: Mod._Z3_mk_str_lt as (
+        c: Z3_context,
+        prefix: Z3_ast,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_str_le: Mod._Z3_mk_str_le as (
+        c: Z3_context,
+        prefix: Z3_ast,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_seq_extract: Mod._Z3_mk_seq_extract as (
         c: Z3_context,
         s: Z3_ast,
         offset: Z3_ast,
         length: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_seq_extract(c, s, offset, length);
-      },
-      mk_seq_replace: function (
+      ) => Z3_ast,
+      mk_seq_replace: Mod._Z3_mk_seq_replace as (
         c: Z3_context,
         s: Z3_ast,
         src: Z3_ast,
         dst: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_seq_replace(c, s, src, dst);
-      },
-      mk_seq_at: function (c: Z3_context, s: Z3_ast, index: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_seq_at(c, s, index);
-      },
-      mk_seq_nth: function (c: Z3_context, s: Z3_ast, index: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_seq_nth(c, s, index);
-      },
-      mk_seq_length: function (c: Z3_context, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_seq_length(c, s);
-      },
-      mk_seq_index: function (
+      ) => Z3_ast,
+      mk_seq_at: Mod._Z3_mk_seq_at as (
+        c: Z3_context,
+        s: Z3_ast,
+        index: Z3_ast
+      ) => Z3_ast,
+      mk_seq_nth: Mod._Z3_mk_seq_nth as (
+        c: Z3_context,
+        s: Z3_ast,
+        index: Z3_ast
+      ) => Z3_ast,
+      mk_seq_length: Mod._Z3_mk_seq_length as (
+        c: Z3_context,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_seq_index: Mod._Z3_mk_seq_index as (
         c: Z3_context,
         s: Z3_ast,
         substr: Z3_ast,
         offset: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_mk_seq_index(c, s, substr, offset);
-      },
-      mk_seq_last_index: function (
+      ) => Z3_ast,
+      mk_seq_last_index: Mod._Z3_mk_seq_last_index as (
         c: Z3_context,
         UNNAMED: Z3_ast,
         substr: Z3_ast
+      ) => Z3_ast,
+      mk_str_to_int: Mod._Z3_mk_str_to_int as (
+        c: Z3_context,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_int_to_str: Mod._Z3_mk_int_to_str as (
+        c: Z3_context,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_ubv_to_str: Mod._Z3_mk_ubv_to_str as (
+        c: Z3_context,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_sbv_to_str: Mod._Z3_mk_sbv_to_str as (
+        c: Z3_context,
+        s: Z3_ast
+      ) => Z3_ast,
+      mk_seq_to_re: Mod._Z3_mk_seq_to_re as (
+        c: Z3_context,
+        seq: Z3_ast
+      ) => Z3_ast,
+      mk_seq_in_re: Mod._Z3_mk_seq_in_re as (
+        c: Z3_context,
+        seq: Z3_ast,
+        re: Z3_ast
+      ) => Z3_ast,
+      mk_re_plus: Mod._Z3_mk_re_plus as (c: Z3_context, re: Z3_ast) => Z3_ast,
+      mk_re_star: Mod._Z3_mk_re_star as (c: Z3_context, re: Z3_ast) => Z3_ast,
+      mk_re_option: Mod._Z3_mk_re_option as (
+        c: Z3_context,
+        re: Z3_ast
+      ) => Z3_ast,
+      mk_re_union: function (
+        c: Z3_context,
+        n: unsigned,
+        args: Z3_ast[]
       ): Z3_ast {
-        return Mod._Z3_mk_seq_last_index(c, UNNAMED, substr);
+        return Mod.ccall(
+          'Z3_mk_re_union',
+          'number',
+          ['number', 'number', 'array'],
+          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_str_to_int: function (c: Z3_context, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_str_to_int(c, s);
+      mk_re_concat: function (
+        c: Z3_context,
+        n: unsigned,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_re_concat',
+          'number',
+          ['number', 'number', 'array'],
+          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_int_to_str: function (c: Z3_context, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_int_to_str(c, s);
-      },
-      mk_ubv_to_str: function (c: Z3_context, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_ubv_to_str(c, s);
-      },
-      mk_sbv_to_str: function (c: Z3_context, s: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_sbv_to_str(c, s);
-      },
-      mk_seq_to_re: function (c: Z3_context, seq: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_seq_to_re(c, seq);
-      },
-      mk_seq_in_re: function (c: Z3_context, seq: Z3_ast, re: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_seq_in_re(c, seq, re);
-      },
-      mk_re_plus: function (c: Z3_context, re: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_re_plus(c, re);
-      },
-      mk_re_star: function (c: Z3_context, re: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_re_star(c, re);
-      },
-      mk_re_option: function (c: Z3_context, re: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_re_option(c, re);
-      },
-      mk_re_range: function (c: Z3_context, lo: Z3_ast, hi: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_re_range(c, lo, hi);
-      },
-      mk_re_allchar: function (c: Z3_context, regex_sort: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_re_allchar(c, regex_sort);
-      },
-      mk_re_loop: function (
+      mk_re_range: Mod._Z3_mk_re_range as (
+        c: Z3_context,
+        lo: Z3_ast,
+        hi: Z3_ast
+      ) => Z3_ast,
+      mk_re_allchar: Mod._Z3_mk_re_allchar as (
+        c: Z3_context,
+        regex_sort: Z3_sort
+      ) => Z3_ast,
+      mk_re_loop: Mod._Z3_mk_re_loop as (
         c: Z3_context,
         r: Z3_ast,
         lo: unsigned,
         hi: unsigned
+      ) => Z3_ast,
+      mk_re_intersect: function (
+        c: Z3_context,
+        n: unsigned,
+        args: Z3_ast[]
       ): Z3_ast {
-        return Mod._Z3_mk_re_loop(c, r, lo, hi);
+        return Mod.ccall(
+          'Z3_mk_re_intersect',
+          'number',
+          ['number', 'number', 'array'],
+          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      mk_re_complement: function (c: Z3_context, re: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_re_complement(c, re);
-      },
-      mk_re_diff: function (c: Z3_context, re1: Z3_ast, re2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_re_diff(c, re1, re2);
-      },
-      mk_re_empty: function (c: Z3_context, re: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_re_empty(c, re);
-      },
-      mk_re_full: function (c: Z3_context, re: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_re_full(c, re);
-      },
-      mk_char_le: function (c: Z3_context, ch1: Z3_ast, ch2: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_char_le(c, ch1, ch2);
-      },
-      mk_char_to_int: function (c: Z3_context, ch: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_char_to_int(c, ch);
-      },
-      mk_char_to_bv: function (c: Z3_context, ch: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_char_to_bv(c, ch);
-      },
-      mk_char_from_bv: function (c: Z3_context, bv: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_char_from_bv(c, bv);
-      },
-      mk_char_is_digit: function (c: Z3_context, ch: Z3_ast): Z3_ast {
-        return Mod._Z3_mk_char_is_digit(c, ch);
-      },
-      mk_linear_order: function (
+      mk_re_complement: Mod._Z3_mk_re_complement as (
+        c: Z3_context,
+        re: Z3_ast
+      ) => Z3_ast,
+      mk_re_diff: Mod._Z3_mk_re_diff as (
+        c: Z3_context,
+        re1: Z3_ast,
+        re2: Z3_ast
+      ) => Z3_ast,
+      mk_re_empty: Mod._Z3_mk_re_empty as (
+        c: Z3_context,
+        re: Z3_sort
+      ) => Z3_ast,
+      mk_re_full: Mod._Z3_mk_re_full as (c: Z3_context, re: Z3_sort) => Z3_ast,
+      mk_char_le: Mod._Z3_mk_char_le as (
+        c: Z3_context,
+        ch1: Z3_ast,
+        ch2: Z3_ast
+      ) => Z3_ast,
+      mk_char_to_int: Mod._Z3_mk_char_to_int as (
+        c: Z3_context,
+        ch: Z3_ast
+      ) => Z3_ast,
+      mk_char_to_bv: Mod._Z3_mk_char_to_bv as (
+        c: Z3_context,
+        ch: Z3_ast
+      ) => Z3_ast,
+      mk_char_from_bv: Mod._Z3_mk_char_from_bv as (
+        c: Z3_context,
+        bv: Z3_ast
+      ) => Z3_ast,
+      mk_char_is_digit: Mod._Z3_mk_char_is_digit as (
+        c: Z3_context,
+        ch: Z3_ast
+      ) => Z3_ast,
+      mk_linear_order: Mod._Z3_mk_linear_order as (
         c: Z3_context,
         a: Z3_sort,
         id: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_mk_linear_order(c, a, id);
-      },
-      mk_partial_order: function (
+      ) => Z3_func_decl,
+      mk_partial_order: Mod._Z3_mk_partial_order as (
         c: Z3_context,
         a: Z3_sort,
         id: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_mk_partial_order(c, a, id);
-      },
-      mk_piecewise_linear_order: function (
+      ) => Z3_func_decl,
+      mk_piecewise_linear_order: Mod._Z3_mk_piecewise_linear_order as (
         c: Z3_context,
         a: Z3_sort,
         id: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_mk_piecewise_linear_order(c, a, id);
-      },
-      mk_tree_order: function (
+      ) => Z3_func_decl,
+      mk_tree_order: Mod._Z3_mk_tree_order as (
         c: Z3_context,
         a: Z3_sort,
         id: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_mk_tree_order(c, a, id);
-      },
-      mk_transitive_closure: function (
+      ) => Z3_func_decl,
+      mk_transitive_closure: Mod._Z3_mk_transitive_closure as (
         c: Z3_context,
         f: Z3_func_decl
-      ): Z3_func_decl {
-        return Mod._Z3_mk_transitive_closure(c, f);
+      ) => Z3_func_decl,
+      mk_pattern: function (
+        c: Z3_context,
+        num_patterns: unsigned,
+        terms: Z3_ast[]
+      ): Z3_pattern {
+        return Mod.ccall(
+          'Z3_mk_pattern',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num_patterns, pointerArrayToByteArr(terms as unknown as number[])]
+        );
       },
-      mk_bound: function (c: Z3_context, index: unsigned, ty: Z3_sort): Z3_ast {
-        return Mod._Z3_mk_bound(c, index, ty);
+      mk_bound: Mod._Z3_mk_bound as (
+        c: Z3_context,
+        index: unsigned,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_forall: function (
+        c: Z3_context,
+        weight: unsigned,
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        num_decls: unsigned,
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_forall',
+          'number',
+          [
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            weight,
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            num_decls,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_symbol_kind: function (c: Z3_context, s: Z3_symbol): Z3_symbol_kind {
-        return Mod._Z3_get_symbol_kind(c, s);
+      mk_exists: function (
+        c: Z3_context,
+        weight: unsigned,
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        num_decls: unsigned,
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_exists',
+          'number',
+          [
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            weight,
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            num_decls,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_symbol_int: function (c: Z3_context, s: Z3_symbol): int {
-        return Mod._Z3_get_symbol_int(c, s);
+      mk_quantifier: function (
+        c: Z3_context,
+        is_forall: bool,
+        weight: unsigned,
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        num_decls: unsigned,
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_quantifier',
+          'number',
+          [
+            'number',
+            'boolean',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            is_forall,
+            weight,
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            num_decls,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_symbol_string: function (c: Z3_context, s: Z3_symbol): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_symbol_string(c, s));
+      mk_quantifier_ex: function (
+        c: Z3_context,
+        is_forall: bool,
+        weight: unsigned,
+        quantifier_id: Z3_symbol,
+        skolem_id: Z3_symbol,
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        num_no_patterns: unsigned,
+        no_patterns: Z3_ast[],
+        num_decls: unsigned,
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_quantifier_ex',
+          'number',
+          [
+            'number',
+            'boolean',
+            'number',
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            is_forall,
+            weight,
+            quantifier_id,
+            skolem_id,
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            num_no_patterns,
+            pointerArrayToByteArr(no_patterns as unknown as number[]),
+            num_decls,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_sort_name: function (c: Z3_context, d: Z3_sort): Z3_symbol {
-        return Mod._Z3_get_sort_name(c, d);
+      mk_forall_const: function (
+        c: Z3_context,
+        weight: unsigned,
+        num_bound: unsigned,
+        bound: Z3_app[],
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_forall_const',
+          'number',
+          ['number', 'number', 'number', 'array', 'number', 'array', 'number'],
+          [
+            c,
+            weight,
+            num_bound,
+            pointerArrayToByteArr(bound as unknown as number[]),
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_sort_id: function (c: Z3_context, s: Z3_sort): unsigned {
-        return Mod._Z3_get_sort_id(c, s);
+      mk_exists_const: function (
+        c: Z3_context,
+        weight: unsigned,
+        num_bound: unsigned,
+        bound: Z3_app[],
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_exists_const',
+          'number',
+          ['number', 'number', 'number', 'array', 'number', 'array', 'number'],
+          [
+            c,
+            weight,
+            num_bound,
+            pointerArrayToByteArr(bound as unknown as number[]),
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            body,
+          ]
+        );
       },
-      sort_to_ast: function (c: Z3_context, s: Z3_sort): Z3_ast {
-        return Mod._Z3_sort_to_ast(c, s);
+      mk_quantifier_const: function (
+        c: Z3_context,
+        is_forall: bool,
+        weight: unsigned,
+        num_bound: unsigned,
+        bound: Z3_app[],
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_quantifier_const',
+          'number',
+          [
+            'number',
+            'boolean',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            is_forall,
+            weight,
+            num_bound,
+            pointerArrayToByteArr(bound as unknown as number[]),
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            body,
+          ]
+        );
       },
-      is_eq_sort: function (c: Z3_context, s1: Z3_sort, s2: Z3_sort): bool {
-        return Mod._Z3_is_eq_sort(c, s1, s2);
+      mk_quantifier_const_ex: function (
+        c: Z3_context,
+        is_forall: bool,
+        weight: unsigned,
+        quantifier_id: Z3_symbol,
+        skolem_id: Z3_symbol,
+        num_bound: unsigned,
+        bound: Z3_app[],
+        num_patterns: unsigned,
+        patterns: Z3_pattern[],
+        num_no_patterns: unsigned,
+        no_patterns: Z3_ast[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_quantifier_const_ex',
+          'number',
+          [
+            'number',
+            'boolean',
+            'number',
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'number',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            is_forall,
+            weight,
+            quantifier_id,
+            skolem_id,
+            num_bound,
+            pointerArrayToByteArr(bound as unknown as number[]),
+            num_patterns,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            num_no_patterns,
+            pointerArrayToByteArr(no_patterns as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_sort_kind: function (c: Z3_context, t: Z3_sort): Z3_sort_kind {
-        return Mod._Z3_get_sort_kind(c, t);
+      mk_lambda: function (
+        c: Z3_context,
+        num_decls: unsigned,
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_lambda',
+          'number',
+          ['number', 'number', 'array', 'array', 'number'],
+          [
+            c,
+            num_decls,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_bv_sort_size: function (c: Z3_context, t: Z3_sort): unsigned {
-        return Mod._Z3_get_bv_sort_size(c, t);
+      mk_lambda_const: function (
+        c: Z3_context,
+        num_bound: unsigned,
+        bound: Z3_app[],
+        body: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_lambda_const',
+          'number',
+          ['number', 'number', 'array', 'number'],
+          [
+            c,
+            num_bound,
+            pointerArrayToByteArr(bound as unknown as number[]),
+            body,
+          ]
+        );
       },
-      get_array_sort_domain: function (c: Z3_context, t: Z3_sort): Z3_sort {
-        return Mod._Z3_get_array_sort_domain(c, t);
-      },
-      get_array_sort_range: function (c: Z3_context, t: Z3_sort): Z3_sort {
-        return Mod._Z3_get_array_sort_range(c, t);
-      },
-      get_tuple_sort_mk_decl: function (
+      get_symbol_kind: Mod._Z3_get_symbol_kind as (
+        c: Z3_context,
+        s: Z3_symbol
+      ) => Z3_symbol_kind,
+      get_symbol_int: Mod._Z3_get_symbol_int as (
+        c: Z3_context,
+        s: Z3_symbol
+      ) => int,
+      get_symbol_string: Mod._Z3_get_symbol_string as (
+        c: Z3_context,
+        s: Z3_symbol
+      ) => Z3_string,
+      get_sort_name: Mod._Z3_get_sort_name as (
+        c: Z3_context,
+        d: Z3_sort
+      ) => Z3_symbol,
+      get_sort_id: Mod._Z3_get_sort_id as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => unsigned,
+      sort_to_ast: Mod._Z3_sort_to_ast as (c: Z3_context, s: Z3_sort) => Z3_ast,
+      is_eq_sort: Mod._Z3_is_eq_sort as (
+        c: Z3_context,
+        s1: Z3_sort,
+        s2: Z3_sort
+      ) => bool,
+      get_sort_kind: Mod._Z3_get_sort_kind as (
         c: Z3_context,
         t: Z3_sort
-      ): Z3_func_decl {
-        return Mod._Z3_get_tuple_sort_mk_decl(c, t);
-      },
-      get_tuple_sort_num_fields: function (
+      ) => Z3_sort_kind,
+      get_bv_sort_size: Mod._Z3_get_bv_sort_size as (
         c: Z3_context,
         t: Z3_sort
-      ): unsigned {
-        return Mod._Z3_get_tuple_sort_num_fields(c, t);
-      },
-      get_tuple_sort_field_decl: function (
+      ) => unsigned,
+      get_array_sort_domain: Mod._Z3_get_array_sort_domain as (
+        c: Z3_context,
+        t: Z3_sort
+      ) => Z3_sort,
+      get_array_sort_range: Mod._Z3_get_array_sort_range as (
+        c: Z3_context,
+        t: Z3_sort
+      ) => Z3_sort,
+      get_tuple_sort_mk_decl: Mod._Z3_get_tuple_sort_mk_decl as (
+        c: Z3_context,
+        t: Z3_sort
+      ) => Z3_func_decl,
+      get_tuple_sort_num_fields: Mod._Z3_get_tuple_sort_num_fields as (
+        c: Z3_context,
+        t: Z3_sort
+      ) => unsigned,
+      get_tuple_sort_field_decl: Mod._Z3_get_tuple_sort_field_decl as (
         c: Z3_context,
         t: Z3_sort,
         i: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_get_tuple_sort_field_decl(c, t, i);
-      },
-      get_datatype_sort_num_constructors: function (
-        c: Z3_context,
-        t: Z3_sort
-      ): unsigned {
-        return Mod._Z3_get_datatype_sort_num_constructors(c, t);
-      },
-      get_datatype_sort_constructor: function (
+      ) => Z3_func_decl,
+      get_datatype_sort_num_constructors:
+        Mod._Z3_get_datatype_sort_num_constructors as (
+          c: Z3_context,
+          t: Z3_sort
+        ) => unsigned,
+      get_datatype_sort_constructor: Mod._Z3_get_datatype_sort_constructor as (
         c: Z3_context,
         t: Z3_sort,
         idx: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_get_datatype_sort_constructor(c, t, idx);
-      },
-      get_datatype_sort_recognizer: function (
+      ) => Z3_func_decl,
+      get_datatype_sort_recognizer: Mod._Z3_get_datatype_sort_recognizer as (
         c: Z3_context,
         t: Z3_sort,
         idx: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_get_datatype_sort_recognizer(c, t, idx);
-      },
-      get_datatype_sort_constructor_accessor: function (
-        c: Z3_context,
-        t: Z3_sort,
-        idx_c: unsigned,
-        idx_a: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_get_datatype_sort_constructor_accessor(
-          c,
-          t,
-          idx_c,
-          idx_a
-        );
-      },
-      datatype_update_field: function (
+      ) => Z3_func_decl,
+      get_datatype_sort_constructor_accessor:
+        Mod._Z3_get_datatype_sort_constructor_accessor as (
+          c: Z3_context,
+          t: Z3_sort,
+          idx_c: unsigned,
+          idx_a: unsigned
+        ) => Z3_func_decl,
+      datatype_update_field: Mod._Z3_datatype_update_field as (
         c: Z3_context,
         field_access: Z3_func_decl,
         t: Z3_ast,
         value: Z3_ast
-      ): Z3_ast {
-        return Mod._Z3_datatype_update_field(c, field_access, t, value);
-      },
-      get_relation_arity: function (c: Z3_context, s: Z3_sort): unsigned {
-        return Mod._Z3_get_relation_arity(c, s);
-      },
-      get_relation_column: function (
+      ) => Z3_ast,
+      get_relation_arity: Mod._Z3_get_relation_arity as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => unsigned,
+      get_relation_column: Mod._Z3_get_relation_column as (
         c: Z3_context,
         s: Z3_sort,
         col: unsigned
-      ): Z3_sort {
-        return Mod._Z3_get_relation_column(c, s, col);
+      ) => Z3_sort,
+      mk_atmost: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[],
+        k: unsigned
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_atmost',
+          'number',
+          ['number', 'number', 'array', 'number'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[]), k]
+        );
       },
-      func_decl_to_ast: function (c: Z3_context, f: Z3_func_decl): Z3_ast {
-        return Mod._Z3_func_decl_to_ast(c, f);
+      mk_atleast: function (
+        c: Z3_context,
+        num_args: unsigned,
+        args: Z3_ast[],
+        k: unsigned
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_atleast',
+          'number',
+          ['number', 'number', 'array', 'number'],
+          [c, num_args, pointerArrayToByteArr(args as unknown as number[]), k]
+        );
       },
-      is_eq_func_decl: function (
+      func_decl_to_ast: Mod._Z3_func_decl_to_ast as (
+        c: Z3_context,
+        f: Z3_func_decl
+      ) => Z3_ast,
+      is_eq_func_decl: Mod._Z3_is_eq_func_decl as (
         c: Z3_context,
         f1: Z3_func_decl,
         f2: Z3_func_decl
-      ): bool {
-        return Mod._Z3_is_eq_func_decl(c, f1, f2);
-      },
-      get_func_decl_id: function (c: Z3_context, f: Z3_func_decl): unsigned {
-        return Mod._Z3_get_func_decl_id(c, f);
-      },
-      get_decl_name: function (c: Z3_context, d: Z3_func_decl): Z3_symbol {
-        return Mod._Z3_get_decl_name(c, d);
-      },
-      get_decl_kind: function (c: Z3_context, d: Z3_func_decl): Z3_decl_kind {
-        return Mod._Z3_get_decl_kind(c, d);
-      },
-      get_domain_size: function (c: Z3_context, d: Z3_func_decl): unsigned {
-        return Mod._Z3_get_domain_size(c, d);
-      },
-      get_arity: function (c: Z3_context, d: Z3_func_decl): unsigned {
-        return Mod._Z3_get_arity(c, d);
-      },
-      get_domain: function (
+      ) => bool,
+      get_func_decl_id: Mod._Z3_get_func_decl_id as (
+        c: Z3_context,
+        f: Z3_func_decl
+      ) => unsigned,
+      get_decl_name: Mod._Z3_get_decl_name as (
+        c: Z3_context,
+        d: Z3_func_decl
+      ) => Z3_symbol,
+      get_decl_kind: Mod._Z3_get_decl_kind as (
+        c: Z3_context,
+        d: Z3_func_decl
+      ) => Z3_decl_kind,
+      get_domain_size: Mod._Z3_get_domain_size as (
+        c: Z3_context,
+        d: Z3_func_decl
+      ) => unsigned,
+      get_arity: Mod._Z3_get_arity as (
+        c: Z3_context,
+        d: Z3_func_decl
+      ) => unsigned,
+      get_domain: Mod._Z3_get_domain as (
         c: Z3_context,
         d: Z3_func_decl,
         i: unsigned
-      ): Z3_sort {
-        return Mod._Z3_get_domain(c, d, i);
-      },
-      get_range: function (c: Z3_context, d: Z3_func_decl): Z3_sort {
-        return Mod._Z3_get_range(c, d);
-      },
-      get_decl_num_parameters: function (
+      ) => Z3_sort,
+      get_range: Mod._Z3_get_range as (
         c: Z3_context,
         d: Z3_func_decl
-      ): unsigned {
-        return Mod._Z3_get_decl_num_parameters(c, d);
-      },
-      get_decl_parameter_kind: function (
+      ) => Z3_sort,
+      get_decl_num_parameters: Mod._Z3_get_decl_num_parameters as (
+        c: Z3_context,
+        d: Z3_func_decl
+      ) => unsigned,
+      get_decl_parameter_kind: Mod._Z3_get_decl_parameter_kind as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_parameter_kind {
-        return Mod._Z3_get_decl_parameter_kind(c, d, idx);
-      },
-      get_decl_int_parameter: function (
+      ) => Z3_parameter_kind,
+      get_decl_int_parameter: Mod._Z3_get_decl_int_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): int {
-        return Mod._Z3_get_decl_int_parameter(c, d, idx);
-      },
-      get_decl_double_parameter: function (
+      ) => int,
+      get_decl_double_parameter: Mod._Z3_get_decl_double_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): double {
-        return Mod._Z3_get_decl_double_parameter(c, d, idx);
-      },
-      get_decl_symbol_parameter: function (
+      ) => double,
+      get_decl_symbol_parameter: Mod._Z3_get_decl_symbol_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_symbol {
-        return Mod._Z3_get_decl_symbol_parameter(c, d, idx);
-      },
-      get_decl_sort_parameter: function (
+      ) => Z3_symbol,
+      get_decl_sort_parameter: Mod._Z3_get_decl_sort_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_sort {
-        return Mod._Z3_get_decl_sort_parameter(c, d, idx);
-      },
-      get_decl_ast_parameter: function (
+      ) => Z3_sort,
+      get_decl_ast_parameter: Mod._Z3_get_decl_ast_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_ast {
-        return Mod._Z3_get_decl_ast_parameter(c, d, idx);
-      },
-      get_decl_func_decl_parameter: function (
+      ) => Z3_ast,
+      get_decl_func_decl_parameter: Mod._Z3_get_decl_func_decl_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_get_decl_func_decl_parameter(c, d, idx);
-      },
-      get_decl_rational_parameter: function (
+      ) => Z3_func_decl,
+      get_decl_rational_parameter: Mod._Z3_get_decl_rational_parameter as (
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_decl_rational_parameter(c, d, idx));
-      },
-      app_to_ast: function (c: Z3_context, a: Z3_app): Z3_ast {
-        return Mod._Z3_app_to_ast(c, a);
-      },
-      get_app_decl: function (c: Z3_context, a: Z3_app): Z3_func_decl {
-        return Mod._Z3_get_app_decl(c, a);
-      },
-      get_app_num_args: function (c: Z3_context, a: Z3_app): unsigned {
-        return Mod._Z3_get_app_num_args(c, a);
-      },
-      get_app_arg: function (c: Z3_context, a: Z3_app, i: unsigned): Z3_ast {
-        return Mod._Z3_get_app_arg(c, a, i);
-      },
-      is_eq_ast: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): bool {
-        return Mod._Z3_is_eq_ast(c, t1, t2);
-      },
-      get_ast_id: function (c: Z3_context, t: Z3_ast): unsigned {
-        return Mod._Z3_get_ast_id(c, t);
-      },
-      get_ast_hash: function (c: Z3_context, a: Z3_ast): unsigned {
-        return Mod._Z3_get_ast_hash(c, a);
-      },
-      get_sort: function (c: Z3_context, a: Z3_ast): Z3_sort {
-        return Mod._Z3_get_sort(c, a);
-      },
-      is_well_sorted: function (c: Z3_context, t: Z3_ast): bool {
-        return Mod._Z3_is_well_sorted(c, t);
-      },
-      get_bool_value: function (c: Z3_context, a: Z3_ast): Z3_lbool {
-        return Mod._Z3_get_bool_value(c, a);
-      },
-      get_ast_kind: function (c: Z3_context, a: Z3_ast): Z3_ast_kind {
-        return Mod._Z3_get_ast_kind(c, a);
-      },
-      is_app: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_app(c, a);
-      },
-      is_numeral_ast: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_numeral_ast(c, a);
-      },
-      is_algebraic_number: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_algebraic_number(c, a);
-      },
-      to_app: function (c: Z3_context, a: Z3_ast): Z3_app {
-        return Mod._Z3_to_app(c, a);
-      },
-      to_func_decl: function (c: Z3_context, a: Z3_ast): Z3_func_decl {
-        return Mod._Z3_to_func_decl(c, a);
-      },
-      get_numeral_string: function (c: Z3_context, a: Z3_ast): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_numeral_string(c, a));
-      },
-      get_numeral_binary_string: function (
+      ) => Z3_string,
+      app_to_ast: Mod._Z3_app_to_ast as (c: Z3_context, a: Z3_app) => Z3_ast,
+      get_app_decl: Mod._Z3_get_app_decl as (
+        c: Z3_context,
+        a: Z3_app
+      ) => Z3_func_decl,
+      get_app_num_args: Mod._Z3_get_app_num_args as (
+        c: Z3_context,
+        a: Z3_app
+      ) => unsigned,
+      get_app_arg: Mod._Z3_get_app_arg as (
+        c: Z3_context,
+        a: Z3_app,
+        i: unsigned
+      ) => Z3_ast,
+      is_eq_ast: Mod._Z3_is_eq_ast as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => bool,
+      get_ast_id: Mod._Z3_get_ast_id as (c: Z3_context, t: Z3_ast) => unsigned,
+      get_ast_hash: Mod._Z3_get_ast_hash as (
         c: Z3_context,
         a: Z3_ast
-      ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_numeral_binary_string(c, a));
-      },
-      get_numeral_decimal_string: function (
+      ) => unsigned,
+      get_sort: Mod._Z3_get_sort as (c: Z3_context, a: Z3_ast) => Z3_sort,
+      is_well_sorted: Mod._Z3_is_well_sorted as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => bool,
+      get_bool_value: Mod._Z3_get_bool_value as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_lbool,
+      get_ast_kind: Mod._Z3_get_ast_kind as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_ast_kind,
+      is_app: Mod._Z3_is_app as (c: Z3_context, a: Z3_ast) => bool,
+      is_numeral_ast: Mod._Z3_is_numeral_ast as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => bool,
+      is_algebraic_number: Mod._Z3_is_algebraic_number as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => bool,
+      to_app: Mod._Z3_to_app as (c: Z3_context, a: Z3_ast) => Z3_app,
+      to_func_decl: Mod._Z3_to_func_decl as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_func_decl,
+      get_numeral_string: Mod._Z3_get_numeral_string as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_string,
+      get_numeral_binary_string: Mod._Z3_get_numeral_binary_string as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_string,
+      get_numeral_decimal_string: Mod._Z3_get_numeral_decimal_string as (
         c: Z3_context,
         a: Z3_ast,
         precision: unsigned
-      ): Z3_string {
-        return Mod.UTF8ToString(
-          Mod._Z3_get_numeral_decimal_string(c, a, precision)
-        );
-      },
-      get_numeral_double: function (c: Z3_context, a: Z3_ast): double {
-        return Mod._Z3_get_numeral_double(c, a);
-      },
-      get_numerator: function (c: Z3_context, a: Z3_ast): Z3_ast {
-        return Mod._Z3_get_numerator(c, a);
-      },
-      get_denominator: function (c: Z3_context, a: Z3_ast): Z3_ast {
-        return Mod._Z3_get_denominator(c, a);
-      },
-      get_algebraic_number_lower: function (
+      ) => Z3_string,
+      get_numeral_double: Mod._Z3_get_numeral_double as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => double,
+      get_numerator: Mod._Z3_get_numerator as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_ast,
+      get_denominator: Mod._Z3_get_denominator as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_ast,
+      get_algebraic_number_lower: Mod._Z3_get_algebraic_number_lower as (
         c: Z3_context,
         a: Z3_ast,
         precision: unsigned
-      ): Z3_ast {
-        return Mod._Z3_get_algebraic_number_lower(c, a, precision);
-      },
-      get_algebraic_number_upper: function (
+      ) => Z3_ast,
+      get_algebraic_number_upper: Mod._Z3_get_algebraic_number_upper as (
         c: Z3_context,
         a: Z3_ast,
         precision: unsigned
-      ): Z3_ast {
-        return Mod._Z3_get_algebraic_number_upper(c, a, precision);
-      },
-      pattern_to_ast: function (c: Z3_context, p: Z3_pattern): Z3_ast {
-        return Mod._Z3_pattern_to_ast(c, p);
-      },
-      get_pattern_num_terms: function (c: Z3_context, p: Z3_pattern): unsigned {
-        return Mod._Z3_get_pattern_num_terms(c, p);
-      },
-      get_pattern: function (
+      ) => Z3_ast,
+      pattern_to_ast: Mod._Z3_pattern_to_ast as (
+        c: Z3_context,
+        p: Z3_pattern
+      ) => Z3_ast,
+      get_pattern_num_terms: Mod._Z3_get_pattern_num_terms as (
+        c: Z3_context,
+        p: Z3_pattern
+      ) => unsigned,
+      get_pattern: Mod._Z3_get_pattern as (
         c: Z3_context,
         p: Z3_pattern,
         idx: unsigned
-      ): Z3_ast {
-        return Mod._Z3_get_pattern(c, p, idx);
-      },
-      get_index_value: function (c: Z3_context, a: Z3_ast): unsigned {
-        return Mod._Z3_get_index_value(c, a);
-      },
-      is_quantifier_forall: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_quantifier_forall(c, a);
-      },
-      is_quantifier_exists: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_quantifier_exists(c, a);
-      },
-      is_lambda: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_lambda(c, a);
-      },
-      get_quantifier_weight: function (c: Z3_context, a: Z3_ast): unsigned {
-        return Mod._Z3_get_quantifier_weight(c, a);
-      },
-      get_quantifier_num_patterns: function (
+      ) => Z3_ast,
+      get_index_value: Mod._Z3_get_index_value as (
         c: Z3_context,
         a: Z3_ast
-      ): unsigned {
-        return Mod._Z3_get_quantifier_num_patterns(c, a);
-      },
-      get_quantifier_pattern_ast: function (
-        c: Z3_context,
-        a: Z3_ast,
-        i: unsigned
-      ): Z3_pattern {
-        return Mod._Z3_get_quantifier_pattern_ast(c, a, i);
-      },
-      get_quantifier_num_no_patterns: function (
+      ) => unsigned,
+      is_quantifier_forall: Mod._Z3_is_quantifier_forall as (
         c: Z3_context,
         a: Z3_ast
-      ): unsigned {
-        return Mod._Z3_get_quantifier_num_no_patterns(c, a);
-      },
-      get_quantifier_no_pattern_ast: function (
+      ) => bool,
+      is_quantifier_exists: Mod._Z3_is_quantifier_exists as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => bool,
+      is_lambda: Mod._Z3_is_lambda as (c: Z3_context, a: Z3_ast) => bool,
+      get_quantifier_weight: Mod._Z3_get_quantifier_weight as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => unsigned,
+      get_quantifier_num_patterns: Mod._Z3_get_quantifier_num_patterns as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => unsigned,
+      get_quantifier_pattern_ast: Mod._Z3_get_quantifier_pattern_ast as (
         c: Z3_context,
         a: Z3_ast,
         i: unsigned
+      ) => Z3_pattern,
+      get_quantifier_num_no_patterns:
+        Mod._Z3_get_quantifier_num_no_patterns as (
+          c: Z3_context,
+          a: Z3_ast
+        ) => unsigned,
+      get_quantifier_no_pattern_ast: Mod._Z3_get_quantifier_no_pattern_ast as (
+        c: Z3_context,
+        a: Z3_ast,
+        i: unsigned
+      ) => Z3_ast,
+      get_quantifier_num_bound: Mod._Z3_get_quantifier_num_bound as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => unsigned,
+      get_quantifier_bound_name: Mod._Z3_get_quantifier_bound_name as (
+        c: Z3_context,
+        a: Z3_ast,
+        i: unsigned
+      ) => Z3_symbol,
+      get_quantifier_bound_sort: Mod._Z3_get_quantifier_bound_sort as (
+        c: Z3_context,
+        a: Z3_ast,
+        i: unsigned
+      ) => Z3_sort,
+      get_quantifier_body: Mod._Z3_get_quantifier_body as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_ast,
+      simplify: Mod._Z3_simplify as (c: Z3_context, a: Z3_ast) => Z3_ast,
+      simplify_ex: Mod._Z3_simplify_ex as (
+        c: Z3_context,
+        a: Z3_ast,
+        p: Z3_params
+      ) => Z3_ast,
+      simplify_get_help: Mod._Z3_simplify_get_help as (
+        c: Z3_context
+      ) => Z3_string,
+      simplify_get_param_descrs: Mod._Z3_simplify_get_param_descrs as (
+        c: Z3_context
+      ) => Z3_param_descrs,
+      update_term: function (
+        c: Z3_context,
+        a: Z3_ast,
+        num_args: unsigned,
+        args: Z3_ast[]
       ): Z3_ast {
-        return Mod._Z3_get_quantifier_no_pattern_ast(c, a, i);
+        return Mod.ccall(
+          'Z3_update_term',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [c, a, num_args, pointerArrayToByteArr(args as unknown as number[])]
+        );
       },
-      get_quantifier_num_bound: function (c: Z3_context, a: Z3_ast): unsigned {
-        return Mod._Z3_get_quantifier_num_bound(c, a);
-      },
-      get_quantifier_bound_name: function (
+      substitute: function (
         c: Z3_context,
         a: Z3_ast,
-        i: unsigned
-      ): Z3_symbol {
-        return Mod._Z3_get_quantifier_bound_name(c, a, i);
+        num_exprs: unsigned,
+        from: Z3_ast[],
+        to: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_substitute',
+          'number',
+          ['number', 'number', 'number', 'array', 'array'],
+          [
+            c,
+            a,
+            num_exprs,
+            pointerArrayToByteArr(from as unknown as number[]),
+            pointerArrayToByteArr(to as unknown as number[]),
+          ]
+        );
       },
-      get_quantifier_bound_sort: function (
+      substitute_vars: function (
         c: Z3_context,
         a: Z3_ast,
-        i: unsigned
-      ): Z3_sort {
-        return Mod._Z3_get_quantifier_bound_sort(c, a, i);
+        num_exprs: unsigned,
+        to: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_substitute_vars',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [c, a, num_exprs, pointerArrayToByteArr(to as unknown as number[])]
+        );
       },
-      get_quantifier_body: function (c: Z3_context, a: Z3_ast): Z3_ast {
-        return Mod._Z3_get_quantifier_body(c, a);
-      },
-      simplify: function (c: Z3_context, a: Z3_ast): Z3_ast {
-        return Mod._Z3_simplify(c, a);
-      },
-      simplify_ex: function (c: Z3_context, a: Z3_ast, p: Z3_params): Z3_ast {
-        return Mod._Z3_simplify_ex(c, a, p);
-      },
-      simplify_get_help: function (c: Z3_context): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_simplify_get_help(c));
-      },
-      simplify_get_param_descrs: function (c: Z3_context): Z3_param_descrs {
-        return Mod._Z3_simplify_get_param_descrs(c);
-      },
-      translate: function (
+      translate: Mod._Z3_translate as (
         source: Z3_context,
         a: Z3_ast,
         target: Z3_context
-      ): Z3_ast {
-        return Mod._Z3_translate(source, a, target);
-      },
-      mk_model: function (c: Z3_context): Z3_model {
-        return Mod._Z3_mk_model(c);
-      },
-      model_inc_ref: function (c: Z3_context, m: Z3_model): void {
-        return Mod._Z3_model_inc_ref(c, m);
-      },
-      model_dec_ref: function (c: Z3_context, m: Z3_model): void {
-        return Mod._Z3_model_dec_ref(c, m);
-      },
-      model_get_const_interp: function (
+      ) => Z3_ast,
+      mk_model: Mod._Z3_mk_model as (c: Z3_context) => Z3_model,
+      model_inc_ref: Mod._Z3_model_inc_ref as (
+        c: Z3_context,
+        m: Z3_model
+      ) => void,
+      model_dec_ref: Mod._Z3_model_dec_ref as (
+        c: Z3_context,
+        m: Z3_model
+      ) => void,
+      model_get_const_interp: Mod._Z3_model_get_const_interp as (
         c: Z3_context,
         m: Z3_model,
         a: Z3_func_decl
-      ): Z3_ast_opt {
-        return Mod._Z3_model_get_const_interp(c, m, a);
-      },
-      model_has_interp: function (
+      ) => Z3_ast_opt,
+      model_has_interp: Mod._Z3_model_has_interp as (
         c: Z3_context,
         m: Z3_model,
         a: Z3_func_decl
-      ): bool {
-        return Mod._Z3_model_has_interp(c, m, a);
-      },
-      model_get_func_interp: function (
+      ) => bool,
+      model_get_func_interp: Mod._Z3_model_get_func_interp as (
         c: Z3_context,
         m: Z3_model,
         f: Z3_func_decl
-      ): Z3_func_interp_opt {
-        return Mod._Z3_model_get_func_interp(c, m, f);
-      },
-      model_get_num_consts: function (c: Z3_context, m: Z3_model): unsigned {
-        return Mod._Z3_model_get_num_consts(c, m);
-      },
-      model_get_const_decl: function (
+      ) => Z3_func_interp_opt,
+      model_get_num_consts: Mod._Z3_model_get_num_consts as (
+        c: Z3_context,
+        m: Z3_model
+      ) => unsigned,
+      model_get_const_decl: Mod._Z3_model_get_const_decl as (
         c: Z3_context,
         m: Z3_model,
         i: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_model_get_const_decl(c, m, i);
-      },
-      model_get_num_funcs: function (c: Z3_context, m: Z3_model): unsigned {
-        return Mod._Z3_model_get_num_funcs(c, m);
-      },
-      model_get_func_decl: function (
+      ) => Z3_func_decl,
+      model_get_num_funcs: Mod._Z3_model_get_num_funcs as (
+        c: Z3_context,
+        m: Z3_model
+      ) => unsigned,
+      model_get_func_decl: Mod._Z3_model_get_func_decl as (
         c: Z3_context,
         m: Z3_model,
         i: unsigned
-      ): Z3_func_decl {
-        return Mod._Z3_model_get_func_decl(c, m, i);
-      },
-      model_get_num_sorts: function (c: Z3_context, m: Z3_model): unsigned {
-        return Mod._Z3_model_get_num_sorts(c, m);
-      },
-      model_get_sort: function (
+      ) => Z3_func_decl,
+      model_get_num_sorts: Mod._Z3_model_get_num_sorts as (
+        c: Z3_context,
+        m: Z3_model
+      ) => unsigned,
+      model_get_sort: Mod._Z3_model_get_sort as (
         c: Z3_context,
         m: Z3_model,
         i: unsigned
-      ): Z3_sort {
-        return Mod._Z3_model_get_sort(c, m, i);
-      },
-      model_get_sort_universe: function (
+      ) => Z3_sort,
+      model_get_sort_universe: Mod._Z3_model_get_sort_universe as (
         c: Z3_context,
         m: Z3_model,
         s: Z3_sort
-      ): Z3_ast_vector {
-        return Mod._Z3_model_get_sort_universe(c, m, s);
-      },
-      model_translate: function (
+      ) => Z3_ast_vector,
+      model_translate: Mod._Z3_model_translate as (
         c: Z3_context,
         m: Z3_model,
         dst: Z3_context
-      ): Z3_model {
-        return Mod._Z3_model_translate(c, m, dst);
-      },
-      is_as_array: function (c: Z3_context, a: Z3_ast): bool {
-        return Mod._Z3_is_as_array(c, a);
-      },
-      get_as_array_func_decl: function (
+      ) => Z3_model,
+      is_as_array: Mod._Z3_is_as_array as (c: Z3_context, a: Z3_ast) => bool,
+      get_as_array_func_decl: Mod._Z3_get_as_array_func_decl as (
         c: Z3_context,
         a: Z3_ast
-      ): Z3_func_decl {
-        return Mod._Z3_get_as_array_func_decl(c, a);
-      },
-      add_func_interp: function (
+      ) => Z3_func_decl,
+      add_func_interp: Mod._Z3_add_func_interp as (
         c: Z3_context,
         m: Z3_model,
         f: Z3_func_decl,
         default_value: Z3_ast
-      ): Z3_func_interp {
-        return Mod._Z3_add_func_interp(c, m, f, default_value);
-      },
-      add_const_interp: function (
+      ) => Z3_func_interp,
+      add_const_interp: Mod._Z3_add_const_interp as (
         c: Z3_context,
         m: Z3_model,
         f: Z3_func_decl,
         a: Z3_ast
-      ): void {
-        return Mod._Z3_add_const_interp(c, m, f, a);
-      },
-      func_interp_inc_ref: function (c: Z3_context, f: Z3_func_interp): void {
-        return Mod._Z3_func_interp_inc_ref(c, f);
-      },
-      func_interp_dec_ref: function (c: Z3_context, f: Z3_func_interp): void {
-        return Mod._Z3_func_interp_dec_ref(c, f);
-      },
-      func_interp_get_num_entries: function (
+      ) => void,
+      func_interp_inc_ref: Mod._Z3_func_interp_inc_ref as (
         c: Z3_context,
         f: Z3_func_interp
-      ): unsigned {
-        return Mod._Z3_func_interp_get_num_entries(c, f);
-      },
-      func_interp_get_entry: function (
+      ) => void,
+      func_interp_dec_ref: Mod._Z3_func_interp_dec_ref as (
+        c: Z3_context,
+        f: Z3_func_interp
+      ) => void,
+      func_interp_get_num_entries: Mod._Z3_func_interp_get_num_entries as (
+        c: Z3_context,
+        f: Z3_func_interp
+      ) => unsigned,
+      func_interp_get_entry: Mod._Z3_func_interp_get_entry as (
         c: Z3_context,
         f: Z3_func_interp,
         i: unsigned
-      ): Z3_func_entry {
-        return Mod._Z3_func_interp_get_entry(c, f, i);
-      },
-      func_interp_get_else: function (
+      ) => Z3_func_entry,
+      func_interp_get_else: Mod._Z3_func_interp_get_else as (
         c: Z3_context,
         f: Z3_func_interp
-      ): Z3_ast {
-        return Mod._Z3_func_interp_get_else(c, f);
-      },
-      func_interp_set_else: function (
+      ) => Z3_ast,
+      func_interp_set_else: Mod._Z3_func_interp_set_else as (
         c: Z3_context,
         f: Z3_func_interp,
         else_value: Z3_ast
-      ): void {
-        return Mod._Z3_func_interp_set_else(c, f, else_value);
-      },
-      func_interp_get_arity: function (
+      ) => void,
+      func_interp_get_arity: Mod._Z3_func_interp_get_arity as (
         c: Z3_context,
         f: Z3_func_interp
-      ): unsigned {
-        return Mod._Z3_func_interp_get_arity(c, f);
-      },
-      func_interp_add_entry: function (
+      ) => unsigned,
+      func_interp_add_entry: Mod._Z3_func_interp_add_entry as (
         c: Z3_context,
         fi: Z3_func_interp,
         args: Z3_ast_vector,
         value: Z3_ast
-      ): void {
-        return Mod._Z3_func_interp_add_entry(c, fi, args, value);
-      },
-      func_entry_inc_ref: function (c: Z3_context, e: Z3_func_entry): void {
-        return Mod._Z3_func_entry_inc_ref(c, e);
-      },
-      func_entry_dec_ref: function (c: Z3_context, e: Z3_func_entry): void {
-        return Mod._Z3_func_entry_dec_ref(c, e);
-      },
-      func_entry_get_value: function (c: Z3_context, e: Z3_func_entry): Z3_ast {
-        return Mod._Z3_func_entry_get_value(c, e);
-      },
-      func_entry_get_num_args: function (
+      ) => void,
+      func_entry_inc_ref: Mod._Z3_func_entry_inc_ref as (
         c: Z3_context,
         e: Z3_func_entry
-      ): unsigned {
-        return Mod._Z3_func_entry_get_num_args(c, e);
-      },
-      func_entry_get_arg: function (
+      ) => void,
+      func_entry_dec_ref: Mod._Z3_func_entry_dec_ref as (
+        c: Z3_context,
+        e: Z3_func_entry
+      ) => void,
+      func_entry_get_value: Mod._Z3_func_entry_get_value as (
+        c: Z3_context,
+        e: Z3_func_entry
+      ) => Z3_ast,
+      func_entry_get_num_args: Mod._Z3_func_entry_get_num_args as (
+        c: Z3_context,
+        e: Z3_func_entry
+      ) => unsigned,
+      func_entry_get_arg: Mod._Z3_func_entry_get_arg as (
         c: Z3_context,
         e: Z3_func_entry,
         i: unsigned
-      ): Z3_ast {
-        return Mod._Z3_func_entry_get_arg(c, e, i);
-      },
+      ) => Z3_ast,
       open_log: function (filename: string): bool {
-        let _str_0 = Mod.allocate(
-          Mod.intArrayFromString(filename),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_open_log(_str_0);
-        } finally {
-          Mod._free(_str_0);
-        }
+        return Mod.ccall('Z3_open_log', 'boolean', ['string'], [filename]);
       },
       append_log: function (string: string): void {
-        let _str_0 = Mod.allocate(
-          Mod.intArrayFromString(string),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_append_log(_str_0);
-        } finally {
-          Mod._free(_str_0);
-        }
+        return Mod.ccall('Z3_append_log', 'void', ['string'], [string]);
       },
-      close_log: function (): void {
-        return Mod._Z3_close_log();
-      },
-      toggle_warning_messages: function (enabled: bool): void {
-        return Mod._Z3_toggle_warning_messages(enabled);
-      },
-      set_ast_print_mode: function (
+      close_log: Mod._Z3_close_log as () => void,
+      toggle_warning_messages: Mod._Z3_toggle_warning_messages as (
+        enabled: bool
+      ) => void,
+      set_ast_print_mode: Mod._Z3_set_ast_print_mode as (
         c: Z3_context,
         mode: Z3_ast_print_mode
-      ): void {
-        return Mod._Z3_set_ast_print_mode(c, mode);
-      },
-      ast_to_string: function (c: Z3_context, a: Z3_ast): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_ast_to_string(c, a));
-      },
-      pattern_to_string: function (c: Z3_context, p: Z3_pattern): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_pattern_to_string(c, p));
-      },
-      sort_to_string: function (c: Z3_context, s: Z3_sort): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_sort_to_string(c, s));
-      },
-      func_decl_to_string: function (
+      ) => void,
+      ast_to_string: Mod._Z3_ast_to_string as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_string,
+      pattern_to_string: Mod._Z3_pattern_to_string as (
+        c: Z3_context,
+        p: Z3_pattern
+      ) => Z3_string,
+      sort_to_string: Mod._Z3_sort_to_string as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => Z3_string,
+      func_decl_to_string: Mod._Z3_func_decl_to_string as (
         c: Z3_context,
         d: Z3_func_decl
+      ) => Z3_string,
+      model_to_string: Mod._Z3_model_to_string as (
+        c: Z3_context,
+        m: Z3_model
+      ) => Z3_string,
+      benchmark_to_smtlib_string: function (
+        c: Z3_context,
+        name: string,
+        logic: string,
+        status: string,
+        attributes: string,
+        num_assumptions: unsigned,
+        assumptions: Z3_ast[],
+        formula: Z3_ast
       ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_func_decl_to_string(c, d));
+        return Mod.ccall(
+          'Z3_benchmark_to_smtlib_string',
+          'string',
+          [
+            'number',
+            'string',
+            'string',
+            'string',
+            'string',
+            'number',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            name,
+            logic,
+            status,
+            attributes,
+            num_assumptions,
+            pointerArrayToByteArr(assumptions as unknown as number[]),
+            formula,
+          ]
+        );
       },
-      model_to_string: function (c: Z3_context, m: Z3_model): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_model_to_string(c, m));
+      parse_smtlib2_string: function (
+        c: Z3_context,
+        str: string,
+        num_sorts: unsigned,
+        sort_names: Z3_symbol[],
+        sorts: Z3_sort[],
+        num_decls: unsigned,
+        decl_names: Z3_symbol[],
+        decls: Z3_func_decl[]
+      ): Z3_ast_vector {
+        return Mod.ccall(
+          'Z3_parse_smtlib2_string',
+          'number',
+          [
+            'number',
+            'string',
+            'number',
+            'array',
+            'array',
+            'number',
+            'array',
+            'array',
+          ],
+          [
+            c,
+            str,
+            num_sorts,
+            pointerArrayToByteArr(sort_names as unknown as number[]),
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            num_decls,
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            pointerArrayToByteArr(decls as unknown as number[]),
+          ]
+        );
+      },
+      parse_smtlib2_file: function (
+        c: Z3_context,
+        file_name: string,
+        num_sorts: unsigned,
+        sort_names: Z3_symbol[],
+        sorts: Z3_sort[],
+        num_decls: unsigned,
+        decl_names: Z3_symbol[],
+        decls: Z3_func_decl[]
+      ): Z3_ast_vector {
+        return Mod.ccall(
+          'Z3_parse_smtlib2_file',
+          'number',
+          [
+            'number',
+            'string',
+            'number',
+            'array',
+            'array',
+            'number',
+            'array',
+            'array',
+          ],
+          [
+            c,
+            file_name,
+            num_sorts,
+            pointerArrayToByteArr(sort_names as unknown as number[]),
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            num_decls,
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            pointerArrayToByteArr(decls as unknown as number[]),
+          ]
+        );
       },
       eval_smtlib2_string: function (
         UNNAMED: Z3_context,
         str: string
       ): Z3_string {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(str),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_eval_smtlib2_string',
+          'string',
+          ['number', 'string'],
+          [UNNAMED, str]
         );
-
-        try {
-          return Mod.UTF8ToString(Mod._Z3_eval_smtlib2_string(UNNAMED, _str_1));
-        } finally {
-          Mod._free(_str_1);
-        }
       },
-      get_error_code: function (c: Z3_context): Z3_error_code {
-        return Mod._Z3_get_error_code(c);
-      },
-      set_error: function (c: Z3_context, e: Z3_error_code): void {
-        return Mod._Z3_set_error(c, e);
-      },
-      get_error_msg: function (c: Z3_context, err: Z3_error_code): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_error_msg(c, err));
-      },
-      get_full_version: function (): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_full_version());
-      },
+      get_error_code: Mod._Z3_get_error_code as (
+        c: Z3_context
+      ) => Z3_error_code,
+      set_error: Mod._Z3_set_error as (c: Z3_context, e: Z3_error_code) => void,
+      get_error_msg: Mod._Z3_get_error_msg as (
+        c: Z3_context,
+        err: Z3_error_code
+      ) => Z3_string,
+      get_full_version: Mod._Z3_get_full_version as () => Z3_string,
       enable_trace: function (tag: string): void {
-        let _str_0 = Mod.allocate(
-          Mod.intArrayFromString(tag),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_enable_trace(_str_0);
-        } finally {
-          Mod._free(_str_0);
-        }
+        return Mod.ccall('Z3_enable_trace', 'void', ['string'], [tag]);
       },
       disable_trace: function (tag: string): void {
-        let _str_0 = Mod.allocate(
-          Mod.intArrayFromString(tag),
-          Mod.ALLOC_NORMAL
-        );
-
-        try {
-          return Mod._Z3_disable_trace(_str_0);
-        } finally {
-          Mod._free(_str_0);
-        }
+        return Mod.ccall('Z3_disable_trace', 'void', ['string'], [tag]);
       },
-      reset_memory: function (): void {
-        return Mod._Z3_reset_memory();
-      },
-      finalize_memory: function (): void {
-        return Mod._Z3_finalize_memory();
-      },
-      mk_goal: function (
+      reset_memory: Mod._Z3_reset_memory as () => void,
+      finalize_memory: Mod._Z3_finalize_memory as () => void,
+      mk_goal: Mod._Z3_mk_goal as (
         c: Z3_context,
         models: bool,
         unsat_cores: bool,
         proofs: bool
-      ): Z3_goal {
-        return Mod._Z3_mk_goal(c, models, unsat_cores, proofs);
-      },
-      goal_inc_ref: function (c: Z3_context, g: Z3_goal): void {
-        return Mod._Z3_goal_inc_ref(c, g);
-      },
-      goal_dec_ref: function (c: Z3_context, g: Z3_goal): void {
-        return Mod._Z3_goal_dec_ref(c, g);
-      },
-      goal_precision: function (c: Z3_context, g: Z3_goal): Z3_goal_prec {
-        return Mod._Z3_goal_precision(c, g);
-      },
-      goal_assert: function (c: Z3_context, g: Z3_goal, a: Z3_ast): void {
-        return Mod._Z3_goal_assert(c, g, a);
-      },
-      goal_inconsistent: function (c: Z3_context, g: Z3_goal): bool {
-        return Mod._Z3_goal_inconsistent(c, g);
-      },
-      goal_depth: function (c: Z3_context, g: Z3_goal): unsigned {
-        return Mod._Z3_goal_depth(c, g);
-      },
-      goal_reset: function (c: Z3_context, g: Z3_goal): void {
-        return Mod._Z3_goal_reset(c, g);
-      },
-      goal_size: function (c: Z3_context, g: Z3_goal): unsigned {
-        return Mod._Z3_goal_size(c, g);
-      },
-      goal_formula: function (
+      ) => Z3_goal,
+      goal_inc_ref: Mod._Z3_goal_inc_ref as (c: Z3_context, g: Z3_goal) => void,
+      goal_dec_ref: Mod._Z3_goal_dec_ref as (c: Z3_context, g: Z3_goal) => void,
+      goal_precision: Mod._Z3_goal_precision as (
+        c: Z3_context,
+        g: Z3_goal
+      ) => Z3_goal_prec,
+      goal_assert: Mod._Z3_goal_assert as (
+        c: Z3_context,
+        g: Z3_goal,
+        a: Z3_ast
+      ) => void,
+      goal_inconsistent: Mod._Z3_goal_inconsistent as (
+        c: Z3_context,
+        g: Z3_goal
+      ) => bool,
+      goal_depth: Mod._Z3_goal_depth as (c: Z3_context, g: Z3_goal) => unsigned,
+      goal_reset: Mod._Z3_goal_reset as (c: Z3_context, g: Z3_goal) => void,
+      goal_size: Mod._Z3_goal_size as (c: Z3_context, g: Z3_goal) => unsigned,
+      goal_formula: Mod._Z3_goal_formula as (
         c: Z3_context,
         g: Z3_goal,
         idx: unsigned
-      ): Z3_ast {
-        return Mod._Z3_goal_formula(c, g, idx);
-      },
-      goal_num_exprs: function (c: Z3_context, g: Z3_goal): unsigned {
-        return Mod._Z3_goal_num_exprs(c, g);
-      },
-      goal_is_decided_sat: function (c: Z3_context, g: Z3_goal): bool {
-        return Mod._Z3_goal_is_decided_sat(c, g);
-      },
-      goal_is_decided_unsat: function (c: Z3_context, g: Z3_goal): bool {
-        return Mod._Z3_goal_is_decided_unsat(c, g);
-      },
-      goal_translate: function (
+      ) => Z3_ast,
+      goal_num_exprs: Mod._Z3_goal_num_exprs as (
+        c: Z3_context,
+        g: Z3_goal
+      ) => unsigned,
+      goal_is_decided_sat: Mod._Z3_goal_is_decided_sat as (
+        c: Z3_context,
+        g: Z3_goal
+      ) => bool,
+      goal_is_decided_unsat: Mod._Z3_goal_is_decided_unsat as (
+        c: Z3_context,
+        g: Z3_goal
+      ) => bool,
+      goal_translate: Mod._Z3_goal_translate as (
         source: Z3_context,
         g: Z3_goal,
         target: Z3_context
-      ): Z3_goal {
-        return Mod._Z3_goal_translate(source, g, target);
-      },
-      goal_convert_model: function (
+      ) => Z3_goal,
+      goal_convert_model: Mod._Z3_goal_convert_model as (
         c: Z3_context,
         g: Z3_goal,
         m: Z3_model
-      ): Z3_model {
-        return Mod._Z3_goal_convert_model(c, g, m);
-      },
-      goal_to_string: function (c: Z3_context, g: Z3_goal): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_goal_to_string(c, g));
-      },
-      goal_to_dimacs_string: function (
+      ) => Z3_model,
+      goal_to_string: Mod._Z3_goal_to_string as (
+        c: Z3_context,
+        g: Z3_goal
+      ) => Z3_string,
+      goal_to_dimacs_string: Mod._Z3_goal_to_dimacs_string as (
         c: Z3_context,
         g: Z3_goal,
         include_names: bool
-      ): Z3_string {
-        return Mod.UTF8ToString(
-          Mod._Z3_goal_to_dimacs_string(c, g, include_names)
-        );
-      },
+      ) => Z3_string,
       mk_tactic: function (c: Z3_context, name: string): Z3_tactic {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(name),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_mk_tactic',
+          'number',
+          ['number', 'string'],
+          [c, name]
         );
-
-        try {
-          return Mod._Z3_mk_tactic(c, _str_1);
-        } finally {
-          Mod._free(_str_1);
-        }
       },
-      tactic_inc_ref: function (c: Z3_context, t: Z3_tactic): void {
-        return Mod._Z3_tactic_inc_ref(c, t);
-      },
-      tactic_dec_ref: function (c: Z3_context, g: Z3_tactic): void {
-        return Mod._Z3_tactic_dec_ref(c, g);
-      },
+      tactic_inc_ref: Mod._Z3_tactic_inc_ref as (
+        c: Z3_context,
+        t: Z3_tactic
+      ) => void,
+      tactic_dec_ref: Mod._Z3_tactic_dec_ref as (
+        c: Z3_context,
+        g: Z3_tactic
+      ) => void,
       mk_probe: function (c: Z3_context, name: string): Z3_probe {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(name),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_mk_probe',
+          'number',
+          ['number', 'string'],
+          [c, name]
         );
-
-        try {
-          return Mod._Z3_mk_probe(c, _str_1);
-        } finally {
-          Mod._free(_str_1);
-        }
       },
-      probe_inc_ref: function (c: Z3_context, p: Z3_probe): void {
-        return Mod._Z3_probe_inc_ref(c, p);
-      },
-      probe_dec_ref: function (c: Z3_context, p: Z3_probe): void {
-        return Mod._Z3_probe_dec_ref(c, p);
-      },
-      tactic_and_then: function (
+      probe_inc_ref: Mod._Z3_probe_inc_ref as (
+        c: Z3_context,
+        p: Z3_probe
+      ) => void,
+      probe_dec_ref: Mod._Z3_probe_dec_ref as (
+        c: Z3_context,
+        p: Z3_probe
+      ) => void,
+      tactic_and_then: Mod._Z3_tactic_and_then as (
         c: Z3_context,
         t1: Z3_tactic,
         t2: Z3_tactic
-      ): Z3_tactic {
-        return Mod._Z3_tactic_and_then(c, t1, t2);
-      },
-      tactic_or_else: function (
+      ) => Z3_tactic,
+      tactic_or_else: Mod._Z3_tactic_or_else as (
         c: Z3_context,
         t1: Z3_tactic,
         t2: Z3_tactic
+      ) => Z3_tactic,
+      tactic_par_or: function (
+        c: Z3_context,
+        num: unsigned,
+        ts: Z3_tactic[]
       ): Z3_tactic {
-        return Mod._Z3_tactic_or_else(c, t1, t2);
+        return Mod.ccall(
+          'Z3_tactic_par_or',
+          'number',
+          ['number', 'number', 'array'],
+          [c, num, pointerArrayToByteArr(ts as unknown as number[])]
+        );
       },
-      tactic_par_and_then: function (
+      tactic_par_and_then: Mod._Z3_tactic_par_and_then as (
         c: Z3_context,
         t1: Z3_tactic,
         t2: Z3_tactic
-      ): Z3_tactic {
-        return Mod._Z3_tactic_par_and_then(c, t1, t2);
-      },
-      tactic_try_for: function (
+      ) => Z3_tactic,
+      tactic_try_for: Mod._Z3_tactic_try_for as (
         c: Z3_context,
         t: Z3_tactic,
         ms: unsigned
-      ): Z3_tactic {
-        return Mod._Z3_tactic_try_for(c, t, ms);
-      },
-      tactic_when: function (
+      ) => Z3_tactic,
+      tactic_when: Mod._Z3_tactic_when as (
         c: Z3_context,
         p: Z3_probe,
         t: Z3_tactic
-      ): Z3_tactic {
-        return Mod._Z3_tactic_when(c, p, t);
-      },
-      tactic_cond: function (
+      ) => Z3_tactic,
+      tactic_cond: Mod._Z3_tactic_cond as (
         c: Z3_context,
         p: Z3_probe,
         t1: Z3_tactic,
         t2: Z3_tactic
-      ): Z3_tactic {
-        return Mod._Z3_tactic_cond(c, p, t1, t2);
-      },
-      tactic_repeat: function (
+      ) => Z3_tactic,
+      tactic_repeat: Mod._Z3_tactic_repeat as (
         c: Z3_context,
         t: Z3_tactic,
         max: unsigned
-      ): Z3_tactic {
-        return Mod._Z3_tactic_repeat(c, t, max);
-      },
-      tactic_skip: function (c: Z3_context): Z3_tactic {
-        return Mod._Z3_tactic_skip(c);
-      },
-      tactic_fail: function (c: Z3_context): Z3_tactic {
-        return Mod._Z3_tactic_fail(c);
-      },
-      tactic_fail_if: function (c: Z3_context, p: Z3_probe): Z3_tactic {
-        return Mod._Z3_tactic_fail_if(c, p);
-      },
-      tactic_fail_if_not_decided: function (c: Z3_context): Z3_tactic {
-        return Mod._Z3_tactic_fail_if_not_decided(c);
-      },
-      tactic_using_params: function (
+      ) => Z3_tactic,
+      tactic_skip: Mod._Z3_tactic_skip as (c: Z3_context) => Z3_tactic,
+      tactic_fail: Mod._Z3_tactic_fail as (c: Z3_context) => Z3_tactic,
+      tactic_fail_if: Mod._Z3_tactic_fail_if as (
+        c: Z3_context,
+        p: Z3_probe
+      ) => Z3_tactic,
+      tactic_fail_if_not_decided: Mod._Z3_tactic_fail_if_not_decided as (
+        c: Z3_context
+      ) => Z3_tactic,
+      tactic_using_params: Mod._Z3_tactic_using_params as (
         c: Z3_context,
         t: Z3_tactic,
         p: Z3_params
-      ): Z3_tactic {
-        return Mod._Z3_tactic_using_params(c, t, p);
-      },
-      probe_const: function (x: Z3_context, val: double): Z3_probe {
-        return Mod._Z3_probe_const(x, val);
-      },
-      probe_lt: function (x: Z3_context, p1: Z3_probe, p2: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_lt(x, p1, p2);
-      },
-      probe_gt: function (x: Z3_context, p1: Z3_probe, p2: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_gt(x, p1, p2);
-      },
-      probe_le: function (x: Z3_context, p1: Z3_probe, p2: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_le(x, p1, p2);
-      },
-      probe_ge: function (x: Z3_context, p1: Z3_probe, p2: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_ge(x, p1, p2);
-      },
-      probe_eq: function (x: Z3_context, p1: Z3_probe, p2: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_eq(x, p1, p2);
-      },
-      probe_and: function (
+      ) => Z3_tactic,
+      probe_const: Mod._Z3_probe_const as (
+        x: Z3_context,
+        val: double
+      ) => Z3_probe,
+      probe_lt: Mod._Z3_probe_lt as (
         x: Z3_context,
         p1: Z3_probe,
         p2: Z3_probe
-      ): Z3_probe {
-        return Mod._Z3_probe_and(x, p1, p2);
-      },
-      probe_or: function (x: Z3_context, p1: Z3_probe, p2: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_or(x, p1, p2);
-      },
-      probe_not: function (x: Z3_context, p: Z3_probe): Z3_probe {
-        return Mod._Z3_probe_not(x, p);
-      },
-      get_num_tactics: function (c: Z3_context): unsigned {
-        return Mod._Z3_get_num_tactics(c);
-      },
-      get_tactic_name: function (c: Z3_context, i: unsigned): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_tactic_name(c, i));
-      },
-      get_num_probes: function (c: Z3_context): unsigned {
-        return Mod._Z3_get_num_probes(c);
-      },
-      get_probe_name: function (c: Z3_context, i: unsigned): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_get_probe_name(c, i));
-      },
-      tactic_get_help: function (c: Z3_context, t: Z3_tactic): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_tactic_get_help(c, t));
-      },
-      tactic_get_param_descrs: function (
+      ) => Z3_probe,
+      probe_gt: Mod._Z3_probe_gt as (
+        x: Z3_context,
+        p1: Z3_probe,
+        p2: Z3_probe
+      ) => Z3_probe,
+      probe_le: Mod._Z3_probe_le as (
+        x: Z3_context,
+        p1: Z3_probe,
+        p2: Z3_probe
+      ) => Z3_probe,
+      probe_ge: Mod._Z3_probe_ge as (
+        x: Z3_context,
+        p1: Z3_probe,
+        p2: Z3_probe
+      ) => Z3_probe,
+      probe_eq: Mod._Z3_probe_eq as (
+        x: Z3_context,
+        p1: Z3_probe,
+        p2: Z3_probe
+      ) => Z3_probe,
+      probe_and: Mod._Z3_probe_and as (
+        x: Z3_context,
+        p1: Z3_probe,
+        p2: Z3_probe
+      ) => Z3_probe,
+      probe_or: Mod._Z3_probe_or as (
+        x: Z3_context,
+        p1: Z3_probe,
+        p2: Z3_probe
+      ) => Z3_probe,
+      probe_not: Mod._Z3_probe_not as (x: Z3_context, p: Z3_probe) => Z3_probe,
+      get_num_tactics: Mod._Z3_get_num_tactics as (c: Z3_context) => unsigned,
+      get_tactic_name: Mod._Z3_get_tactic_name as (
+        c: Z3_context,
+        i: unsigned
+      ) => Z3_string,
+      get_num_probes: Mod._Z3_get_num_probes as (c: Z3_context) => unsigned,
+      get_probe_name: Mod._Z3_get_probe_name as (
+        c: Z3_context,
+        i: unsigned
+      ) => Z3_string,
+      tactic_get_help: Mod._Z3_tactic_get_help as (
         c: Z3_context,
         t: Z3_tactic
-      ): Z3_param_descrs {
-        return Mod._Z3_tactic_get_param_descrs(c, t);
-      },
+      ) => Z3_string,
+      tactic_get_param_descrs: Mod._Z3_tactic_get_param_descrs as (
+        c: Z3_context,
+        t: Z3_tactic
+      ) => Z3_param_descrs,
       tactic_get_descr: function (c: Z3_context, name: string): Z3_string {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(name),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_tactic_get_descr',
+          'string',
+          ['number', 'string'],
+          [c, name]
         );
-
-        try {
-          return Mod.UTF8ToString(Mod._Z3_tactic_get_descr(c, _str_1));
-        } finally {
-          Mod._free(_str_1);
-        }
       },
       probe_get_descr: function (c: Z3_context, name: string): Z3_string {
-        let _str_1 = Mod.allocate(
-          Mod.intArrayFromString(name),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_probe_get_descr',
+          'string',
+          ['number', 'string'],
+          [c, name]
         );
-
-        try {
-          return Mod.UTF8ToString(Mod._Z3_probe_get_descr(c, _str_1));
-        } finally {
-          Mod._free(_str_1);
-        }
       },
-      probe_apply: function (c: Z3_context, p: Z3_probe, g: Z3_goal): double {
-        return Mod._Z3_probe_apply(c, p, g);
-      },
-      tactic_apply: function (
+      probe_apply: Mod._Z3_probe_apply as (
+        c: Z3_context,
+        p: Z3_probe,
+        g: Z3_goal
+      ) => double,
+      tactic_apply: Mod._Z3_tactic_apply as (
         c: Z3_context,
         t: Z3_tactic,
         g: Z3_goal
-      ): Z3_apply_result {
-        return Mod._Z3_tactic_apply(c, t, g);
-      },
-      tactic_apply_ex: function (
+      ) => Z3_apply_result,
+      tactic_apply_ex: Mod._Z3_tactic_apply_ex as (
         c: Z3_context,
         t: Z3_tactic,
         g: Z3_goal,
         p: Z3_params
-      ): Z3_apply_result {
-        return Mod._Z3_tactic_apply_ex(c, t, g, p);
-      },
-      apply_result_inc_ref: function (c: Z3_context, r: Z3_apply_result): void {
-        return Mod._Z3_apply_result_inc_ref(c, r);
-      },
-      apply_result_dec_ref: function (c: Z3_context, r: Z3_apply_result): void {
-        return Mod._Z3_apply_result_dec_ref(c, r);
-      },
-      apply_result_to_string: function (
+      ) => Z3_apply_result,
+      apply_result_inc_ref: Mod._Z3_apply_result_inc_ref as (
         c: Z3_context,
         r: Z3_apply_result
-      ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_apply_result_to_string(c, r));
-      },
-      apply_result_get_num_subgoals: function (
+      ) => void,
+      apply_result_dec_ref: Mod._Z3_apply_result_dec_ref as (
         c: Z3_context,
         r: Z3_apply_result
-      ): unsigned {
-        return Mod._Z3_apply_result_get_num_subgoals(c, r);
-      },
-      apply_result_get_subgoal: function (
+      ) => void,
+      apply_result_to_string: Mod._Z3_apply_result_to_string as (
+        c: Z3_context,
+        r: Z3_apply_result
+      ) => Z3_string,
+      apply_result_get_num_subgoals: Mod._Z3_apply_result_get_num_subgoals as (
+        c: Z3_context,
+        r: Z3_apply_result
+      ) => unsigned,
+      apply_result_get_subgoal: Mod._Z3_apply_result_get_subgoal as (
         c: Z3_context,
         r: Z3_apply_result,
         i: unsigned
-      ): Z3_goal {
-        return Mod._Z3_apply_result_get_subgoal(c, r, i);
-      },
-      mk_solver: function (c: Z3_context): Z3_solver {
-        return Mod._Z3_mk_solver(c);
-      },
-      mk_simple_solver: function (c: Z3_context): Z3_solver {
-        return Mod._Z3_mk_simple_solver(c);
-      },
-      mk_solver_for_logic: function (
+      ) => Z3_goal,
+      mk_solver: Mod._Z3_mk_solver as (c: Z3_context) => Z3_solver,
+      mk_simple_solver: Mod._Z3_mk_simple_solver as (
+        c: Z3_context
+      ) => Z3_solver,
+      mk_solver_for_logic: Mod._Z3_mk_solver_for_logic as (
         c: Z3_context,
         logic: Z3_symbol
-      ): Z3_solver {
-        return Mod._Z3_mk_solver_for_logic(c, logic);
-      },
-      mk_solver_from_tactic: function (c: Z3_context, t: Z3_tactic): Z3_solver {
-        return Mod._Z3_mk_solver_from_tactic(c, t);
-      },
-      solver_translate: function (
+      ) => Z3_solver,
+      mk_solver_from_tactic: Mod._Z3_mk_solver_from_tactic as (
+        c: Z3_context,
+        t: Z3_tactic
+      ) => Z3_solver,
+      solver_translate: Mod._Z3_solver_translate as (
         source: Z3_context,
         s: Z3_solver,
         target: Z3_context
-      ): Z3_solver {
-        return Mod._Z3_solver_translate(source, s, target);
-      },
-      solver_import_model_converter: function (
+      ) => Z3_solver,
+      solver_import_model_converter: Mod._Z3_solver_import_model_converter as (
         ctx: Z3_context,
         src: Z3_solver,
         dst: Z3_solver
-      ): void {
-        return Mod._Z3_solver_import_model_converter(ctx, src, dst);
-      },
-      solver_get_help: function (c: Z3_context, s: Z3_solver): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_solver_get_help(c, s));
-      },
-      solver_get_param_descrs: function (
+      ) => void,
+      solver_get_help: Mod._Z3_solver_get_help as (
         c: Z3_context,
         s: Z3_solver
-      ): Z3_param_descrs {
-        return Mod._Z3_solver_get_param_descrs(c, s);
-      },
-      solver_set_params: function (
+      ) => Z3_string,
+      solver_get_param_descrs: Mod._Z3_solver_get_param_descrs as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_param_descrs,
+      solver_set_params: Mod._Z3_solver_set_params as (
         c: Z3_context,
         s: Z3_solver,
         p: Z3_params
-      ): void {
-        return Mod._Z3_solver_set_params(c, s, p);
-      },
-      solver_inc_ref: function (c: Z3_context, s: Z3_solver): void {
-        return Mod._Z3_solver_inc_ref(c, s);
-      },
-      solver_dec_ref: function (c: Z3_context, s: Z3_solver): void {
-        return Mod._Z3_solver_dec_ref(c, s);
-      },
-      solver_interrupt: function (c: Z3_context, s: Z3_solver): void {
-        return Mod._Z3_solver_interrupt(c, s);
-      },
-      solver_push: function (c: Z3_context, s: Z3_solver): void {
-        return Mod._Z3_solver_push(c, s);
-      },
-      solver_pop: function (c: Z3_context, s: Z3_solver, n: unsigned): void {
-        return Mod._Z3_solver_pop(c, s, n);
-      },
-      solver_reset: function (c: Z3_context, s: Z3_solver): void {
-        return Mod._Z3_solver_reset(c, s);
-      },
-      solver_get_num_scopes: function (c: Z3_context, s: Z3_solver): unsigned {
-        return Mod._Z3_solver_get_num_scopes(c, s);
-      },
-      solver_assert: function (c: Z3_context, s: Z3_solver, a: Z3_ast): void {
-        return Mod._Z3_solver_assert(c, s, a);
-      },
-      solver_assert_and_track: function (
+      ) => void,
+      solver_inc_ref: Mod._Z3_solver_inc_ref as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => void,
+      solver_dec_ref: Mod._Z3_solver_dec_ref as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => void,
+      solver_interrupt: Mod._Z3_solver_interrupt as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => void,
+      solver_push: Mod._Z3_solver_push as (c: Z3_context, s: Z3_solver) => void,
+      solver_pop: Mod._Z3_solver_pop as (
+        c: Z3_context,
+        s: Z3_solver,
+        n: unsigned
+      ) => void,
+      solver_reset: Mod._Z3_solver_reset as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => void,
+      solver_get_num_scopes: Mod._Z3_solver_get_num_scopes as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => unsigned,
+      solver_assert: Mod._Z3_solver_assert as (
+        c: Z3_context,
+        s: Z3_solver,
+        a: Z3_ast
+      ) => void,
+      solver_assert_and_track: Mod._Z3_solver_assert_and_track as (
         c: Z3_context,
         s: Z3_solver,
         a: Z3_ast,
         p: Z3_ast
-      ): void {
-        return Mod._Z3_solver_assert_and_track(c, s, a, p);
-      },
+      ) => void,
       solver_from_file: function (
         c: Z3_context,
         s: Z3_solver,
         file_name: string
       ): void {
-        let _str_2 = Mod.allocate(
-          Mod.intArrayFromString(file_name),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_solver_from_file',
+          'void',
+          ['number', 'number', 'string'],
+          [c, s, file_name]
         );
-
-        try {
-          return Mod._Z3_solver_from_file(c, s, _str_2);
-        } finally {
-          Mod._free(_str_2);
-        }
       },
       solver_from_string: function (
         c: Z3_context,
         s: Z3_solver,
         file_name: string
       ): void {
-        let _str_2 = Mod.allocate(
-          Mod.intArrayFromString(file_name),
-          Mod.ALLOC_NORMAL
+        return Mod.ccall(
+          'Z3_solver_from_string',
+          'void',
+          ['number', 'number', 'string'],
+          [c, s, file_name]
         );
-
-        try {
-          return Mod._Z3_solver_from_string(c, s, _str_2);
-        } finally {
-          Mod._free(_str_2);
-        }
       },
-      solver_get_assertions: function (
+      solver_get_assertions: Mod._Z3_solver_get_assertions as (
         c: Z3_context,
         s: Z3_solver
-      ): Z3_ast_vector {
-        return Mod._Z3_solver_get_assertions(c, s);
-      },
-      solver_get_units: function (c: Z3_context, s: Z3_solver): Z3_ast_vector {
-        return Mod._Z3_solver_get_units(c, s);
-      },
-      solver_get_trail: function (c: Z3_context, s: Z3_solver): Z3_ast_vector {
-        return Mod._Z3_solver_get_trail(c, s);
-      },
-      solver_get_non_units: function (
+      ) => Z3_ast_vector,
+      solver_get_units: Mod._Z3_solver_get_units as (
         c: Z3_context,
         s: Z3_solver
-      ): Z3_ast_vector {
-        return Mod._Z3_solver_get_non_units(c, s);
-      },
-      solver_propagate_register: function (
+      ) => Z3_ast_vector,
+      solver_get_trail: Mod._Z3_solver_get_trail as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_ast_vector,
+      solver_get_non_units: Mod._Z3_solver_get_non_units as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_ast_vector,
+      solver_propagate_register: Mod._Z3_solver_propagate_register as (
         c: Z3_context,
         s: Z3_solver,
         e: Z3_ast
-      ): unsigned {
-        return Mod._Z3_solver_propagate_register(c, s, e);
-      },
-      solver_propagate_register_cb: function (
+      ) => unsigned,
+      solver_propagate_register_cb: Mod._Z3_solver_propagate_register_cb as (
         c: Z3_context,
         cb: Z3_solver_callback,
         e: Z3_ast
-      ): unsigned {
-        return Mod._Z3_solver_propagate_register_cb(c, cb, e);
-      },
+      ) => unsigned,
       solver_check: function (c: Z3_context, s: Z3_solver): Promise<Z3_lbool> {
         return Mod.async_call(Mod._async_Z3_solver_check, c, s);
       },
-      solver_get_consequences: function (
+      solver_check_assumptions: function (
+        c: Z3_context,
+        s: Z3_solver,
+        num_assumptions: unsigned,
+        assumptions: Z3_ast[]
+      ): Z3_lbool {
+        return Mod.ccall(
+          'Z3_solver_check_assumptions',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            s,
+            num_assumptions,
+            pointerArrayToByteArr(assumptions as unknown as number[]),
+          ]
+        );
+      },
+      solver_get_consequences: Mod._Z3_solver_get_consequences as (
         c: Z3_context,
         s: Z3_solver,
         assumptions: Z3_ast_vector,
         variables: Z3_ast_vector,
         consequences: Z3_ast_vector
-      ): Z3_lbool {
-        return Mod._Z3_solver_get_consequences(
-          c,
-          s,
-          assumptions,
-          variables,
-          consequences
-        );
-      },
-      solver_cube: function (
+      ) => Z3_lbool,
+      solver_cube: Mod._Z3_solver_cube as (
         c: Z3_context,
         s: Z3_solver,
         vars: Z3_ast_vector,
         backtrack_level: unsigned
-      ): Z3_ast_vector {
-        return Mod._Z3_solver_cube(c, s, vars, backtrack_level);
-      },
-      solver_get_model: function (c: Z3_context, s: Z3_solver): Z3_model {
-        return Mod._Z3_solver_get_model(c, s);
-      },
-      solver_get_proof: function (c: Z3_context, s: Z3_solver): Z3_ast {
-        return Mod._Z3_solver_get_proof(c, s);
-      },
-      solver_get_unsat_core: function (
+      ) => Z3_ast_vector,
+      solver_get_model: Mod._Z3_solver_get_model as (
         c: Z3_context,
         s: Z3_solver
-      ): Z3_ast_vector {
-        return Mod._Z3_solver_get_unsat_core(c, s);
-      },
-      solver_get_reason_unknown: function (
+      ) => Z3_model,
+      solver_get_proof: Mod._Z3_solver_get_proof as (
         c: Z3_context,
         s: Z3_solver
-      ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_solver_get_reason_unknown(c, s));
-      },
-      solver_get_statistics: function (c: Z3_context, s: Z3_solver): Z3_stats {
-        return Mod._Z3_solver_get_statistics(c, s);
-      },
-      solver_to_string: function (c: Z3_context, s: Z3_solver): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_solver_to_string(c, s));
-      },
-      solver_to_dimacs_string: function (
+      ) => Z3_ast,
+      solver_get_unsat_core: Mod._Z3_solver_get_unsat_core as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_ast_vector,
+      solver_get_reason_unknown: Mod._Z3_solver_get_reason_unknown as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_string,
+      solver_get_statistics: Mod._Z3_solver_get_statistics as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_stats,
+      solver_to_string: Mod._Z3_solver_to_string as (
+        c: Z3_context,
+        s: Z3_solver
+      ) => Z3_string,
+      solver_to_dimacs_string: Mod._Z3_solver_to_dimacs_string as (
         c: Z3_context,
         s: Z3_solver,
         include_names: bool
-      ): Z3_string {
-        return Mod.UTF8ToString(
-          Mod._Z3_solver_to_dimacs_string(c, s, include_names)
-        );
-      },
-      stats_to_string: function (c: Z3_context, s: Z3_stats): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_stats_to_string(c, s));
-      },
-      stats_inc_ref: function (c: Z3_context, s: Z3_stats): void {
-        return Mod._Z3_stats_inc_ref(c, s);
-      },
-      stats_dec_ref: function (c: Z3_context, s: Z3_stats): void {
-        return Mod._Z3_stats_dec_ref(c, s);
-      },
-      stats_size: function (c: Z3_context, s: Z3_stats): unsigned {
-        return Mod._Z3_stats_size(c, s);
-      },
-      stats_get_key: function (
+      ) => Z3_string,
+      stats_to_string: Mod._Z3_stats_to_string as (
+        c: Z3_context,
+        s: Z3_stats
+      ) => Z3_string,
+      stats_inc_ref: Mod._Z3_stats_inc_ref as (
+        c: Z3_context,
+        s: Z3_stats
+      ) => void,
+      stats_dec_ref: Mod._Z3_stats_dec_ref as (
+        c: Z3_context,
+        s: Z3_stats
+      ) => void,
+      stats_size: Mod._Z3_stats_size as (
+        c: Z3_context,
+        s: Z3_stats
+      ) => unsigned,
+      stats_get_key: Mod._Z3_stats_get_key as (
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): Z3_string {
-        return Mod.UTF8ToString(Mod._Z3_stats_get_key(c, s, idx));
-      },
-      stats_is_uint: function (
+      ) => Z3_string,
+      stats_is_uint: Mod._Z3_stats_is_uint as (
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): bool {
-        return Mod._Z3_stats_is_uint(c, s, idx);
-      },
-      stats_is_double: function (
+      ) => bool,
+      stats_is_double: Mod._Z3_stats_is_double as (
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): bool {
-        return Mod._Z3_stats_is_double(c, s, idx);
-      },
-      stats_get_uint_value: function (
+      ) => bool,
+      stats_get_uint_value: Mod._Z3_stats_get_uint_value as (
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): unsigned {
-        return Mod._Z3_stats_get_uint_value(c, s, idx);
-      },
-      stats_get_double_value: function (
+      ) => unsigned,
+      stats_get_double_value: Mod._Z3_stats_get_double_value as (
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): double {
-        return Mod._Z3_stats_get_double_value(c, s, idx);
-      },
-      get_estimated_alloc_size: function (): uint64_t {
-        return Mod._Z3_get_estimated_alloc_size();
-      },
+      ) => double,
+      get_estimated_alloc_size:
+        Mod._Z3_get_estimated_alloc_size as () => uint64_t,
     },
   };
 }

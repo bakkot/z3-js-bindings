@@ -1,6 +1,6 @@
 // see the Python API: https://github.com/Z3Prover/z3/blob/a90b66134d74fa2e6b36968955d306902ccc3cc6/src/api/python/z3/z3.py
 
-import type { Z3_context, Z3_solver, Z3_model, Z3_ast, Z3_sort } from '../build/wrapper';
+import type { Z3_context, Z3_solver, Z3_model, Z3_ast, Z3_sort, Z3_symbol, Z3_lbool, Z3_func_interp, Z3_func_decl, Z3_app } from '../build/wrapper';
 import { init as initZ3 } from '../build/wrapper';
 
 export async function init() {
@@ -61,11 +61,11 @@ export async function init() {
       cleanupRegistry.register(this, () => Z3.solver_dec_ref(ctx.ref(), solver));
     }
 
-    add(...args: ExprRef[]) {
+    add(...args: BoolRef[]) {
       this.assert_exprs(...args);
     }
 
-    assert_exprs(...args: ExprRef[]) {
+    assert_exprs(...args: BoolRef[]) {
       let s = BoolSort(this.ctx);
       for (let arg of args) {
         // TODO support Goal/AstVector here
@@ -76,25 +76,21 @@ export async function init() {
       }
     }
 
-    // check() {
-    //   // TODO assumptions
-    //   // let s = BoolSort(self.ctx)
-    //   // let r = Z3.solver_check_assumptions(this.ctx.ref(), this.solver, 0, 0);
-    //   let r = Z3.solver_check(this.ctx.ref(), this.solver);
-    //   let str = CheckSatResult(r);
-    //   if (str === 'unknown') {
-    //     console.log('unknown reason:', JSON.stringify(Z3.solver_get_reason_unknown(this.ctx.ref(), this.solver)));
-    //   }
-    //   return str;
-    // }
+    async check() {
+      // TODO assumptions
+      // let s = BoolSort(self.ctx)
+      // let r = Z3.solver_check_assumptions(this.ctx.ref(), this.solver, 0, 0);
+      let r = await Z3.solver_check(this.ctx.ref(), this.solver);
+      return lboolToString(r);
+    }
 
-    // model() {
-    //   let m = Z3.solver_get_model(this.ctx.ref(), this.solver);
-    //   if (m === 0) {
-    //     throw new Error('failed to get model');
-    //   }
-    //   return new ModelRef(m, this.ctx);
-    // }
+    model() {
+      let m = Z3.solver_get_model(this.ctx.ref(), this.solver);
+      if (m as unknown as number === 0) {
+        throw new Error('failed to get model');
+      }
+      return new ModelRef(m, this.ctx);
+    }
 
     // help() {
     //   return Z3.solver_get_help(this.ctx.ref(), this.solver);
@@ -105,82 +101,97 @@ export async function init() {
     // }
   }
 
-  // class ModelRef {
-  //   declare m: Z3_model;
-  //   constructor(m, ctx) {
-  //     this.model = m;
-  //     this.ctx = ctx;
-  //     Z3.model_inc_ref(this.ctx.ref(), this.model);
-  //     cleanupRegistry.register(this, () => Z3.model_dec_ref(ctx));
-  //   }
+  class ModelRef {
+    declare model: Z3_model;
+    declare ctx: Context;
+    constructor(m: Z3_model, ctx = main_ctx()) {
+      this.model = m;
+      this.ctx = ctx;
+      Z3.model_inc_ref(this.ctx.ref(), this.model);
+      cleanupRegistry.register(this, () => Z3.model_dec_ref(ctx.ref(), m));
+    }
 
-  //   toString() {
-  //     // this is a hack until we get something better
-  //     let lines = [];
-  //     for (let ref of this) {
-  //       lines.push(`${ref.name()} = ${this.get_interp(ref).as_string()}`);
-  //     }
-  //     return lines.join('\n');
-  //   }
+    // toString() {
+    //   // this is a hack until we get something better
+    //   let lines = [];
+    //   for (let ref of this) {
+    //     lines.push(`${ref.name()} = ${this.get_interp(ref)?.as_string()}`);
+    //   }
+    //   return lines.join('\n');
+    // }
 
-  //   len() {
-  //     return Z3.model_get_num_consts(this.ctx.ref(), this.model) + Z3.model_get_num_funcs(this.ctx.ref(), this.model);
-  //   }
+    len() {
+      return Z3.model_get_num_consts(this.ctx.ref(), this.model) + Z3.model_get_num_funcs(this.ctx.ref(), this.model);
+    }
 
-  //   // python API uses __getitem__ to be iterable, but JS doesn't have that hack
-  //   *[Symbol.iterator]() {
-  //     let num_consts = Z3.model_get_num_consts(this.ctx.ref(), this.model);
-  //     for (let i = 0; i < num_consts; ++i) {
-  //       yield new FuncDeclRef(Z3.model_get_const_decl(this.ctx.ref(), this.model, i), this.ctx);
-  //     }
-  //     let num_funcs = Z3.model_get_num_funcs(this.ctx.ref(), this.model);
-  //     for (let i = 0; i < num_funcs; ++i) {
-  //       yield new FuncDeclRef(Z3.model_get_func_decl(this.ctx.ref(), this.model, i), this.ctx);
-  //     }
-  //   }
+    // python API uses __getitem__ to be iterable, but JS doesn't have that hack
+    *[Symbol.iterator]() {
+      let num_consts = Z3.model_get_num_consts(this.ctx.ref(), this.model);
+      for (let i = 0; i < num_consts; ++i) {
+        yield new FuncDeclRef(Z3.model_get_const_decl(this.ctx.ref(), this.model, i), this.ctx);
+      }
+      let num_funcs = Z3.model_get_num_funcs(this.ctx.ref(), this.model);
+      for (let i = 0; i < num_funcs; ++i) {
+        yield new FuncDeclRef(Z3.model_get_func_decl(this.ctx.ref(), this.model, i), this.ctx);
+      }
+    }
 
-  //   get_interp(decl) {
-  //     if (is_const(decl)) {
-  //       decl = decl.decl();
-  //     }
-  //     if (decl.arity() == 0) {
-  //       let _r = Z3.model_get_const_interp(this.ctx.ref(), this.model, decl.ast);
-  //       if (_r === 0) {
-  //         throw new Error('npe in get_interp');
-  //       }
-  //       let r = _to_expr_ref(_r, this.ctx);
-  //       if (is_as_array(r)) {
-  //         throw new Error('unimplement: get_interp of as_array');
-  //       } else {
-  //         return r;
-  //       }
-  //     } else {
-  //       return FuncInterp(Z3.model_get_func_interp(this.ctx.ref(), this.model, decl.ast), this.ctx);
-  //     }
-  //   }
+    get_interp(decl: FuncDeclRef) {
+      // if (is_const(decl)) {
+      //   decl = decl.decl();
+      // }
+      if (decl.arity() == 0) {
+        let _r = Z3.model_get_const_interp(this.ctx.ref(), this.model, decl.ast);
+        if (_r as unknown as number === 0) {
+          throw new Error('npe in get_interp');
+        }
+        let r = _to_expr_ref(_r as unknown as Z3_ast, this.ctx);
+        if (is_as_array(r)) {
+          throw new Error('unimplement: get_interp of as_array');
+        } else {
+          return r;
+        }
+      } else {
+        let interp = Z3.model_get_func_interp(this.ctx.ref(), this.model, decl.ast);
+        if (interp as unknown as number === 0) {
+          return null;
+        }
+        return new FuncInterp(interp as unknown as Z3_func_interp, this.ctx);
+      }
+    }
 
-  //   eval(t, model_completion = false) {
-  //     let outAddress;
-  //     try {
-  //       outAddress = Module._malloc(4);
-  //       // todo ensure model_eval returns a boolean
-  //       // todo maybe figure out automagic out-parameter wrappers?
-  //       if (Z3.model_eval(this.ctx.ref(), this.model, t.ast, model_completion, outAddress)) {
-  //         let address = (new Uint32Array(Module.HEAPU32.buffer, outAddress, 1))[0];
-  //         return _to_expr_ref(address, this.ctx);
-  //       }
-  //       throw new Error('failed to evaluate expression in the model');
-  //     } finally {
-  //       if (outAddress) {
-  //         Module._free(outAddress);
-  //       }
-  //     }
-  //   }
+    // eval(t: ExprRef, model_completion = false) {
+    //   let outAddress;
+    //   try {
+    //     outAddress = Module._malloc(4);
+    //     // todo ensure model_eval returns a boolean
+    //     // todo maybe figure out automagic out-parameter wrappers?
+    //     if (Z3.model_eval(this.ctx.ref(), this.model, t.ast, model_completion, outAddress)) {
+    //       let address = (new Uint32Array(Module.HEAPU32.buffer, outAddress, 1))[0];
+    //       return _to_expr_ref(address, this.ctx);
+    //     }
+    //     throw new Error('failed to evaluate expression in the model');
+    //   } finally {
+    //     if (outAddress) {
+    //       Module._free(outAddress);
+    //     }
+    //   }
+    // }
 
-  //   evaluate(t, model_completion) {
-  //     return this.eval(t, model_completion);
-  //   }
-  // }
+    // evaluate(t, model_completion) {
+    //   return this.eval(t, model_completion);
+    // }
+  }
+
+  class FuncInterp {
+    declare f: Z3_func_interp;
+    declare ctx: Context;
+    constructor(f: Z3_func_interp, ctx = main_ctx()) {
+      this.f = f;
+      this.ctx = ctx;
+    }
+  }
+
 
   class AstRef {
     declare ast: Z3_ast;
@@ -197,30 +208,51 @@ export async function init() {
     }
   }
 
-  // class FuncDeclRef extends AstRef {
-  //   // TODO methods
-  //   arity() {
-  //     return Z3.get_arity(this.ctx.ref(), this.ast);
-  //   }
+  class FuncDeclRef extends AstRef {
+    declare ast: Z3_func_decl;
+    constructor(ast: Z3_func_decl, ctx = main_ctx()) {
+      super(ast, ctx);
+    }
 
-  //   name() {
-  //     return _symbol2py(this.ctx, Z3.get_decl_name(this.ctx.ref(), this.ast));
-  //   }
-  // }
+    // TODO methods
+    arity() {
+      return Z3.get_arity(this.ctx.ref(), this.ast);
+    }
+
+    name() {
+      return _symbol2py(this.ctx, Z3.get_decl_name(this.ctx.ref(), this.ast));
+    }
+  }
 
   class ExprRef extends AstRef {
     // todo methods
-    eq(other: ExprRef | null) {
+
+    // TODO probably override this with more precise types
+    eq(other: CoercibleToExpr | null) {
       if (other == null) {
-        return false;
+        return BoolVal(false, this.ctx);
       }
       let [a, b] = _coerce_exprs(this, other);
       return new BoolRef(Z3.mk_eq(this.ctx.ref(), a.ast, b.ast), this.ctx);
     }
 
-    // decl() {
-    //   return new FuncDeclRef(Z3.get_app_decl(this.ctx.ref(), this.ast), this.ctx);
-    // }
+    decl() {
+      if (!is_app(this)) {
+        throw new Error('decl called on non-app');
+      }
+      return new FuncDeclRef(Z3.get_app_decl(this.ctx.ref(), this.ast as unknown as Z3_app), this.ctx);
+    }
+
+    sort(): SortRef {
+      throw new Error(`unimplemented: sort on ${this.constructor.name}`);
+    }
+
+    num_args() {
+      if (!is_app(this)) {
+        throw new Error('num_args called on non-app');
+      }
+      return Z3.get_app_num_args(this.ctx.ref(), this.ast as unknown as Z3_app);
+    }
   }
 
   class ArithRef extends ExprRef {
@@ -261,7 +293,7 @@ export async function init() {
   class SortRef extends AstRef {
     // todo methods
     declare ast: Z3_sort;
-    constructor(ast: Z3_sort, ctx: Context = main_ctx()) {
+    constructor(ast: Z3_sort, ctx = main_ctx()) {
       super(ast, ctx);
     }
     eq(other: SortRef | null) {
@@ -278,68 +310,84 @@ export async function init() {
 
   class BoolSortRef extends SortRef {
     // todo methods
+    // todo maybe just don't have cast
+    // cast(val: boolean | BoolRef) {
+    //   if (typeof val === 'boolean') {
+    //     return BoolVal(val, this.ctx);
+    //   }
+    //   // todo debug asserts
+    //   return val;
+    // }
   }
 
-  // let to_symbol = (s, ctx) => (typeof s === 'number' ? Z3.mk_int_symbol : Z3.mk_string_symbol)(_get_ctx(ctx).ref, s);
+  function to_symbol(s: number | string, ctx = main_ctx()) {
+    if (typeof s === 'number') {
+      assert_int(s);
+      return Z3.mk_int_symbol(ctx.ref(), s);
+    } else if (typeof s === 'string') {
+      return Z3.mk_string_symbol(ctx.ref(), s);
+    } else {
+      throw new Error(`unreachable: to_symbol called with ${typeof s}`);
+    }
+  }
 
-  // // todo rename
-  // function _symbol2py(ctx, s) {
-  //   if (Z3.get_symbol_kind(ctx.ref, s) === /* Z3_INT_SYMBOL */ 0) {
-  //     return `k!${Z3.get_symbol_int(ctx.ref, s)}`;
-  //   } else {
-  //     return Z3.get_symbol_string(ctx.ref, s);
-  //   }
-  // }
+  // todo rename
+  function _symbol2py(ctx: Context, s: Z3_symbol) {
+    if (Z3.get_symbol_kind(ctx.ref(), s) === /* Z3_INT_SYMBOL */ 0) {
+      return `k!${Z3.get_symbol_int(ctx.ref(), s)}`;
+    } else {
+      return Z3.get_symbol_string(ctx.ref(), s);
+    }
+  }
 
   let is_expr = (a: unknown) => a instanceof ExprRef;
 
   let is_ast = (a: unknown) => a instanceof AstRef;
 
-  // function is_app(a) {
-  //   if (!(a instanceof ExprRef)) {
-  //     return false;
-  //   }
-  //   let k = _ast_kind(a.ctx, a);
-  //   return k == 0 || k == 1; // TODO Z3_ast_kind
-  // }
+  function is_app(a: unknown) {
+    if (!(a instanceof ExprRef)) {
+      return false;
+    }
+    let k = _ast_kind(a.ctx, a);
+    return k == 0 || k == 1; // TODO Z3_ast_kind
+  }
 
-  // let is_const = a => is_app(a) && a.num_args() === 0;
+  let is_const = (a: unknown) => is_app(a) && (a as ExprRef).num_args() === 0;
 
-  // let is_as_array = n => (n instanceof ExprRef) && Z3.is_as_array(n.ctx.ref, n.ast);
+  let is_as_array = (n: unknown) => (n instanceof ExprRef) && Z3.is_as_array(n.ctx.ref(), n.ast);
 
-  // // TODO figure out how not to leak
+  // TODO figure out how not to leak
   // function _to_ast_array(args) {
-  //   let address = Module._malloc(4 * args.length);
-  //   let array = new Uint32Array(Module.HEAPU32.buffer, address, args.length);
+  //   let address = em._malloc(4 * args.length);
+  //   let array = new Uint32Array(Mod.HEAPU32.buffer, address, args.length);
   //   for (let i = 0; i < args.length; ++i) {
   //     array[i] = args[i].ast;
   //   }
   //   return address;
   // }
 
-  // function _to_expr_ref(a, ctx) {
-  //   let k = Z3.get_ast_kind(ctx.ref, a);
-  //   let sk = Z3.get_sort_kind(ctx.ref, Z3.get_sort(ctx.ref, a));
-  //   if (sk === /* Z3_BOOL_SORT */ 1) {
-  //     return new BoolRef(a, ctx);
-  //   }
-  //   if (sk === /* Z3_INT_SORT */ 2) {
-  //     if (k === /* Z3_NUMERAL_AST */ 0) {
-  //       return new IntNumRef(a, ctx);
-  //     }
-  //     return new ArithRef(a, ctx)
-  //   }
-  //   throw new Error(`unknown sort kind ${sk}`);
-  // }
+  function _to_expr_ref(a: Z3_ast, ctx: Context) {
+    let k = Z3.get_ast_kind(ctx.ref(), a);
+    let sk = Z3.get_sort_kind(ctx.ref(), Z3.get_sort(ctx.ref(), a));
+    if (sk === /* Z3_BOOL_SORT */ 1) {
+      return new BoolRef(a, ctx);
+    }
+    if (sk === /* Z3_INT_SORT */ 2) {
+      if (k === /* Z3_NUMERAL_AST */ 0) {
+        return new IntNumRef(a, ctx);
+      }
+      return new ArithRef(a, ctx)
+    }
+    throw new Error(`unknown sort kind ${sk}`);
+  }
 
-  // function _ast_kind(ctx, a) {
-  //   if (!is_ast(a)) {
-  //     throw new Error(`_ast_kind called on non-ast ${a}`); // intentionally stricter than python
-  //   }
-  //   return Z3.get_ast_kind(ctx.ref, a.ast);
-  // }
+  function _ast_kind(ctx: Context, a: ExprRef) {
+    return Z3.get_ast_kind(ctx.ref(), a.ast);
+  }
 
-  function _coerce_exprs(a: unknown, b: unknown, ctx = main_ctx()) {
+  // TODO export, probably
+  type CoercibleToExpr = boolean | number | ExprRef;
+  function _coerce_exprs(a: CoercibleToExpr, b: CoercibleToExpr, ctx = main_ctx()) {
     // in python these casts are conditional but I don't know why
     let ca = _py2expr(a, ctx);
     let cb = _py2expr(b, ctx);
@@ -350,28 +398,32 @@ export async function init() {
     return [ca, cb];
   }
 
-  // function _coerce_expr_list(exprs, ctx) {
-  //   if (exprs.length === 0) {
-  //     return [];
-  //   }
-  //   if (ctx == null) {
-  //     throw new Error('unimplemented: _coerce_expr_list without ctx');
-  //   }
-  //   exprs = exprs.map(e => _py2expr(e, ctx));
-  //   let sort = exprs[0].sort();
-  //   if (exprs.some(e => !e.sort().eq(sort))) {
-  //     throw new Error('unimplemented: _coerce_expr_list with unequal sorts');
-  //   }
-  //   return exprs;
-  // }
+  function _coerce_expr_list(exprs: CoercibleToExpr[], ctx: Context) {
+    if (exprs.length === 0) {
+      return [];
+    }
+    if (ctx == null) {
+      throw new Error('unimplemented: _coerce_expr_list without ctx');
+    }
+    let coerced = exprs.map(e => _py2expr(e, ctx));
+    let sort = coerced[0].sort();
+    if (coerced.some(e => !e.sort().eq(sort))) {
+      throw new Error('unimplemented: _coerce_expr_list with unequal sorts');
+    }
+    return coerced;
+  }
+
+  function assert_int(val: number) {
+    if (Math.floor(val) !== val || !Number.isFinite(val)) {
+      throw new Error('unimplemented: support for non-integer values');
+    }
+  }
 
   function _to_int_str(val: boolean | number) {
     if (typeof val === 'boolean') {
       return val ? '1' : '0';
     } else if (typeof val === 'number') {
-      if (Math.floor(val) !== val || !Number.isFinite(val)) {
-        throw new Error('unimplemented: support for non-integer values');
-      }
+      assert_int(val);
       return '' + val;
     }
     throw new Error(`unimplemented: _to_int_str for ${val}`);
@@ -379,7 +431,7 @@ export async function init() {
 
   // // TODO rename
   // todo maybe this is ExprRef?
-  function _py2expr(a: unknown, ctx = main_ctx()): ArithRef {
+  function _py2expr(a: boolean | number | ExprRef, ctx = main_ctx()): ExprRef {
     if (typeof a === 'boolean') {
       return BoolVal(a, ctx);
     } else if (typeof a === 'number') {
@@ -387,8 +439,8 @@ export async function init() {
         throw new Error('unimplemented: support for non-integer values');
       }
       return IntVal(a, ctx);
-    // } else if (is_expr(a)) {
-    //   return a as ExprRef;
+    } else if (is_expr(a)) {
+      return a as ExprRef;
     } else {
       throw new Error(`unimplemented: _py2expr support for ${typeof a}`);
     }
@@ -427,27 +479,41 @@ export async function init() {
     return new ArithSortRef(Z3.mk_int_sort(ctx.ref()), ctx);
   }
 
-  // function Int(name) {
-  //   let ctx = main_ctx();
-  //   return new ArithRef(Z3.mk_const(ctx.ref, to_symbol(name, ctx), IntSort(ctx).ast), ctx);
-  // }
+  function Int(name: string) {
+    let ctx = main_ctx();
+    return new ArithRef(Z3.mk_const(ctx.ref(), to_symbol(name, ctx), IntSort(ctx).ast), ctx);
+  }
 
-  // function Distinct(...args) {
-  //   let ctx = _ctx_from_ast_arg_list(args);
-  //   if (ctx == null) {
-  //     throw new Error('at least one argument to Distinct must be a Z3 expression');
-  //   }
-  //   args = _coerce_expr_list(args, ctx);
-  //   let _args = _to_ast_array(args);
-  //   let out = new BoolRef(Z3.mk_distinct(ctx.ref, args.length, _args), ctx);
-  //   // Module._free(_args);
-  //   return out;
-  // }
+  function Distinct(...args: CoercibleToExpr[]) {
+    let ctx = _ctx_from_ast_arg_list(args);
+    if (ctx == null) {
+      throw new Error('at least one argument to Distinct must be a Z3 expression');
+    }
+    let coerced = _coerce_expr_list(args, ctx);
+    let out = new BoolRef(Z3.mk_distinct(ctx.ref(), coerced.length, coerced.map(c => c.ast)), ctx);
+
+    // Module._free(_args);
+    return out;
+  }
+
+  function lboolToString(r: Z3_lbool) {
+    // intentionally not implemented like python
+    // TODO pull out the Z3_lbool enum
+    return r === -1
+      ? 'unsat'
+      : r === 1
+      ? 'sat'
+      : 'unknown';
+  }
 
   return {
-    Context,
-    Solver,
     em,
-    Z3
+    Z3: {
+      Context,
+      Solver,
+      Int,
+      Distinct,
+    },
+    rawZ3: Z3,
   };
 }
