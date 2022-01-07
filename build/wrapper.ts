@@ -421,6 +421,23 @@ export async function init() {
   return {
     em: Mod,
     Z3: {
+      global_param_set: function (param_id: string, param_value: string): void {
+        let _str_0 = Mod.allocate(
+          Mod.intArrayFromString(param_id),
+          Mod.ALLOC_NORMAL
+        );
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(param_value),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_global_param_set(_str_0, _str_1);
+        } finally {
+          Mod._free(_str_0);
+          Mod._free(_str_1);
+        }
+      },
       global_param_reset_all: function (): void {
         return Mod._Z3_global_param_reset_all();
       },
@@ -429,6 +446,27 @@ export async function init() {
       },
       del_config: function (c: Z3_config): void {
         return Mod._Z3_del_config(c);
+      },
+      set_param_value: function (
+        c: Z3_config,
+        param_id: string,
+        param_value: string
+      ): void {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(param_id),
+          Mod.ALLOC_NORMAL
+        );
+        let _str_2 = Mod.allocate(
+          Mod.intArrayFromString(param_value),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_set_param_value(c, _str_1, _str_2);
+        } finally {
+          Mod._free(_str_1);
+          Mod._free(_str_2);
+        }
       },
       mk_context: function (c: Z3_config): Z3_context {
         return Mod._Z3_mk_context(c);
@@ -444,6 +482,27 @@ export async function init() {
       },
       dec_ref: function (c: Z3_context, a: Z3_ast): void {
         return Mod._Z3_dec_ref(c, a);
+      },
+      update_param_value: function (
+        c: Z3_context,
+        param_id: string,
+        param_value: string
+      ): void {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(param_id),
+          Mod.ALLOC_NORMAL
+        );
+        let _str_2 = Mod.allocate(
+          Mod.intArrayFromString(param_value),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_update_param_value(c, _str_1, _str_2);
+        } finally {
+          Mod._free(_str_1);
+          Mod._free(_str_2);
+        }
       },
       interrupt: function (c: Z3_context): void {
         return Mod._Z3_interrupt(c);
@@ -490,7 +549,7 @@ export async function init() {
         return Mod._Z3_params_set_symbol(c, p, k, v);
       },
       params_to_string: function (c: Z3_context, p: Z3_params): Z3_string {
-        return Mod._Z3_params_to_string(c, p);
+        return Mod.UTF8ToString(Mod._Z3_params_to_string(c, p));
       },
       params_validate: function (
         c: Z3_context,
@@ -530,16 +589,27 @@ export async function init() {
         p: Z3_param_descrs,
         s: Z3_symbol
       ): Z3_string {
-        return Mod._Z3_param_descrs_get_documentation(c, p, s);
+        return Mod.UTF8ToString(
+          Mod._Z3_param_descrs_get_documentation(c, p, s)
+        );
       },
       param_descrs_to_string: function (
         c: Z3_context,
         p: Z3_param_descrs
       ): Z3_string {
-        return Mod._Z3_param_descrs_to_string(c, p);
+        return Mod.UTF8ToString(Mod._Z3_param_descrs_to_string(c, p));
       },
       mk_int_symbol: function (c: Z3_context, i: int): Z3_symbol {
         return Mod._Z3_mk_int_symbol(c, i);
+      },
+      mk_string_symbol: function (c: Z3_context, s: string): Z3_symbol {
+        let _str_1 = Mod.allocate(Mod.intArrayFromString(s), Mod.ALLOC_NORMAL);
+
+        try {
+          return Mod._Z3_mk_string_symbol(c, _str_1);
+        } finally {
+          Mod._free(_str_1);
+        }
       },
       mk_uninterpreted_sort: function (c: Z3_context, s: Z3_symbol): Z3_sort {
         return Mod._Z3_mk_uninterpreted_sort(c, s);
@@ -581,6 +651,22 @@ export async function init() {
       },
       mk_const: function (c: Z3_context, s: Z3_symbol, ty: Z3_sort): Z3_ast {
         return Mod._Z3_mk_const(c, s, ty);
+      },
+      mk_fresh_const: function (
+        c: Z3_context,
+        prefix: string,
+        ty: Z3_sort
+      ): Z3_ast {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(prefix),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_mk_fresh_const(c, _str_1, ty);
+        } finally {
+          Mod._free(_str_1);
+        }
       },
       mk_true: function (c: Z3_context): Z3_ast {
         return Mod._Z3_mk_true(c);
@@ -923,6 +1009,22 @@ export async function init() {
       ): Z3_ast {
         return Mod._Z3_mk_array_ext(c, arg1, arg2);
       },
+      mk_numeral: function (
+        c: Z3_context,
+        numeral: string,
+        ty: Z3_sort
+      ): Z3_ast {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(numeral),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_mk_numeral(c, _str_1, ty);
+        } finally {
+          Mod._free(_str_1);
+        }
+      },
       mk_real: function (c: Z3_context, num: int, den: int): Z3_ast {
         return Mod._Z3_mk_real(c, num, den);
       },
@@ -976,11 +1078,29 @@ export async function init() {
       is_char_sort: function (c: Z3_context, s: Z3_sort): bool {
         return Mod._Z3_is_char_sort(c, s);
       },
+      mk_string: function (c: Z3_context, s: string): Z3_ast {
+        let _str_1 = Mod.allocate(Mod.intArrayFromString(s), Mod.ALLOC_NORMAL);
+
+        try {
+          return Mod._Z3_mk_string(c, _str_1);
+        } finally {
+          Mod._free(_str_1);
+        }
+      },
+      mk_lstring: function (c: Z3_context, len: unsigned, s: string): Z3_ast {
+        let _str_2 = Mod.allocate(Mod.intArrayFromString(s), Mod.ALLOC_NORMAL);
+
+        try {
+          return Mod._Z3_mk_lstring(c, len, _str_2);
+        } finally {
+          Mod._free(_str_2);
+        }
+      },
       is_string: function (c: Z3_context, s: Z3_ast): bool {
         return Mod._Z3_is_string(c, s);
       },
       get_string: function (c: Z3_context, s: Z3_ast): Z3_string {
-        return Mod._Z3_get_string(c, s);
+        return Mod.UTF8ToString(Mod._Z3_get_string(c, s));
       },
       get_string_length: function (c: Z3_context, s: Z3_ast): unsigned {
         return Mod._Z3_get_string_length(c, s);
@@ -1170,7 +1290,7 @@ export async function init() {
         return Mod._Z3_get_symbol_int(c, s);
       },
       get_symbol_string: function (c: Z3_context, s: Z3_symbol): Z3_string {
-        return Mod._Z3_get_symbol_string(c, s);
+        return Mod.UTF8ToString(Mod._Z3_get_symbol_string(c, s));
       },
       get_sort_name: function (c: Z3_context, d: Z3_sort): Z3_symbol {
         return Mod._Z3_get_sort_name(c, d);
@@ -1361,7 +1481,7 @@ export async function init() {
         d: Z3_func_decl,
         idx: unsigned
       ): Z3_string {
-        return Mod._Z3_get_decl_rational_parameter(c, d, idx);
+        return Mod.UTF8ToString(Mod._Z3_get_decl_rational_parameter(c, d, idx));
       },
       app_to_ast: function (c: Z3_context, a: Z3_app): Z3_ast {
         return Mod._Z3_app_to_ast(c, a);
@@ -1412,20 +1532,22 @@ export async function init() {
         return Mod._Z3_to_func_decl(c, a);
       },
       get_numeral_string: function (c: Z3_context, a: Z3_ast): Z3_string {
-        return Mod._Z3_get_numeral_string(c, a);
+        return Mod.UTF8ToString(Mod._Z3_get_numeral_string(c, a));
       },
       get_numeral_binary_string: function (
         c: Z3_context,
         a: Z3_ast
       ): Z3_string {
-        return Mod._Z3_get_numeral_binary_string(c, a);
+        return Mod.UTF8ToString(Mod._Z3_get_numeral_binary_string(c, a));
       },
       get_numeral_decimal_string: function (
         c: Z3_context,
         a: Z3_ast,
         precision: unsigned
       ): Z3_string {
-        return Mod._Z3_get_numeral_decimal_string(c, a, precision);
+        return Mod.UTF8ToString(
+          Mod._Z3_get_numeral_decimal_string(c, a, precision)
+        );
       },
       get_numeral_double: function (c: Z3_context, a: Z3_ast): double {
         return Mod._Z3_get_numeral_double(c, a);
@@ -1531,7 +1653,7 @@ export async function init() {
         return Mod._Z3_simplify_ex(c, a, p);
       },
       simplify_get_help: function (c: Z3_context): Z3_string {
-        return Mod._Z3_simplify_get_help(c);
+        return Mod.UTF8ToString(Mod._Z3_simplify_get_help(c));
       },
       simplify_get_param_descrs: function (c: Z3_context): Z3_param_descrs {
         return Mod._Z3_simplify_get_param_descrs(c);
@@ -1710,6 +1832,30 @@ export async function init() {
       ): Z3_ast {
         return Mod._Z3_func_entry_get_arg(c, e, i);
       },
+      open_log: function (filename: string): bool {
+        let _str_0 = Mod.allocate(
+          Mod.intArrayFromString(filename),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_open_log(_str_0);
+        } finally {
+          Mod._free(_str_0);
+        }
+      },
+      append_log: function (string: string): void {
+        let _str_0 = Mod.allocate(
+          Mod.intArrayFromString(string),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_append_log(_str_0);
+        } finally {
+          Mod._free(_str_0);
+        }
+      },
       close_log: function (): void {
         return Mod._Z3_close_log();
       },
@@ -1723,22 +1869,37 @@ export async function init() {
         return Mod._Z3_set_ast_print_mode(c, mode);
       },
       ast_to_string: function (c: Z3_context, a: Z3_ast): Z3_string {
-        return Mod._Z3_ast_to_string(c, a);
+        return Mod.UTF8ToString(Mod._Z3_ast_to_string(c, a));
       },
       pattern_to_string: function (c: Z3_context, p: Z3_pattern): Z3_string {
-        return Mod._Z3_pattern_to_string(c, p);
+        return Mod.UTF8ToString(Mod._Z3_pattern_to_string(c, p));
       },
       sort_to_string: function (c: Z3_context, s: Z3_sort): Z3_string {
-        return Mod._Z3_sort_to_string(c, s);
+        return Mod.UTF8ToString(Mod._Z3_sort_to_string(c, s));
       },
       func_decl_to_string: function (
         c: Z3_context,
         d: Z3_func_decl
       ): Z3_string {
-        return Mod._Z3_func_decl_to_string(c, d);
+        return Mod.UTF8ToString(Mod._Z3_func_decl_to_string(c, d));
       },
       model_to_string: function (c: Z3_context, m: Z3_model): Z3_string {
-        return Mod._Z3_model_to_string(c, m);
+        return Mod.UTF8ToString(Mod._Z3_model_to_string(c, m));
+      },
+      eval_smtlib2_string: function (
+        UNNAMED: Z3_context,
+        str: string
+      ): Z3_string {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(str),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod.UTF8ToString(Mod._Z3_eval_smtlib2_string(UNNAMED, _str_1));
+        } finally {
+          Mod._free(_str_1);
+        }
       },
       get_error_code: function (c: Z3_context): Z3_error_code {
         return Mod._Z3_get_error_code(c);
@@ -1747,10 +1908,34 @@ export async function init() {
         return Mod._Z3_set_error(c, e);
       },
       get_error_msg: function (c: Z3_context, err: Z3_error_code): Z3_string {
-        return Mod._Z3_get_error_msg(c, err);
+        return Mod.UTF8ToString(Mod._Z3_get_error_msg(c, err));
       },
       get_full_version: function (): Z3_string {
-        return Mod._Z3_get_full_version();
+        return Mod.UTF8ToString(Mod._Z3_get_full_version());
+      },
+      enable_trace: function (tag: string): void {
+        let _str_0 = Mod.allocate(
+          Mod.intArrayFromString(tag),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_enable_trace(_str_0);
+        } finally {
+          Mod._free(_str_0);
+        }
+      },
+      disable_trace: function (tag: string): void {
+        let _str_0 = Mod.allocate(
+          Mod.intArrayFromString(tag),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_disable_trace(_str_0);
+        } finally {
+          Mod._free(_str_0);
+        }
       },
       reset_memory: function (): void {
         return Mod._Z3_reset_memory();
@@ -1821,20 +2006,46 @@ export async function init() {
         return Mod._Z3_goal_convert_model(c, g, m);
       },
       goal_to_string: function (c: Z3_context, g: Z3_goal): Z3_string {
-        return Mod._Z3_goal_to_string(c, g);
+        return Mod.UTF8ToString(Mod._Z3_goal_to_string(c, g));
       },
       goal_to_dimacs_string: function (
         c: Z3_context,
         g: Z3_goal,
         include_names: bool
       ): Z3_string {
-        return Mod._Z3_goal_to_dimacs_string(c, g, include_names);
+        return Mod.UTF8ToString(
+          Mod._Z3_goal_to_dimacs_string(c, g, include_names)
+        );
+      },
+      mk_tactic: function (c: Z3_context, name: string): Z3_tactic {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(name),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_mk_tactic(c, _str_1);
+        } finally {
+          Mod._free(_str_1);
+        }
       },
       tactic_inc_ref: function (c: Z3_context, t: Z3_tactic): void {
         return Mod._Z3_tactic_inc_ref(c, t);
       },
       tactic_dec_ref: function (c: Z3_context, g: Z3_tactic): void {
         return Mod._Z3_tactic_dec_ref(c, g);
+      },
+      mk_probe: function (c: Z3_context, name: string): Z3_probe {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(name),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_mk_probe(c, _str_1);
+        } finally {
+          Mod._free(_str_1);
+        }
       },
       probe_inc_ref: function (c: Z3_context, p: Z3_probe): void {
         return Mod._Z3_probe_inc_ref(c, p);
@@ -1946,22 +2157,46 @@ export async function init() {
         return Mod._Z3_get_num_tactics(c);
       },
       get_tactic_name: function (c: Z3_context, i: unsigned): Z3_string {
-        return Mod._Z3_get_tactic_name(c, i);
+        return Mod.UTF8ToString(Mod._Z3_get_tactic_name(c, i));
       },
       get_num_probes: function (c: Z3_context): unsigned {
         return Mod._Z3_get_num_probes(c);
       },
       get_probe_name: function (c: Z3_context, i: unsigned): Z3_string {
-        return Mod._Z3_get_probe_name(c, i);
+        return Mod.UTF8ToString(Mod._Z3_get_probe_name(c, i));
       },
       tactic_get_help: function (c: Z3_context, t: Z3_tactic): Z3_string {
-        return Mod._Z3_tactic_get_help(c, t);
+        return Mod.UTF8ToString(Mod._Z3_tactic_get_help(c, t));
       },
       tactic_get_param_descrs: function (
         c: Z3_context,
         t: Z3_tactic
       ): Z3_param_descrs {
         return Mod._Z3_tactic_get_param_descrs(c, t);
+      },
+      tactic_get_descr: function (c: Z3_context, name: string): Z3_string {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(name),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod.UTF8ToString(Mod._Z3_tactic_get_descr(c, _str_1));
+        } finally {
+          Mod._free(_str_1);
+        }
+      },
+      probe_get_descr: function (c: Z3_context, name: string): Z3_string {
+        let _str_1 = Mod.allocate(
+          Mod.intArrayFromString(name),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod.UTF8ToString(Mod._Z3_probe_get_descr(c, _str_1));
+        } finally {
+          Mod._free(_str_1);
+        }
       },
       probe_apply: function (c: Z3_context, p: Z3_probe, g: Z3_goal): double {
         return Mod._Z3_probe_apply(c, p, g);
@@ -1991,7 +2226,7 @@ export async function init() {
         c: Z3_context,
         r: Z3_apply_result
       ): Z3_string {
-        return Mod._Z3_apply_result_to_string(c, r);
+        return Mod.UTF8ToString(Mod._Z3_apply_result_to_string(c, r));
       },
       apply_result_get_num_subgoals: function (
         c: Z3_context,
@@ -2036,7 +2271,7 @@ export async function init() {
         return Mod._Z3_solver_import_model_converter(ctx, src, dst);
       },
       solver_get_help: function (c: Z3_context, s: Z3_solver): Z3_string {
-        return Mod._Z3_solver_get_help(c, s);
+        return Mod.UTF8ToString(Mod._Z3_solver_get_help(c, s));
       },
       solver_get_param_descrs: function (
         c: Z3_context,
@@ -2083,6 +2318,38 @@ export async function init() {
       ): void {
         return Mod._Z3_solver_assert_and_track(c, s, a, p);
       },
+      solver_from_file: function (
+        c: Z3_context,
+        s: Z3_solver,
+        file_name: string
+      ): void {
+        let _str_2 = Mod.allocate(
+          Mod.intArrayFromString(file_name),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_solver_from_file(c, s, _str_2);
+        } finally {
+          Mod._free(_str_2);
+        }
+      },
+      solver_from_string: function (
+        c: Z3_context,
+        s: Z3_solver,
+        file_name: string
+      ): void {
+        let _str_2 = Mod.allocate(
+          Mod.intArrayFromString(file_name),
+          Mod.ALLOC_NORMAL
+        );
+
+        try {
+          return Mod._Z3_solver_from_string(c, s, _str_2);
+        } finally {
+          Mod._free(_str_2);
+        }
+      },
       solver_get_assertions: function (
         c: Z3_context,
         s: Z3_solver
@@ -2115,8 +2382,8 @@ export async function init() {
       ): unsigned {
         return Mod._Z3_solver_propagate_register_cb(c, cb, e);
       },
-      solver_check: function (c: Z3_context, s: Z3_solver): Z3_lbool {
-        return Mod._Z3_solver_check(c, s);
+      solver_check: function (c: Z3_context, s: Z3_solver): Promise<Z3_lbool> {
+        return Mod.async_call(Mod._async_Z3_solver_check, c, s);
       },
       solver_get_consequences: function (
         c: Z3_context,
@@ -2157,23 +2424,25 @@ export async function init() {
         c: Z3_context,
         s: Z3_solver
       ): Z3_string {
-        return Mod._Z3_solver_get_reason_unknown(c, s);
+        return Mod.UTF8ToString(Mod._Z3_solver_get_reason_unknown(c, s));
       },
       solver_get_statistics: function (c: Z3_context, s: Z3_solver): Z3_stats {
         return Mod._Z3_solver_get_statistics(c, s);
       },
       solver_to_string: function (c: Z3_context, s: Z3_solver): Z3_string {
-        return Mod._Z3_solver_to_string(c, s);
+        return Mod.UTF8ToString(Mod._Z3_solver_to_string(c, s));
       },
       solver_to_dimacs_string: function (
         c: Z3_context,
         s: Z3_solver,
         include_names: bool
       ): Z3_string {
-        return Mod._Z3_solver_to_dimacs_string(c, s, include_names);
+        return Mod.UTF8ToString(
+          Mod._Z3_solver_to_dimacs_string(c, s, include_names)
+        );
       },
       stats_to_string: function (c: Z3_context, s: Z3_stats): Z3_string {
-        return Mod._Z3_stats_to_string(c, s);
+        return Mod.UTF8ToString(Mod._Z3_stats_to_string(c, s));
       },
       stats_inc_ref: function (c: Z3_context, s: Z3_stats): void {
         return Mod._Z3_stats_inc_ref(c, s);
@@ -2189,7 +2458,7 @@ export async function init() {
         s: Z3_stats,
         idx: unsigned
       ): Z3_string {
-        return Mod._Z3_stats_get_key(c, s, idx);
+        return Mod.UTF8ToString(Mod._Z3_stats_get_key(c, s, idx));
       },
       stats_is_uint: function (
         c: Z3_context,

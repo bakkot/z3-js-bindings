@@ -2,3 +2,4 @@ node_modules/
 z3/
 example.js
 build/*.js
+build/lib.ts

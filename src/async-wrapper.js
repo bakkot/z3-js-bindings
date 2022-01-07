@@ -10,11 +10,11 @@ function reject_async(idx, val) {
   capabilities[idx] = null;
 }
 
-Module.do_work = (x) => {
+Module.async_call = function(f, ...args) {
   let idx = capabilities.length;
   let promise = new Promise((resolve, reject) => {
     capabilities.push({ resolve, reject });
   });
-  Module._async_do_work(idx, x);
+  f(idx, ...args);
   return promise;
-};
+}
