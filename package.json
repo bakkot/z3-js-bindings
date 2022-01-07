@@ -1,7 +1,7 @@
 {
   "scripts": {
     "build-ts-wrapper": "node scripts/make-ts-wrapper.js > build/wrapper.ts && tsc --noEmit build/wrapper.ts",
-    "build": "npm run build-ts-wrapper && tsc"
+    "build": "npm run build-ts-wrapper && cp src/lib.ts build && tsc"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",

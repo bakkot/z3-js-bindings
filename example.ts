@@ -1,4 +1,4 @@
-import { init } from './build/wrapper';
+import { init } from './build/lib';
 
 (async () => {
   let mod = await init();
