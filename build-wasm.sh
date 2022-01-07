@@ -7,11 +7,16 @@ if [ ! -d "z3" ]; then
   exit 1
 fi
 
+
+
 export ROOT=$PWD
 cd z3
 export CXXFLAGS="-pthread -s USE_PTHREADS=1 -s DISABLE_EXCEPTION_CATCHING=0"
 export LDFLAGS="-s -pthread -s USE_PTHREADS=1"
-# emconfigure python scripts/mk_make.py --staticlib --single-threaded
+if [ ! -d "z3/build/Makefile" ]; then
+  emconfigure python scripts/mk_make.py --staticlib --single-threaded
+fi
+
 cd build
 emmake make -j$(nproc) libz3.a
 

@@ -7,7 +7,7 @@ export async function init() {
   let { em, Z3 } = await initZ3();
 
   let cleanupRegistry = new FinalizationRegistry(thunk => {
-    console.log('cleaning up');
+    // console.log('cleaning up');
     // @ts-ignore typescript's types for FinalizationRegistry aren't good enough to infer this properly
     thunk();
   });
@@ -345,16 +345,6 @@ export async function init() {
   let is_const = (a: unknown) => is_app(a) && (a as ExprRef).num_args() === 0;
 
   let is_as_array = (n: unknown) => (n instanceof ExprRef) && Z3.is_as_array(n.ctx.ref(), n.ast);
-
-  // TODO figure out how not to leak
-  // function _to_ast_array(args) {
-  //   let address = em._malloc(4 * args.length);
-  //   let array = new Uint32Array(Mod.HEAPU32.buffer, address, args.length);
-  //   for (let i = 0; i < args.length; ++i) {
-  //     array[i] = args[i].ast;
-  //   }
-  //   return address;
-  // }
 
   function _to_expr_ref(a: Z3_ast, ctx: Context) {
     let k = Z3.get_ast_kind(ctx.ref(), a);
