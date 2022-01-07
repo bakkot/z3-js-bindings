@@ -160,27 +160,13 @@ export async function init() {
       }
     }
 
-    // eval(t: ExprRef, model_completion = false) {
-    //   let outAddress;
-    //   try {
-    //     outAddress = Module._malloc(4);
-    //     // todo ensure model_eval returns a boolean
-    //     // todo maybe figure out automagic out-parameter wrappers?
-    //     if (Z3.model_eval(this.ctx.ref(), this.model, t.ast, model_completion, outAddress)) {
-    //       let address = (new Uint32Array(Module.HEAPU32.buffer, outAddress, 1))[0];
-    //       return _to_expr_ref(address, this.ctx);
-    //     }
-    //     throw new Error('failed to evaluate expression in the model');
-    //   } finally {
-    //     if (outAddress) {
-    //       Module._free(outAddress);
-    //     }
-    //   }
-    // }
-
-    // evaluate(t, model_completion) {
-    //   return this.eval(t, model_completion);
-    // }
+    evaluate(t: ExprRef, model_completion = false) {
+      let out = Z3.model_eval(this.ctx.ref(), this.model, t.ast, model_completion);
+      if (out == null) {
+        throw new Error('failed to evaluate expression in the model');
+      }
+      return _to_expr_ref(out, this.ctx);
+    }
   }
 
   class FuncInterp {
@@ -269,6 +255,10 @@ export async function init() {
     ge(other: ArithRef | number) {
       let [a, b] = _coerce_exprs(this, other);
       return new BoolRef(Z3.mk_ge(this.ctx.ref(), a.ast, b.ast), this.ctx);
+    }
+
+    as_string(): string {
+      throw new Error(`unimplemented: as_string on ${this.constructor.name}`);
     }
   }
 

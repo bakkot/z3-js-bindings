@@ -54,7 +54,8 @@ import { init } from './build/lib';
       let str = '';
       for (let row = 0; row < 9; ++row) {
         for (let col = 0; col < 9; ++col) {
-          // str += model.evaluate(cells[row][col]).as_string() + ' '
+          let val = model.evaluate(cells[row][col]);
+          str += model.evaluate(cells[row][col]).as_string() + ' '
           if (col === 2 || col === 5) {
             str += ' ';
           }
@@ -123,7 +124,9 @@ import { init } from './build/lib';
 3..9..2..
 .65..8...
 9........
-  `)
+  `);
+
+  em.PThread.terminateAllThreads();
  
 })().catch(e => {
   console.error('error', e);

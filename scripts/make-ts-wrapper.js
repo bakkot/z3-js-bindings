@@ -30,13 +30,13 @@ function toEmType(type) {
   throw new Error(`unknown parameter type ${type}`);
 }
 
-function isAcceptableArrayType(type) {
+function isZ3PointerType(type) {
   return type.startsWith('Z3_') && type !== 'Z3_string';
 }
 
 function toEm(p) {
   if (p.isArray) {
-    if (!isAcceptableArrayType(p.type)) {
+    if (!isZ3PointerType(p.type)) {
       throw new Error(`only know how to deal with arrays of pointers (got ${p.type})`);
     }
     return `pointerArrayToByteArr(${p.name} as unknown as number[])`;
@@ -50,21 +50,43 @@ function toEm(p) {
     return p.name;
   }
   if (type.startsWith('Z3_')) {
+    if (p.kind === 'out') {
+      return 'outPtrAddress';
+    }
     return p.name;
   }
   throw new Error(`unknown parameter type ${JSON.stringify(p)}`);
 }
 
+let isInParam = p => ['in', 'in_array'].includes(p.kind);
 function wrapFunction(fn) {
-  // we'll figure out how to deal with these later
-  if (fn.params.some(p =>
-    !['in', 'in_array'].includes(p.kind)
-      || p.isPtr
+  let inParams = fn.params.filter(isInParam);
+  let outParams = fn.params.filter(p => !isInParam(p));
+
+  // we'll figure out how to deal with these cases later
+  if (inParams.some(p =>
+      p.isPtr
       || p.type === 'Z3_string_ptr'
       || p.type === 'Z3_char_ptr'
-      || p.isArray && !isAcceptableArrayType(p.type)
+      || p.isArray && !isZ3PointerType(p.type)
     )) {
+  if (fn.name === 'Z3_model_eval') {
+    console.error('hi2')
+  }
+
     return null;
+  }
+
+  if (outParams.length > 1) {
+    return null;
+  }
+  let outParam = null;
+  if (outParams.length === 1) {
+    // this special case is basically just Z3_model_eval
+    outParam = outParams[0];
+    if (fn.ret !== 'Z3_bool_opt' || outParam.kind !== 'out' || !outParam.isPtr || outParam.isArray || !isZ3PointerType(outParam.type)) {
+      return null;
+    }
   }
   if (fn.ret === 'Z3_string_ptr' || fn.ret === 'Z3_char_ptr') {
     return null;
@@ -72,10 +94,10 @@ function wrapFunction(fn) {
   // console.error(fn.name);
 
   let isAsync = asyncFns.includes(fn.name);
-  let trivial = fn.ret !== 'string' && !fn.params.some(p => p.type === 'Z3_string' || p.isArray);
+  let trivial = fn.ret !== 'Z3_string' && outParam === null && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
-  let params = fn.params.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`).join(', ');
+  let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`).join(', ');
 
   let args = fn.params.map(toEm).join(', ');
 
@@ -98,6 +120,17 @@ function wrapFunction(fn) {
   }
 
   let ctypes = fn.params.map(p => p.isArray ? 'array' : toEmType(p.type));
+  let invocation = `Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}])`;
+  if (outParam !== null) {
+    return `${name}: function(${params}): ${outParam.type} | null {
+      let ret = Mod.ccall('${fn.name}', 'boolean', ${JSON.stringify(ctypes)}, [${args}]);
+      if (!ret) {
+        return null;
+      }
+      return getOutPtr() as unknown as ${outParam.type};
+    }`;
+  }
+
   return `${name}: function(${params}): ${fn.ret} {
     return Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}]);
   }`;
@@ -182,6 +215,12 @@ ${Object.entries(enums).map(e => wrapEnum(e[0], e[1])).join('\n\n')}
 
 export async function init() {
   let Mod = await initModule();
+
+  // this supports a single out parameter that is a pointer
+  let outPtrAddress = Mod._malloc(4);
+  let outPtrArray = (new Uint32Array(Mod.HEAPU32.buffer, outPtrAddress, 1));
+  let getOutPtr = () => outPtrArray[0];
+
   return {
     em: Mod,
     Z3: {
