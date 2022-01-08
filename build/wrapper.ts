@@ -11,6 +11,10 @@ function pointerArrayToByteArr(pointers: number[]) {
   return new Uint8Array(new Int32Array(pointers).buffer);
 }
 
+function unsignedArrayToByteArr(unsingeds: number[]) {
+  return new Uint8Array(new Uint32Array(unsingeds).buffer);
+}
+
 type bool = boolean;
 type Z3_bool = boolean;
 type Z3_string = string;
@@ -623,6 +627,39 @@ export async function init() {
             domain.length,
             pointerArrayToByteArr(domain as unknown as number[]),
             range,
+          ]
+        );
+      },
+      mk_constructor: function (
+        c: Z3_context,
+        name: Z3_symbol,
+        recognizer: Z3_symbol,
+        field_names: Z3_symbol[],
+        sorts: Z3_sort_opt[],
+        sort_refs: unsigned[]
+      ): Z3_constructor {
+        if (field_names.length !== sorts.length) {
+          throw new TypeError(
+            `field_names and sorts must be the same length (got ${field_names.length} and {sorts.length})`
+          );
+        }
+        if (field_names.length !== sort_refs.length) {
+          throw new TypeError(
+            `field_names and sort_refs must be the same length (got ${field_names.length} and {sort_refs.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_mk_constructor',
+          'number',
+          ['number', 'number', 'number', 'number', 'array', 'array', 'array'],
+          [
+            c,
+            name,
+            recognizer,
+            field_names.length,
+            pointerArrayToByteArr(field_names as unknown as number[]),
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            unsignedArrayToByteArr(sort_refs as unknown as number[]),
           ]
         );
       },
@@ -1303,6 +1340,18 @@ export async function init() {
           'number',
           ['number', 'number', 'string'],
           [c, len, s]
+        );
+      },
+      mk_u32string: function (c: Z3_context, chars: unsigned[]): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_u32string',
+          'number',
+          ['number', 'number', 'array'],
+          [
+            c,
+            chars.length,
+            unsignedArrayToByteArr(chars as unknown as number[]),
+          ]
         );
       },
       is_string: Mod._Z3_is_string as (c: Z3_context, s: Z3_ast) => bool,
@@ -3088,6 +3137,25 @@ export async function init() {
         c: Z3_context,
         s: Z3_solver
       ) => Z3_ast_vector,
+      solver_get_levels: function (
+        c: Z3_context,
+        s: Z3_solver,
+        literals: Z3_ast_vector,
+        levels: unsigned[]
+      ): void {
+        return Mod.ccall(
+          'Z3_solver_get_levels',
+          'void',
+          ['number', 'number', 'number', 'number', 'array'],
+          [
+            c,
+            s,
+            literals,
+            levels.length,
+            unsignedArrayToByteArr(levels as unknown as number[]),
+          ]
+        );
+      },
       solver_propagate_declare: function (
         c: Z3_context,
         name: Z3_symbol,
@@ -3117,6 +3185,44 @@ export async function init() {
         cb: Z3_solver_callback,
         e: Z3_ast
       ) => unsigned,
+      solver_propagate_consequence: function (
+        c: Z3_context,
+        UNNAMED: Z3_solver_callback,
+        fixed_ids: unsigned[],
+        eq_lhs: unsigned[],
+        eq_rhs: unsigned[],
+        conseq: Z3_ast
+      ): void {
+        if (eq_lhs.length !== eq_rhs.length) {
+          throw new TypeError(
+            `eq_lhs and eq_rhs must be the same length (got ${eq_lhs.length} and {eq_rhs.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_solver_propagate_consequence',
+          'void',
+          [
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            UNNAMED,
+            fixed_ids.length,
+            unsignedArrayToByteArr(fixed_ids as unknown as number[]),
+            eq_lhs.length,
+            unsignedArrayToByteArr(eq_lhs as unknown as number[]),
+            unsignedArrayToByteArr(eq_rhs as unknown as number[]),
+            conseq,
+          ]
+        );
+      },
       solver_check: function (c: Z3_context, s: Z3_solver): Promise<Z3_lbool> {
         return Mod.async_call(Mod._async_Z3_solver_check, c, s);
       },

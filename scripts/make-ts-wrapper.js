@@ -43,10 +43,13 @@ function toEm(p) {
     throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
   }
   if (p.isArray) {
-    if (!isZ3PointerType(type)) {
+    if (isZ3PointerType(type)) {
+      return `pointerArrayToByteArr(${p.name} as unknown as number[])`;
+    } else if (type === 'unsigned') {
+      return `unsignedArrayToByteArr(${p.name} as unknown as number[])`;
+    } else {
       throw new Error(`only know how to deal with arrays of pointers (got ${type})`);
     }
-    return `pointerArrayToByteArr(${p.name} as unknown as number[])`;
   }
   if (type in primitiveTypes) {
     type = primitiveTypes[type];
@@ -66,16 +69,12 @@ function wrapFunction(fn) {
   let inParams = fn.params.filter(isInParam);
   let outParams = fn.params.filter(p => !isInParam(p));
 
-  if (fn.name === 'Z3_mk_func_decl') {
-    console.error(fn);
-  }
-
   // we'll figure out how to deal with these cases later
   let unknownInParam = inParams.find(p =>
       p.isPtr
       || p.type === 'Z3_string_ptr'
       || p.type === 'Z3_char_ptr'
-      || p.isArray && !isZ3PointerType(p.type)
+      || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned')
     );
   if (unknownInParam) {
     console.error(`skipping ${fn.name} - unknown in parameter ${JSON.stringify(unknownInParam)}`);
@@ -221,6 +220,10 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
 
 function pointerArrayToByteArr(pointers: number[]) {
   return new Uint8Array((new Int32Array(pointers)).buffer);
+}
+
+function unsignedArrayToByteArr(unsingeds: number[]) {
+  return new Uint8Array((new Uint32Array(unsingeds)).buffer);
 }
 
 ${Object.entries(primitiveTypes).filter(e => e[0] !== 'void' && e[0] !== 'Z3_string_ptr').map(e => `type ${e[0]} = ${e[1]};`).join('\n')}
