@@ -46,8 +46,10 @@ function toEm(p) {
   if (p.isArray) {
     if (isZ3PointerType(type) || type === 'unsigned' || type === 'int') {
       return `intArrayToByteArr(${p.name} as unknown as number[])`;
+    } else if (type === 'boolean') {
+      return `boolArrayToByteArr(${p.name})`;
     } else {
-      throw new Error(`only know how to deal with arrays of pointers (got ${type})`);
+      throw new Error(`only know how to deal with arrays of int/bool (got ${type})`);
     }
   }
   if (type in primitiveTypes) {
@@ -72,7 +74,7 @@ function wrapFunction(fn) {
   let unknownInParam = inParams.find(p =>
       p.isPtr
       || p.type === 'Z3_char_ptr'
-      || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned' || p.type === 'int')
+      || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned' || p.type === 'int' || p.type === 'boolean')
     );
   if (unknownInParam) {
     console.error(`skipping ${fn.name} - unknown in parameter ${JSON.stringify(unknownInParam)}`);
@@ -334,6 +336,10 @@ export async function init() {
 
   function intArrayToByteArr(ints: number[]) {
     return new Uint8Array((new Uint32Array(ints)).buffer);
+  }
+
+  function boolArrayToByteArr(bools: boolean[]) {
+    return bools.map(b => b ? 1 : 0);
   }
 
   function readUintArray(address: number, count: number) {

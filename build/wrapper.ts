@@ -420,6 +420,10 @@ export async function init() {
     return new Uint8Array(new Uint32Array(ints).buffer);
   }
 
+  function boolArrayToByteArr(bools: boolean[]) {
+    return bools.map((b) => (b ? 1 : 0));
+  }
+
   function readUintArray(address: number, count: number) {
     return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
   }
@@ -1510,6 +1514,14 @@ export async function init() {
         v: uint64_t,
         ty: Z3_sort
       ) => Z3_ast,
+      mk_bv_numeral: function (c: Z3_context, bits: boolean[]): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_bv_numeral',
+          'number',
+          ['number', 'number', 'array'],
+          [c, bits.length, boolArrayToByteArr(bits)]
+        );
+      },
       mk_seq_sort: Mod._Z3_mk_seq_sort as (
         c: Z3_context,
         s: Z3_sort

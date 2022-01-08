@@ -21,6 +21,9 @@ import { init } from './build/lib';
   console.log(Z3.get_string(ctx, strAst));
   console.log(Z3.get_string_contents(ctx, strAst, unicodeStr.length));
 
+  let bv = Z3.mk_bv_numeral(ctx, [true, true, false]);
+  let bs = Z3.mk_ubv_to_str(ctx, bv);
+  console.log(Z3.ast_to_string(ctx, bs))
 
   let intSort = Z3.mk_int_sort(ctx);
   let big = Z3.mk_int64(ctx, 42n, intSort);
