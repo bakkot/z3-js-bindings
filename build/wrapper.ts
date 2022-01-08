@@ -4194,6 +4194,113 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast
       ) => unsigned,
+      mk_ast_vector: Mod._Z3_mk_ast_vector as (c: Z3_context) => Z3_ast_vector,
+      ast_vector_inc_ref: Mod._Z3_ast_vector_inc_ref as (
+        c: Z3_context,
+        v: Z3_ast_vector
+      ) => void,
+      ast_vector_dec_ref: Mod._Z3_ast_vector_dec_ref as (
+        c: Z3_context,
+        v: Z3_ast_vector
+      ) => void,
+      ast_vector_size: Mod._Z3_ast_vector_size as (
+        c: Z3_context,
+        v: Z3_ast_vector
+      ) => unsigned,
+      ast_vector_get: Mod._Z3_ast_vector_get as (
+        c: Z3_context,
+        v: Z3_ast_vector,
+        i: unsigned
+      ) => Z3_ast,
+      ast_vector_set: Mod._Z3_ast_vector_set as (
+        c: Z3_context,
+        v: Z3_ast_vector,
+        i: unsigned,
+        a: Z3_ast
+      ) => void,
+      ast_vector_resize: Mod._Z3_ast_vector_resize as (
+        c: Z3_context,
+        v: Z3_ast_vector,
+        n: unsigned
+      ) => void,
+      ast_vector_push: Mod._Z3_ast_vector_push as (
+        c: Z3_context,
+        v: Z3_ast_vector,
+        a: Z3_ast
+      ) => void,
+      ast_vector_translate: Mod._Z3_ast_vector_translate as (
+        s: Z3_context,
+        v: Z3_ast_vector,
+        t: Z3_context
+      ) => Z3_ast_vector,
+      ast_vector_to_string: function (c: Z3_context, v: Z3_ast_vector): string {
+        let ret = Mod.ccall(
+          'Z3_ast_vector_to_string',
+          'string',
+          ['number', 'number'],
+          [c, v]
+        );
+        return ret;
+      },
+      mk_ast_map: Mod._Z3_mk_ast_map as (c: Z3_context) => Z3_ast_map,
+      ast_map_inc_ref: Mod._Z3_ast_map_inc_ref as (
+        c: Z3_context,
+        m: Z3_ast_map
+      ) => void,
+      ast_map_dec_ref: Mod._Z3_ast_map_dec_ref as (
+        c: Z3_context,
+        m: Z3_ast_map
+      ) => void,
+      ast_map_contains: function (
+        c: Z3_context,
+        m: Z3_ast_map,
+        k: Z3_ast
+      ): boolean {
+        let ret = Mod.ccall(
+          'Z3_ast_map_contains',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, m, k]
+        );
+        return ret;
+      },
+      ast_map_find: Mod._Z3_ast_map_find as (
+        c: Z3_context,
+        m: Z3_ast_map,
+        k: Z3_ast
+      ) => Z3_ast,
+      ast_map_insert: Mod._Z3_ast_map_insert as (
+        c: Z3_context,
+        m: Z3_ast_map,
+        k: Z3_ast,
+        v: Z3_ast
+      ) => void,
+      ast_map_erase: Mod._Z3_ast_map_erase as (
+        c: Z3_context,
+        m: Z3_ast_map,
+        k: Z3_ast
+      ) => void,
+      ast_map_reset: Mod._Z3_ast_map_reset as (
+        c: Z3_context,
+        m: Z3_ast_map
+      ) => void,
+      ast_map_size: Mod._Z3_ast_map_size as (
+        c: Z3_context,
+        m: Z3_ast_map
+      ) => unsigned,
+      ast_map_keys: Mod._Z3_ast_map_keys as (
+        c: Z3_context,
+        m: Z3_ast_map
+      ) => Z3_ast_vector,
+      ast_map_to_string: function (c: Z3_context, m: Z3_ast_map): string {
+        let ret = Mod.ccall(
+          'Z3_ast_map_to_string',
+          'string',
+          ['number', 'number'],
+          [c, m]
+        );
+        return ret;
+      },
     },
   };
 }

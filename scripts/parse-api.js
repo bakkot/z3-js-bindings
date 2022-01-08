@@ -4,7 +4,11 @@ let fs = require('fs');
 let path = require('path');
 
 
-let files = ['z3_api.h', 'z3_algebraic.h'];
+let files = [
+  'z3_api.h',
+  'z3_algebraic.h',
+  'z3_ast_containers.h',
+];
 
 
 let aliases = {
@@ -73,7 +77,7 @@ for (let file of files) {
   // we filter first to ensure our regex isn't too strict
   let apiLines = contents.split('\n').filter(l => /def_API|extra_API/.test(l));
   for (let line of apiLines) {
-    let match = line.match(/^\s*(?<def>def_API|extra_API)\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\)\s*$/);
+    let match = line.match(/^\s*(?<def>def_API|extra_API)\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\s*\)\s*$/);
     if (match == null) {
       throw new Error(`failed to match ${JSON.stringify(line)}`);
     }
