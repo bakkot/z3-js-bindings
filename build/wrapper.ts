@@ -424,10 +424,12 @@ export enum Z3_goal_prec {
 export async function init() {
   let Mod = await initModule();
 
-  // this supports a single out parameter that is a pointer
-  let outPtrAddress = Mod._malloc(4);
-  let outPtrArray = new Uint32Array(Mod.HEAPU32.buffer, outPtrAddress, 1);
-  let getOutPtr = () => outPtrArray[0];
+  // this supports a single out parameter that is a pointer or (possibly unsigned) int
+  let outIntAddress = Mod._malloc(4);
+  let outUintArray = new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 1);
+  let getOutUint = () => outUintArray[0];
+  let outIntArray = new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 1);
+  let getOutInt = () => outIntArray[0];
 
   return {
     em: Mod,
@@ -446,12 +448,12 @@ export async function init() {
           'Z3_global_param_get',
           'boolean',
           ['string', 'number'],
-          [param_id, outPtrAddress]
+          [param_id, outIntAddress]
         );
         if (!ret) {
           return null;
         }
-        return Mod.UTF8ToString(getOutPtr());
+        return Mod.UTF8ToString(getOutUint());
       },
       mk_config: Mod._Z3_mk_config as () => Z3_config,
       del_config: Mod._Z3_del_config as (c: Z3_config) => void,
@@ -2316,6 +2318,30 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast
       ) => Z3_ast,
+      get_numeral_int: function (c: Z3_context, v: Z3_ast): int | null {
+        let ret = Mod.ccall(
+          'Z3_get_numeral_int',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, v, outIntAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutInt();
+      },
+      get_numeral_uint: function (c: Z3_context, v: Z3_ast): unsigned | null {
+        let ret = Mod.ccall(
+          'Z3_get_numeral_uint',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, v, outIntAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutUint();
+      },
       get_algebraic_number_lower: Mod._Z3_get_algebraic_number_lower as (
         c: Z3_context,
         a: Z3_ast,
@@ -2488,12 +2514,12 @@ export async function init() {
           'Z3_model_eval',
           'boolean',
           ['number', 'number', 'number', 'boolean', 'number'],
-          [c, m, t, model_completion, outPtrAddress]
+          [c, m, t, model_completion, outIntAddress]
         );
         if (!ret) {
           return null;
         }
-        return getOutPtr() as unknown as Z3_ast;
+        return getOutUint() as unknown as Z3_ast;
       },
       model_get_const_interp: Mod._Z3_model_get_const_interp as (
         c: Z3_context,

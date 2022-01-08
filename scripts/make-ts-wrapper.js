@@ -41,8 +41,8 @@ function toEm(p) {
   }
   let { type } = p;
   if (p.kind === 'out') {
-    if (type === 'Z3_string_ptr' || type.startsWith('Z3_') && type !== 'Z3_string') {
-      return 'outPtrAddress';
+    if (type === 'Z3_string_ptr' || p.isPtr && (type.startsWith('Z3_') && type !== 'Z3_string' || type === 'unsigned' || type === 'int')) {
+      return 'outIntAddress';
     }
     throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
   }
@@ -131,7 +131,6 @@ function wrapFunction(fn) {
 
   let args = fn.params;
 
-  // TODO handle the case where the length is of multiple arrays and they don't agree
   let arrayLengthParams = new Map();
   for (let i = 0; i < fn.params.length; ++i) {
     let p = fn.params[i];
@@ -172,14 +171,24 @@ function wrapFunction(fn) {
       if (!outParam.isPtr && outParam.type === 'Z3_string_ptr') {
         returnType = 'string | null';
         suffix += `
-          return Mod.UTF8ToString(getOutPtr());`
+          return Mod.UTF8ToString(getOutUint());`
       } else if (outParam.isPtr && isZ3PointerType(outParam.type)) {
         returnType = `${outParam.type} | null`;
         suffix += `
-          return getOutPtr() as unknown as ${outParam.type};
+          return getOutUint() as unknown as ${outParam.type};
+        `.trim();
+      } else if (outParam.isPtr && outParam.type === 'unsigned') {
+        returnType = `${outParam.type} | null`;
+        suffix += `
+          return getOutUint();
+        `.trim();
+      } else if (outParam.isPtr && outParam.type === 'int') {
+        returnType = `${outParam.type} | null`;
+        suffix += `
+          return getOutInt();
         `.trim();
       } else {
-        console.error(`skipping ${fn.name} - unknown out parameter kind`);
+        console.error(`skipping ${fn.name} - unknown out parameter kind ${JSON.stringify(outParam)}`);
         return null;
       }
     } else {
@@ -234,10 +243,12 @@ ${Object.entries(enums).map(e => wrapEnum(e[0], e[1])).join('\n\n')}
 export async function init() {
   let Mod = await initModule();
 
-  // this supports a single out parameter that is a pointer
-  let outPtrAddress = Mod._malloc(4);
-  let outPtrArray = (new Uint32Array(Mod.HEAPU32.buffer, outPtrAddress, 1));
-  let getOutPtr = () => outPtrArray[0];
+  // this supports a single out parameter that is a pointer or (possibly unsigned) int
+  let outIntAddress = Mod._malloc(4);
+  let outUintArray = (new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 1));
+  let getOutUint = () => outUintArray[0];
+  let outIntArray = (new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 1));
+  let getOutInt = () => outIntArray[0];
 
   return {
     em: Mod,
