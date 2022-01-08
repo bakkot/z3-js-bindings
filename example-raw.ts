@@ -13,11 +13,13 @@ import { init } from './build/lib';
   let ctx = Z3.mk_context_rc(config);
   Z3.del_config(config);
 
-  let strAst = Z3.mk_u32string(ctx, [...'hello™'].map(x => x.codePointAt(0)!));
+  let unicodeStr = [...'hello™'].map(x => x.codePointAt(0)!);
+  let strAst = Z3.mk_u32string(ctx, unicodeStr);
   Z3.inc_ref(ctx, strAst);
 
   console.log(Z3.is_string(ctx, strAst));
   console.log(Z3.get_string(ctx, strAst));
+  console.log(Z3.get_string_contents(ctx, strAst, unicodeStr.length));
 
 
   let intSort = Z3.mk_int_sort(ctx);

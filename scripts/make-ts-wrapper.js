@@ -156,7 +156,7 @@ function wrapFunction(fn) {
         console.error(`skipping ${fn.name} - inout_array`);
         return null;
       } else if (outParam.kind === 'out_array') {
-        if (isZ3PointerType(outParam.type)) {
+        if (isZ3PointerType(outParam.type) || outParam.type === 'unsigned') {
           let { sizeIndex } = outParam;
 
           let count;
@@ -183,7 +183,7 @@ function wrapFunction(fn) {
           args[outParam.idx] = outArrayAddress;
           mapped.push({
             name: outParam.name,
-            read: `readIntArray(${outArrayAddress}, ${count}) as unknown as ${outParam.type}[]`,
+            read: `readUintArray(${outArrayAddress}, ${count})` + (outParam.type === 'unsigned' ? '' : `as unknown as ${outParam.type}[]`),
             type: `${outParam.type}[]`,
           });
         } else {
@@ -315,7 +315,7 @@ export async function init() {
     return new Uint8Array((new Uint32Array(ints)).buffer);
   }
 
-  function readIntArray(address: number, count: number) {
+  function readUintArray(address: number, count: number) {
     return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
   }
 

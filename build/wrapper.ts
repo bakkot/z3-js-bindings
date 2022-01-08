@@ -420,7 +420,7 @@ export async function init() {
     return new Uint8Array(new Uint32Array(ints).buffer);
   }
 
-  function readIntArray(address: number, count: number) {
+  function readUintArray(address: number, count: number) {
     return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
   }
 
@@ -730,7 +730,7 @@ export async function init() {
               intArrayToByteArr(constructor_lists as unknown as number[]),
             ]
           );
-          return readIntArray(
+          return readUintArray(
             outArray_sorts,
             sort_names.length
           ) as unknown as Z3_sort[];
@@ -765,7 +765,7 @@ export async function init() {
           return {
             constructor: getOutUint(0) as unknown as Z3_func_decl,
             tester: getOutUint(1) as unknown as Z3_func_decl,
-            accessors: readIntArray(
+            accessors: readUintArray(
               outArray_accessors,
               num_fields
             ) as unknown as Z3_func_decl[],
@@ -1462,6 +1462,24 @@ export async function init() {
         c: Z3_context,
         s: Z3_ast
       ) => unsigned,
+      get_string_contents: function (
+        c: Z3_context,
+        s: Z3_ast,
+        length: unsigned
+      ): unsigned[] {
+        let outArray_contents = Mod._malloc(4 * length);
+        try {
+          let ret = Mod.ccall(
+            'Z3_get_string_contents',
+            'void',
+            ['number', 'number', 'number', 'number'],
+            [c, s, length, outArray_contents]
+          );
+          return readUintArray(outArray_contents, length);
+        } finally {
+          Mod._free(outArray_contents);
+        }
+      },
       mk_seq_empty: Mod._Z3_mk_seq_empty as (
         c: Z3_context,
         seq: Z3_sort
