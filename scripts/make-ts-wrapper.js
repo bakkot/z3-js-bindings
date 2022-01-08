@@ -360,6 +360,7 @@ ${Object.entries(enums).map(e => wrapEnum(e[0], e[1])).join('\n\n')}
 export async function init() {
   let Mod = await initModule();
 
+  // this works for both signed and unsigned, because JS will wrap for you when constructing the Uint32Array
   function intArrayToByteArr(ints: number[]) {
     return new Uint8Array((new Uint32Array(ints)).buffer);
   }

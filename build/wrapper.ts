@@ -4301,6 +4301,202 @@ export async function init() {
         );
         return ret;
       },
+      mk_fixedpoint: Mod._Z3_mk_fixedpoint as (c: Z3_context) => Z3_fixedpoint,
+      fixedpoint_inc_ref: Mod._Z3_fixedpoint_inc_ref as (
+        c: Z3_context,
+        d: Z3_fixedpoint
+      ) => void,
+      fixedpoint_dec_ref: Mod._Z3_fixedpoint_dec_ref as (
+        c: Z3_context,
+        d: Z3_fixedpoint
+      ) => void,
+      fixedpoint_add_rule: Mod._Z3_fixedpoint_add_rule as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        rule: Z3_ast,
+        name: Z3_symbol
+      ) => void,
+      fixedpoint_add_fact: function (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        r: Z3_func_decl,
+        args: unsigned[]
+      ): void {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_add_fact',
+          'void',
+          ['number', 'number', 'number', 'number', 'array'],
+          [c, d, r, args.length, intArrayToByteArr(args as unknown as number[])]
+        );
+        return ret;
+      },
+      fixedpoint_assert: Mod._Z3_fixedpoint_assert as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        axiom: Z3_ast
+      ) => void,
+      fixedpoint_query: Mod._Z3_fixedpoint_query as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        query: Z3_ast
+      ) => Z3_lbool,
+      fixedpoint_query_relations: function (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        relations: Z3_func_decl[]
+      ): Z3_lbool {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_query_relations',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            d,
+            relations.length,
+            intArrayToByteArr(relations as unknown as number[]),
+          ]
+        );
+        return ret;
+      },
+      fixedpoint_get_answer: Mod._Z3_fixedpoint_get_answer as (
+        c: Z3_context,
+        d: Z3_fixedpoint
+      ) => Z3_ast,
+      fixedpoint_get_reason_unknown: function (
+        c: Z3_context,
+        d: Z3_fixedpoint
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_get_reason_unknown',
+          'string',
+          ['number', 'number'],
+          [c, d]
+        );
+        return ret;
+      },
+      fixedpoint_update_rule: Mod._Z3_fixedpoint_update_rule as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        a: Z3_ast,
+        name: Z3_symbol
+      ) => void,
+      fixedpoint_get_num_levels: Mod._Z3_fixedpoint_get_num_levels as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        pred: Z3_func_decl
+      ) => unsigned,
+      fixedpoint_get_cover_delta: Mod._Z3_fixedpoint_get_cover_delta as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        level: int,
+        pred: Z3_func_decl
+      ) => Z3_ast,
+      fixedpoint_add_cover: Mod._Z3_fixedpoint_add_cover as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        level: int,
+        pred: Z3_func_decl,
+        property: Z3_ast
+      ) => void,
+      fixedpoint_get_statistics: Mod._Z3_fixedpoint_get_statistics as (
+        c: Z3_context,
+        d: Z3_fixedpoint
+      ) => Z3_stats,
+      fixedpoint_register_relation: Mod._Z3_fixedpoint_register_relation as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        f: Z3_func_decl
+      ) => void,
+      fixedpoint_set_predicate_representation: function (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        f: Z3_func_decl,
+        relation_kinds: Z3_symbol[]
+      ): void {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_set_predicate_representation',
+          'void',
+          ['number', 'number', 'number', 'number', 'array'],
+          [
+            c,
+            d,
+            f,
+            relation_kinds.length,
+            intArrayToByteArr(relation_kinds as unknown as number[]),
+          ]
+        );
+        return ret;
+      },
+      fixedpoint_get_rules: Mod._Z3_fixedpoint_get_rules as (
+        c: Z3_context,
+        f: Z3_fixedpoint
+      ) => Z3_ast_vector,
+      fixedpoint_get_assertions: Mod._Z3_fixedpoint_get_assertions as (
+        c: Z3_context,
+        f: Z3_fixedpoint
+      ) => Z3_ast_vector,
+      fixedpoint_set_params: Mod._Z3_fixedpoint_set_params as (
+        c: Z3_context,
+        f: Z3_fixedpoint,
+        p: Z3_params
+      ) => void,
+      fixedpoint_get_help: function (c: Z3_context, f: Z3_fixedpoint): string {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_get_help',
+          'string',
+          ['number', 'number'],
+          [c, f]
+        );
+        return ret;
+      },
+      fixedpoint_get_param_descrs: Mod._Z3_fixedpoint_get_param_descrs as (
+        c: Z3_context,
+        f: Z3_fixedpoint
+      ) => Z3_param_descrs,
+      fixedpoint_to_string: function (
+        c: Z3_context,
+        f: Z3_fixedpoint,
+        queries: Z3_ast[]
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_to_string',
+          'string',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            f,
+            queries.length,
+            intArrayToByteArr(queries as unknown as number[]),
+          ]
+        );
+        return ret;
+      },
+      fixedpoint_from_string: function (
+        c: Z3_context,
+        f: Z3_fixedpoint,
+        s: string
+      ): Z3_ast_vector {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_from_string',
+          'number',
+          ['number', 'number', 'string'],
+          [c, f, s]
+        );
+        return ret;
+      },
+      fixedpoint_from_file: function (
+        c: Z3_context,
+        f: Z3_fixedpoint,
+        s: string
+      ): Z3_ast_vector {
+        let ret = Mod.ccall(
+          'Z3_fixedpoint_from_file',
+          'number',
+          ['number', 'number', 'string'],
+          [c, f, s]
+        );
+        return ret;
+      },
     },
   };
 }

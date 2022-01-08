@@ -8,6 +8,7 @@ let files = [
   'z3_api.h',
   'z3_algebraic.h',
   'z3_ast_containers.h',
+  'z3_fixedpoint.h',
 ];
 
 
@@ -201,9 +202,9 @@ for (let file of files) {
     idx = lineEnd;
 
     let slice = contents.substring(lineStart, lineEnd);
-    let match = slice.match(/^\s*(?<ret>[A-Za-z0-9_]+) +Z3_API +(?<name>[A-Za-z0-9_]+)\((?<params>[^)]*)\)/);
+    let match = slice.match(/^\s*(?<ret>[A-Za-z0-9_]+) +Z3_API +(?<name>[A-Za-z0-9_]+) *\((?<params>[^)]*)\)/);
     if (match == null) {
-      throw new Error(`failed to match ${JSON.stringify(slice)}`);
+      throw new Error(`failed to match c definition: ${JSON.stringify(slice)}`);
     }
     let { ret, name, params } = match.groups;
     let parsedParams = [];
