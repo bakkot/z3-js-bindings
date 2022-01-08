@@ -267,7 +267,7 @@ for (let fn of functions) {
       throw new Error(`unknown type ${param.type}`);
     }
     param.kind = defParams[idx].kind;
-    if (param.kind === 'in_array') {
+    if (param.kind === 'in_array' || param.kind === 'out_array') {
       param.sizeIndex = defParams[idx].sizeIndex;
       if (!param.isArray && param.isPtr) {
         // not clear why some things are written as `int * x` and others `int x[]`

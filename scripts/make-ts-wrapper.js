@@ -76,12 +76,6 @@ function wrapFunction(fn) {
     return null;
   }
 
-  for (let outParam of outParams) {
-    if (outParam.kind !== 'out' || outParam.isArray) {
-      console.error(`skipping ${fn.name} - out array`);
-      return null;
-    }
-  }
   if (fn.ret === 'Z3_char_ptr') {
     console.error(`skipping ${fn.name} - returns a string or char pointer`);
     return null;
@@ -114,32 +108,33 @@ function wrapFunction(fn) {
   let ctypes = fn.params.map(p => p.isArray ? 'array' : p.isPtr ? 'number' : toEmType(p.type));
 
   let prefix = '';
-  let suffix = null;
+  let suffix = '';
 
   let args = fn.params;
 
   let arrayLengthParams = new Map();
-  for (let i = 0; i < fn.params.length; ++i) {
-    let p = fn.params[i];
-    if (p.kind === 'in_array') {
-      let { sizeIndex } = p;
-      if (arrayLengthParams.has(sizeIndex)) {
-        let otherParam = arrayLengthParams.get(sizeIndex);
-        prefix += `
-          if (${otherParam}.length !== ${p.name}.length) {
-            throw new TypeError(\`${otherParam} and ${p.name} must be the same length (got \${${otherParam}.length} and \{${p.name}.length})\`);
-          }
-        `.trim();
-        continue;
-      }
-      arrayLengthParams.set(sizeIndex, p.name);
-      // console.error(fn.name, p);
-      if (fn.params[sizeIndex].type !== 'unsigned') {
-        throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${fn.params[i].type})`);
-      }
-      args[sizeIndex] = `${p.name}.length`;
-      params[sizeIndex] = null;
+  for (let p of inParams) {
+    if (!p.isArray) {
+      continue;
     }
+    let { sizeIndex } = p;
+    if (arrayLengthParams.has(sizeIndex)) {
+      let otherParam = arrayLengthParams.get(sizeIndex);
+      prefix += `
+        if (${otherParam}.length !== ${p.name}.length) {
+          throw new TypeError(\`${otherParam} and ${p.name} must be the same length (got \${${otherParam}.length} and \{${p.name}.length})\`);
+        }
+      `.trim();
+      continue;
+    }
+    arrayLengthParams.set(sizeIndex, p.name);
+
+    let sizeParam = fn.params[sizeIndex];
+    if (!(sizeParam.kind === 'in' && sizeParam.type === 'unsigned' && !sizeParam.isPtr && !sizeParam.isArray)) {
+      throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${p.type})`);
+    }
+    args[sizeIndex] = `${p.name}.length`;
+    params[sizeIndex] = null;
   }
 
   params = params.filter(p => p != null);
@@ -148,67 +143,77 @@ function wrapFunction(fn) {
   let cReturnType = toEmType(fn.ret);
   if (outParams.length > 0) {
     let mapped = [];
-    let memIdx = 0; // in units of 4 bytes
+    let memIdx = 0; // offset from `outAddress` where the data should get written, in units of 4 bytes
+
+    let outArrayLengthParams = new Map();
     for (let outParam of outParams) {
-      if (!outParam.isPtr) {
-        console.error(`skipping ${fn.name} - out param is not pointer`);
-        return null;
-      }
-      function setArg() {
-        args[outParam.idx] = memIdx === 0 ? 'outAddress' : `outAddress + ${memIdx * 4}`;
-      }
-      let read, type;
-      if (outParam.type === 'string') {
-        read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
-        setArg();
-        ++memIdx;
-      } else if (isZ3PointerType(outParam.type)) {
-        read = `getOutUint(${memIdx}) as unknown as ${outParam.type}`;
-        setArg();
-        ++memIdx;
-      } else if (outParam.type === 'unsigned') {
-        read = `getOutUint(${memIdx})`;
-        setArg();
-        ++memIdx;
-      } else if (outParam.type === 'int') {
-        read = `getOutInt(${memIdx})`;
-        setArg();
-        ++memIdx;
-      } else if (outParam.type === 'uint64_t') {
-        if (memIdx % 2 === 1) {
-          ++memIdx;
+      if (outParam.isArray) {
+        if (false && isZ3PointerType(outParam.type)) {
+          prefix += ``
+        } else {
+          console.error(`skipping ${fn.name} - out array of ${outParam.type}`);
+          return null;
         }
-        read = `getOutUint64(${memIdx/2})`;
-        setArg();
-        memIdx += 2;
-      } else if (outParam.type === 'int64_t') {
-        if (memIdx % 2 === 1) {
-          ++memIdx;
+      } else if (outParam.isPtr) {
+        function setArg() {
+          args[outParam.idx] = memIdx === 0 ? 'outAddress' : `outAddress + ${memIdx * 4}`;
         }
-        read = `getOutInt64(${memIdx/2})`;
-        setArg();
-        memIdx += 2;
+        let read, type;
+        if (outParam.type === 'string') {
+          read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
+          setArg();
+          ++memIdx;
+        } else if (isZ3PointerType(outParam.type)) {
+          read = `getOutUint(${memIdx}) as unknown as ${outParam.type}`;
+          setArg();
+          ++memIdx;
+        } else if (outParam.type === 'unsigned') {
+          read = `getOutUint(${memIdx})`;
+          setArg();
+          ++memIdx;
+        } else if (outParam.type === 'int') {
+          read = `getOutInt(${memIdx})`;
+          setArg();
+          ++memIdx;
+        } else if (outParam.type === 'uint64_t') {
+          if (memIdx % 2 === 1) {
+            ++memIdx;
+          }
+          read = `getOutUint64(${memIdx/2})`;
+          setArg();
+          memIdx += 2;
+        } else if (outParam.type === 'int64_t') {
+          if (memIdx % 2 === 1) {
+            ++memIdx;
+          }
+          read = `getOutInt64(${memIdx/2})`;
+          setArg();
+          memIdx += 2;
+        } else {
+          console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
+          return null;
+        }
+        if (memIdx > 16) {
+          console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx}, which is > 16`);
+          return null;
+        }
+        mapped.push({
+          name: outParam.name,
+          read,
+          type: outParam.type,
+        });
       } else {
-        console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
+        console.error(`skipping ${fn.name} - out param is neither pointer nor array`);
         return null;
       }
-      if (memIdx > 16) {
-        console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx}, which is > 16`);
-        return null;
-      }
-      mapped.push({
-        name: outParam.name,
-        read,
-        type: outParam.type,
-      });
     }
     if (outParams.length === 1) {
       let outParam = mapped[0];
       returnType = outParam.type;
-      suffix = `return ${outParam.read};`;
+      suffix += `return ${outParam.read};`;
     } else {
       returnType = `{ ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`
-      suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };`;
+      suffix += `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };`;
     }
 
     if (fn.ret === 'boolean') {
@@ -232,7 +237,7 @@ function wrapFunction(fn) {
 
   let out = `${name}: function(${params.join(', ')}): ${returnType} {
     ${prefix}`;
-  if (suffix == null) {
+  if (suffix === '') {
     out += `return ${invocation};`
   } else {
     out += `
@@ -248,7 +253,7 @@ function wrapEnum(name, values) {
   let enumEntries = Object.entries(values);
   return `export enum ${name} {
     ${enumEntries.map(([k, v], i) => k + (v === ((enumEntries[i - 1]?.[1] ?? -1) + 1) ? '' : ` = ${v}`) + ',').join('\n')}
-  };`
+  };`;
 }
 
 let out = `
