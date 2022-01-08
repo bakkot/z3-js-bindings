@@ -90,7 +90,7 @@ function wrapFunction(fn) {
   if (outParams.length === 1) {
     // this special case is basically just Z3_model_eval
     outParam = outParams[0];
-    if (fn.ret !== 'Z3_bool' || outParam.kind !== 'out' || outParam.isArray || !(outParam.isPtr && isZ3PointerType(outParam.type) || !outParam.isPtr && outParam.type === 'Z3_string_ptr')) {
+    if (outParam.kind !== 'out' || outParam.isArray || !(outParam.isPtr && isZ3PointerType(outParam.type) || !outParam.isPtr && outParam.type === 'Z3_string_ptr')) {
       console.error(`skipping ${fn.name} - unknown out parameter`);
       return null;
     }
@@ -129,6 +129,9 @@ function wrapFunction(fn) {
 
   let ctypes = fn.params.map(p => p.isArray ? 'array' : toEmType(p.type));
 
+  let prefix = '';
+  let suffix = null;
+
   // TODO handle the case where the length is of multiple arrays and they don't agree
   let arrayLengthParams = new Set();
   for (let i = 0; i < fn.params.length; ++i) {
@@ -136,7 +139,7 @@ function wrapFunction(fn) {
     if (p.kind === 'in_array') {
       let { sizeIndex } = p;
       if (arrayLengthParams.has(sizeIndex)) {
-        console.error(`skipping ${fn.name} - returns a string or char pointer`);
+        console.error(`skipping ${fn.name} - size parameter is used for multiple arrays`);
         return null;
       }
       arrayLengthParams.add(sizeIndex);
@@ -151,24 +154,47 @@ function wrapFunction(fn) {
 
   params = params.filter(p => p != null);
 
-  let invocation = `Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}])`;
+  let returnType = fn.ret;
+  let cReturnType = toEmType(fn.ret);
   if (outParam !== null) {
-    let returnVal = outParam.type === 'Z3_string_ptr'
-      ? `Mod.UTF8ToString(getOutPtr())`
-      : `getOutPtr() as unknown as ${outParam.type}`;
-    return `${name}: function(${params.join(', ')}): ${outParam.type === 'Z3_string_ptr' ? 'string' : outParam.type} | null {
-      let ret = Mod.ccall('${fn.name}', 'boolean', ${JSON.stringify(ctypes)}, [${args}]);
-      if (!ret) {
-        return null;
+    if (fn.ret === 'bool' || fn.ret === 'Z3_bool') {
+      // assume the boolean indicates succes
+      suffix = `
+        if (!ret) {
+          return null;
+        }
+      `.trim();
+      cReturnType = 'boolean';
+      if (outParam.type === 'Z3_string_ptr') {
+        returnType = 'string | null';
+        suffix += `
+          return Mod.UTF8ToString(getOutPtr());`
+      } else {
+        returnType = `${outParam.type} | null`;
+        suffix += `
+          return getOutPtr() as unknown as ${outParam.type};
+        `.trim();
       }
-      return ${returnVal};
-    }`;
+    } else {
+      console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
+      return null;
+    }
   }
 
-  return `${name}: function(${params.join(', ')}): ${fn.ret} {
-    return Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}]);
-  }`;
+  let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args}])`;
 
+  let out = `${name}: function(${params.join(', ')}): ${returnType} {
+    ${prefix}`;
+  if (suffix == null) {
+    out += `return ${invocation};`
+  } else {
+    out += `
+      let ret = ${invocation};
+      ${suffix}
+    `.trim();
+  }
+  out += `}`;
+  return out;
 }
 
 function wrapEnum(name, values) {
