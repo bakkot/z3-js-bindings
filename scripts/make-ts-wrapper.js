@@ -105,22 +105,22 @@ function wrapFunction(fn) {
     return `${p.name}: ${type}`;
   });
 
-  if (trivial && !isAsync) {
-    return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
-  }
-
-  if (trivial) {
+  if (trivial && isAsync) {
     // i.e. and async
     return `${name}: function (${params.join(', ')}): Promise<${fn.ret}> {
       return Mod.async_call(Mod._async_${fn.name}, ${fn.params.map(toEm).join(', ')});
     }`;
   }
 
-  // otherwise fall back to ccall
+  if (trivial) {
+    return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
+  }
 
   if (isAsync) {
-    throw new Error('todo: nontrivial async functions');
+    throw new Error(`nontrivial async functions are not yet supported (for function ${fn.name}`);
   }
+
+  // otherwise fall back to ccall
 
   let ctypes = fn.params.map((p) =>
     p.kind === "in_array"
@@ -133,6 +133,8 @@ function wrapFunction(fn) {
   );
 
   let prefix = '';
+  let infix = '';
+  let rv = 'ret';
   let suffix = '';
 
   let args = fn.params;
@@ -271,28 +273,28 @@ function wrapFunction(fn) {
       let outParam = mapped[0];
       if (ignoreReturn) {
         returnType = outParam.type;
-        suffix = `return ${outParam.read};` + suffix;
+        rv = outParam.read;
       } else {
         returnType = `{ rv: ${fn.ret}, ${outParam.name} : ${outParam.type} }`;
-        suffix = `return { rv: ret, ${outParam.name} : ${outParam.read} };` + suffix;
+        rv = `{ rv: ret, ${outParam.name} : ${outParam.read} }`;
       }
     } else {
       if (ignoreReturn) {
         returnType = `{ ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`;
-        suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };` + suffix;
+        rv = `{ ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} }`;
       } else {
         returnType = `{ rv: ${fn.ret}, ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`;
-        suffix = `return { rv: ret, ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };` + suffix;
+        rv = `{ rv: ret, ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} }`;
       }
     }
 
     if (fn.ret === 'boolean') {
-      // assume the boolean indicates succes
-      suffix = `
+      // assume the boolean indicates success
+      infix += `
         if (!ret) {
           return null;
         }
-      `.trim() + suffix;
+      `.trim();
       cReturnType = 'boolean';
       returnType += ' | null';
     } else if (fn.ret === 'void') {
@@ -305,28 +307,28 @@ function wrapFunction(fn) {
     }
   }
 
-  if (suffix === '') {
-    suffix = `return ret;`;
-  }
-
   if (fn.nullableRet) {
     returnType += ' | null';
-    suffix = `
+    infix += `
       if (ret === 0) {
         return null;
       }
-    `.trim() + suffix;
+    `.trim();
   }
 
   let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
 
   let out = `${name}: function(${params.filter(p => p != null).join(', ')}): ${returnType} {
     ${prefix}`;
-  out += `
-    let ret = ${invocation};
-    ${suffix}
+  if (infix === '' && suffix === '' && rv === 'ret') {
+    out += `return ${invocation};`;
+  } else {
+    out += `
+      let ret = ${invocation};
+      ${infix}return ${rv};${suffix}
+    `.trim();
   }
-  `.trim();
+  out += '}';
   return out;
 }
 
