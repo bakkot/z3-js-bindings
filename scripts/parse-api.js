@@ -4,6 +4,9 @@ let fs = require('fs');
 let path = require('path');
 
 
+let files = ['z3_api.h', 'z3_algebraic.h'];
+
+
 let aliases = {
   __proto__: null,
   Z3_bool: 'boolean',
@@ -44,13 +47,11 @@ let types = {
   Z3_created_eh: 'Z3_created_eh',
 };
 
-let files = ['z3_api.h'];
-
 let defApis = Object.create(null);
 let functions = [];
 let enums = Object.create(null);
 for (let file of files) {
-  let contents = fs.readFileSync(path.join(__dirname, '..', 'z3', 'src', 'api', 'z3_api.h'), 'utf8');
+  let contents = fs.readFileSync(path.join(__dirname, '..', 'z3', 'src', 'api', file), 'utf8');
 
   // we _could_ use an actual C++ parser, which accounted for macros and everything
   // but that's super painful

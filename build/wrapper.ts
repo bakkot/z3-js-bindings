@@ -4040,6 +4040,160 @@ export async function init() {
       ) => double,
       get_estimated_alloc_size:
         Mod._Z3_get_estimated_alloc_size as () => uint64_t,
+      algebraic_is_value: function (c: Z3_context, a: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_is_value',
+          'boolean',
+          ['number', 'number'],
+          [c, a]
+        );
+        return ret;
+      },
+      algebraic_is_pos: function (c: Z3_context, a: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_is_pos',
+          'boolean',
+          ['number', 'number'],
+          [c, a]
+        );
+        return ret;
+      },
+      algebraic_is_neg: function (c: Z3_context, a: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_is_neg',
+          'boolean',
+          ['number', 'number'],
+          [c, a]
+        );
+        return ret;
+      },
+      algebraic_is_zero: function (c: Z3_context, a: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_is_zero',
+          'boolean',
+          ['number', 'number'],
+          [c, a]
+        );
+        return ret;
+      },
+      algebraic_sign: Mod._Z3_algebraic_sign as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => int,
+      algebraic_add: Mod._Z3_algebraic_add as (
+        c: Z3_context,
+        a: Z3_ast,
+        b: Z3_ast
+      ) => Z3_ast,
+      algebraic_sub: Mod._Z3_algebraic_sub as (
+        c: Z3_context,
+        a: Z3_ast,
+        b: Z3_ast
+      ) => Z3_ast,
+      algebraic_mul: Mod._Z3_algebraic_mul as (
+        c: Z3_context,
+        a: Z3_ast,
+        b: Z3_ast
+      ) => Z3_ast,
+      algebraic_div: Mod._Z3_algebraic_div as (
+        c: Z3_context,
+        a: Z3_ast,
+        b: Z3_ast
+      ) => Z3_ast,
+      algebraic_root: Mod._Z3_algebraic_root as (
+        c: Z3_context,
+        a: Z3_ast,
+        k: unsigned
+      ) => Z3_ast,
+      algebraic_power: Mod._Z3_algebraic_power as (
+        c: Z3_context,
+        a: Z3_ast,
+        k: unsigned
+      ) => Z3_ast,
+      algebraic_lt: function (c: Z3_context, a: Z3_ast, b: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_lt',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      algebraic_gt: function (c: Z3_context, a: Z3_ast, b: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_gt',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      algebraic_le: function (c: Z3_context, a: Z3_ast, b: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_le',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      algebraic_ge: function (c: Z3_context, a: Z3_ast, b: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_ge',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      algebraic_eq: function (c: Z3_context, a: Z3_ast, b: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_eq',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      algebraic_neq: function (c: Z3_context, a: Z3_ast, b: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_algebraic_neq',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      algebraic_roots: function (
+        c: Z3_context,
+        p: Z3_ast,
+        a: Z3_ast[]
+      ): Z3_ast_vector {
+        let ret = Mod.ccall(
+          'Z3_algebraic_roots',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [c, p, a.length, intArrayToByteArr(a as unknown as number[])]
+        );
+        return ret;
+      },
+      algebraic_eval: function (c: Z3_context, p: Z3_ast, a: Z3_ast[]): int {
+        let ret = Mod.ccall(
+          'Z3_algebraic_eval',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [c, p, a.length, intArrayToByteArr(a as unknown as number[])]
+        );
+        return ret;
+      },
+      algebraic_get_poly: Mod._Z3_algebraic_get_poly as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => Z3_ast_vector,
+      algebraic_get_i: Mod._Z3_algebraic_get_i as (
+        c: Z3_context,
+        a: Z3_ast
+      ) => unsigned,
     },
   };
 }
