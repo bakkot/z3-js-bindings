@@ -2337,6 +2337,21 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast
       ) => Z3_ast,
+      get_numeral_small: function (
+        c: Z3_context,
+        a: Z3_ast
+      ): { num: int64_t; den: int64_t } | null {
+        let ret = Mod.ccall(
+          'Z3_get_numeral_small',
+          'boolean',
+          ['number', 'number', 'number', 'number'],
+          [c, a, outAddress, outAddress + 8]
+        );
+        if (!ret) {
+          return null;
+        }
+        return { num: getOutInt64(0), den: getOutInt64(1) };
+      },
       get_numeral_int: function (c: Z3_context, v: Z3_ast): int | null {
         let ret = Mod.ccall(
           'Z3_get_numeral_int',
@@ -2384,6 +2399,21 @@ export async function init() {
           return null;
         }
         return getOutInt64(0);
+      },
+      get_numeral_rational_int64: function (
+        c: Z3_context,
+        v: Z3_ast
+      ): { num: int64_t; den: int64_t } | null {
+        let ret = Mod.ccall(
+          'Z3_get_numeral_rational_int64',
+          'boolean',
+          ['number', 'number', 'number', 'number'],
+          [c, v, outAddress, outAddress + 8]
+        );
+        if (!ret) {
+          return null;
+        }
+        return { num: getOutInt64(0), den: getOutInt64(1) };
       },
       get_algebraic_number_lower: Mod._Z3_get_algebraic_number_lower as (
         c: Z3_context,
@@ -2903,6 +2933,25 @@ export async function init() {
           ['number', 'number'],
           [c, err]
         );
+      },
+      get_version: function (): {
+        major: unsigned;
+        minor: unsigned;
+        build_number: unsigned;
+        revision_number: unsigned;
+      } {
+        let ret = Mod.ccall(
+          'Z3_get_version',
+          'void',
+          ['number', 'number', 'number', 'number'],
+          [outAddress, outAddress + 4, outAddress + 8, outAddress + 12]
+        );
+        return {
+          major: getOutUint(0),
+          minor: getOutUint(1),
+          build_number: getOutUint(2),
+          revision_number: getOutUint(3),
+        };
       },
       get_full_version: function (): Z3_string {
         return Mod.ccall('Z3_get_full_version', 'string', [], []);

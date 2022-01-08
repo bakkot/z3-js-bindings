@@ -24,6 +24,8 @@ import { init } from './build/lib';
   console.log(Z3.get_numeral_string(context, big));
   console.log(Z3.get_numeral_int64(context, big));
 
+  console.log(Z3.get_version());
+
   Z3.dec_ref(context, strAst);
   Z3.del_context(context);
 

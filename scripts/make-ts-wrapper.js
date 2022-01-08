@@ -41,9 +41,6 @@ function toEm(p) {
   }
   let { type } = p;
   if (p.kind === 'out') {
-    if (p.isPtr && (type.startsWith('Z3_') || ['unsigned', 'int', 'uint64_t', 'int64_t'].includes(type))) {
-      return 'outAddress';
-    }
     throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
   }
   if (p.isArray) {
@@ -69,7 +66,7 @@ function toEm(p) {
 let isInParam = p => ['in', 'in_array'].includes(p.kind);
 function wrapFunction(fn) {
   let inParams = fn.params.filter(isInParam);
-  let outParams = fn.params.filter(p => !isInParam(p));
+  let outParams = fn.params.map((p, idx) => ({ ...p, idx })).filter(p => !isInParam(p));
 
   // we'll figure out how to deal with these cases later
   let unknownInParam = inParams.find(p =>
@@ -160,30 +157,39 @@ function wrapFunction(fn) {
         console.error(`skipping ${fn.name} - out param is not pointer`);
         return null;
       }
+      function setArg() {
+        args[outParam.idx] = memIdx === 0 ? 'outAddress' : `outAddress + ${memIdx * 4}`;
+      }
       let read, type;
       if (outParam.type === 'Z3_string') {
         read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
+        setArg();
         ++memIdx;
       } else if (isZ3PointerType(outParam.type)) {
         read = `getOutUint(${memIdx}) as unknown as ${outParam.type}`;
+        setArg();
         ++memIdx;
       } else if (outParam.type === 'unsigned') {
         read = `getOutUint(${memIdx})`;
+        setArg();
         ++memIdx;
       } else if (outParam.type === 'int') {
         read = `getOutInt(${memIdx})`;
+        setArg();
         ++memIdx;
       } else if (outParam.type === 'uint64_t') {
         if (memIdx % 2 === 1) {
           ++memIdx;
         }
         read = `getOutUint64(${memIdx/2})`;
+        setArg();
         memIdx += 2;
       } else if (outParam.type === 'int64_t') {
         if (memIdx % 2 === 1) {
           ++memIdx;
         }
         read = `getOutInt64(${memIdx/2})`;
+        setArg();
         memIdx += 2;
       } else {
         console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
@@ -202,10 +208,10 @@ function wrapFunction(fn) {
     if (outParams.length === 1) {
       let outParam = mapped[0];
       returnType = outParam.type;
-      suffix = `return ${outParam.read}`;
+      suffix = `return ${outParam.read};`;
     } else {
-      console.error(`skipping ${fn.name} - multiple out parameters`);
-      return null;
+      returnType = `{ ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`
+      suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };`;
     }
 
     if (fn.ret === 'bool' || fn.ret === 'Z3_bool') {
