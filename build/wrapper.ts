@@ -24,7 +24,6 @@ type int64_t = bigint;
 export type Z3_sort_opt = Pointer<'Z3_sort_opt'>;
 export type Z3_ast_opt = Pointer<'Z3_ast_opt'>;
 export type Z3_func_interp_opt = Pointer<'Z3_func_interp_opt'>;
-export type Z3_string_ptr = Pointer<'Z3_string_ptr'>;
 export type Z3_error_handler = Pointer<'Z3_error_handler'>;
 export type Z3_push_eh = Pointer<'Z3_push_eh'>;
 export type Z3_pop_eh = Pointer<'Z3_pop_eh'>;
@@ -424,12 +423,13 @@ export enum Z3_goal_prec {
 export async function init() {
   let Mod = await initModule();
 
-  // this supports a single out parameter that is a pointer or (possibly unsigned) int
-  let outIntAddress = Mod._malloc(4);
-  let outUintArray = new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 1);
-  let getOutUint = () => outUintArray[0];
-  let outIntArray = new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 1);
-  let getOutInt = () => outIntArray[0];
+  // this supports a up to four out intergers/pointers
+  // or up to two out int64s
+  let outIntAddress = Mod._malloc(16);
+  let outUintArray = new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 4);
+  let getOutUint = (i: 0 | 1 | 2 | 3) => outUintArray[i];
+  let outIntArray = new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 4);
+  let getOutInt = (i: 0 | 1 | 2 | 3) => outIntArray[i];
 
   return {
     em: Mod,
@@ -453,7 +453,7 @@ export async function init() {
         if (!ret) {
           return null;
         }
-        return Mod.UTF8ToString(getOutUint());
+        return Mod.UTF8ToString(getOutUint(0));
       },
       mk_config: Mod._Z3_mk_config as () => Z3_config,
       del_config: Mod._Z3_del_config as (c: Z3_config) => void,
@@ -2328,7 +2328,7 @@ export async function init() {
         if (!ret) {
           return null;
         }
-        return getOutInt();
+        return getOutInt(0);
       },
       get_numeral_uint: function (c: Z3_context, v: Z3_ast): unsigned | null {
         let ret = Mod.ccall(
@@ -2340,7 +2340,7 @@ export async function init() {
         if (!ret) {
           return null;
         }
-        return getOutUint();
+        return getOutUint(0);
       },
       get_algebraic_number_lower: Mod._Z3_get_algebraic_number_lower as (
         c: Z3_context,
@@ -2519,7 +2519,7 @@ export async function init() {
         if (!ret) {
           return null;
         }
-        return getOutUint() as unknown as Z3_ast;
+        return getOutUint(0) as unknown as Z3_ast;
       },
       model_get_const_interp: Mod._Z3_model_get_const_interp as (
         c: Z3_context,

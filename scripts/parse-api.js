@@ -84,7 +84,6 @@ let types = {
   Z3_sort_opt: 'Z3_sort',
   Z3_ast_opt: 'Z3_ast',
   Z3_func_interp_opt: 'Z3_func_interp',
-  Z3_string_ptr: 'Z3_string_ptr',
 
   // these are function types I can't be bothered to parse
   Z3_error_handler: 'Z3_error_handler',
@@ -225,6 +224,11 @@ for (let idx = 0; idx < contents.length;) {
         if (text !== '') {
           throw new Error(`excess text in param in ${JSON.stringify(slice)} for param ${JSON.stringify(param)}`);
         }
+      }
+
+      if (paramType === 'Z3_string_ptr' && !isPtr) {
+        paramType = 'Z3_string';
+        isPtr = true;
       }
 
       parsedParams.push({ type: paramType, name: paramName, isConst, isPtr, isArray });

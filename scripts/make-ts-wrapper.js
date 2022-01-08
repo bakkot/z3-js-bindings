@@ -41,7 +41,7 @@ function toEm(p) {
   }
   let { type } = p;
   if (p.kind === 'out') {
-    if (type === 'Z3_string_ptr' || p.isPtr && (type.startsWith('Z3_') && type !== 'Z3_string' || type === 'unsigned' || type === 'int')) {
+    if (p.isPtr && (type.startsWith('Z3_') || type === 'unsigned' || type === 'int')) {
       return 'outIntAddress';
     }
     throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
@@ -74,7 +74,6 @@ function wrapFunction(fn) {
   // we'll figure out how to deal with these cases later
   let unknownInParam = inParams.find(p =>
       p.isPtr
-      || p.type === 'Z3_string_ptr'
       || p.type === 'Z3_char_ptr'
       || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned' || p.type === 'int')
     );
@@ -87,22 +86,20 @@ function wrapFunction(fn) {
     return null;
   }
 
-  let outParam = null;
-  if (outParams.length === 1) {
-    outParam = outParams[0];
+  for (let outParam of outParams) {
     if (outParam.kind !== 'out' || outParam.isArray) {
       console.error(`skipping ${fn.name} - out array`);
       return null;
     }
   }
-  if (fn.ret === 'Z3_string_ptr' || fn.ret === 'Z3_char_ptr') {
+  if (fn.ret === 'Z3_char_ptr') {
     console.error(`skipping ${fn.name} - returns a string or char pointer`);
     return null;
   }
   // console.error(fn.name);
 
   let isAsync = asyncFns.includes(fn.name);
-  let trivial = !['Z3_string', 'string', 'Z3_bool', 'bool'].includes(fn.ret) && outParam === null && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
+  let trivial = !['Z3_string', 'string', 'Z3_bool', 'bool'].includes(fn.ret) && outParams.length === 0 && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
   let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`);
@@ -124,7 +121,7 @@ function wrapFunction(fn) {
     throw new Error('todo: nontrivial async functions');
   }
 
-  let ctypes = fn.params.map(p => p.isArray ? 'array' : toEmType(p.type));
+  let ctypes = fn.params.map(p => p.isArray ? 'array' : p.isPtr ? 'number' : toEmType(p.type));
 
   let prefix = '';
   let suffix = null;
@@ -159,7 +156,7 @@ function wrapFunction(fn) {
 
   let returnType = fn.ret;
   let cReturnType = toEmType(fn.ret);
-  if (outParam !== null) {
+  if (outParams.length > 0) {
     if (fn.ret === 'bool' || fn.ret === 'Z3_bool') {
       // assume the boolean indicates succes
       suffix = `
@@ -168,28 +165,58 @@ function wrapFunction(fn) {
         }
       `.trim();
       cReturnType = 'boolean';
-      if (!outParam.isPtr && outParam.type === 'Z3_string_ptr') {
-        returnType = 'string | null';
-        suffix += `
-          return Mod.UTF8ToString(getOutUint());`
-      } else if (outParam.isPtr && isZ3PointerType(outParam.type)) {
-        returnType = `${outParam.type} | null`;
-        suffix += `
-          return getOutUint() as unknown as ${outParam.type};
-        `.trim();
-      } else if (outParam.isPtr && outParam.type === 'unsigned') {
-        returnType = `${outParam.type} | null`;
-        suffix += `
-          return getOutUint();
-        `.trim();
-      } else if (outParam.isPtr && outParam.type === 'int') {
-        returnType = `${outParam.type} | null`;
-        suffix += `
-          return getOutInt();
-        `.trim();
-      } else {
-        console.error(`skipping ${fn.name} - unknown out parameter kind ${JSON.stringify(outParam)}`);
-        return null;
+
+      // let mapped = [];
+      // using a for instead of .map so we can exit the parent
+      // let idx = 0;
+      // for (let outParam of outParams) {
+      //   if (outParam.isPtr === ())
+      //   let read;
+      //   switch (outParam.type) {
+      //     case 'Z3_string_ptr': {
+      //       if (outParam.isPtr) {
+      //         console.error(`skipping ${fn.name} - out string pointers not supported`);
+      //         return null;
+      //       }
+      //       read = 
+      //     }
+      //   }
+      //   mapped.push({
+      //     name: outParam.name,
+      //     val: 
+      //   });
+      //   ++idx;
+      // }
+      if (outParams.length === 1) {
+        let outParam = outParams[0];
+        if (!outParam.isPtr) {
+          console.error(`skipping ${fn.name} - out param is not pointer`);
+          return null;
+        }
+
+        if (outParam.type === 'Z3_string') {
+          returnType = 'string | null';
+          suffix += `
+            return Mod.UTF8ToString(getOutUint(0));`
+        } else if (isZ3PointerType(outParam.type)) {
+          returnType = `${outParam.type} | null`;
+          suffix += `
+            return getOutUint(0) as unknown as ${outParam.type};
+          `.trim();
+        } else if (outParam.type === 'unsigned') {
+          returnType = `${outParam.type} | null`;
+          suffix += `
+            return getOutUint(0);
+          `.trim();
+        } else if (outParam.type === 'int') {
+          returnType = `${outParam.type} | null`;
+          suffix += `
+            return getOutInt(0);
+          `.trim();
+        } else {
+          console.error(`skipping ${fn.name} - unknown out parameter kind ${JSON.stringify(outParam)}`);
+          return null;
+        }
       }
     } else {
       console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
@@ -234,7 +261,7 @@ function intArrayToByteArr(ints: number[]) {
   return new Uint8Array((new Uint32Array(ints)).buffer);
 }
 
-${Object.entries(primitiveTypes).filter(e => e[0] !== 'void' && e[0] !== 'Z3_string_ptr').map(e => `type ${e[0]} = ${e[1]};`).join('\n')}
+${Object.entries(primitiveTypes).filter(e => e[0] !== 'void').map(e => `type ${e[0]} = ${e[1]};`).join('\n')}
 
 ${Object.keys(types).filter(k => k.startsWith('Z3')).map(makePointerType).join('\n')}
 
@@ -243,12 +270,13 @@ ${Object.entries(enums).map(e => wrapEnum(e[0], e[1])).join('\n\n')}
 export async function init() {
   let Mod = await initModule();
 
-  // this supports a single out parameter that is a pointer or (possibly unsigned) int
-  let outIntAddress = Mod._malloc(4);
-  let outUintArray = (new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 1));
-  let getOutUint = () => outUintArray[0];
-  let outIntArray = (new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 1));
-  let getOutInt = () => outIntArray[0];
+  // this supports a up to four out intergers/pointers
+  // or up to two out int64s
+  let outIntAddress = Mod._malloc(16);
+  let outUintArray = (new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 4));
+  let getOutUint = (i: 0 | 1 | 2 | 3) => outUintArray[i];
+  let outIntArray = (new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 4));
+  let getOutInt = (i: 0 | 1 | 2 | 3) => outIntArray[i];
 
   return {
     em: Mod,
