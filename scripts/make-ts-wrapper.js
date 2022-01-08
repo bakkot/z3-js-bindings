@@ -153,69 +153,72 @@ function wrapFunction(fn) {
   let returnType = fn.ret;
   let cReturnType = toEmType(fn.ret);
   if (outParams.length > 0) {
+    let mapped = [];
+    let memIdx = 0; // in units of 4 bytes
+    for (let outParam of outParams) {
+      if (!outParam.isPtr) {
+        console.error(`skipping ${fn.name} - out param is not pointer`);
+        return null;
+      }
+      let read, type;
+      if (outParam.type === 'Z3_string') {
+        read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
+        ++memIdx;
+      } else if (isZ3PointerType(outParam.type)) {
+        read = `getOutUint(${memIdx}) as unknown as ${outParam.type}`;
+        ++memIdx;
+      } else if (outParam.type === 'unsigned') {
+        read = `getOutUint(${memIdx})`;
+        ++memIdx;
+      } else if (outParam.type === 'int') {
+        read = `getOutInt(${memIdx})`;
+        ++memIdx;
+      } else if (outParam.type === 'uint64_t') {
+        if (memIdx % 2 === 1) {
+          ++memIdx;
+        }
+        read = `getOutUint64(${memIdx/2})`;
+        memIdx += 2;
+      } else if (outParam.type === 'int64_t') {
+        if (memIdx % 2 === 1) {
+          ++memIdx;
+        }
+        read = `getOutInt64(${memIdx/2})`;
+        memIdx += 2;
+      } else {
+        console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
+        return null;
+      }
+      if (memIdx > 16) {
+        console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx}, which is > 16`);
+        return null;
+      }
+      mapped.push({
+        name: outParam.name,
+        read,
+        type: outParam.type,
+      });
+    }
+    if (outParams.length === 1) {
+      let outParam = mapped[0];
+      returnType = outParam.type;
+      suffix = `return ${outParam.read}`;
+    } else {
+      console.error(`skipping ${fn.name} - multiple out parameters`);
+      return null;
+    }
+
     if (fn.ret === 'bool' || fn.ret === 'Z3_bool') {
       // assume the boolean indicates succes
       suffix = `
         if (!ret) {
           return null;
         }
-      `.trim();
+      `.trim() + suffix;
       cReturnType = 'boolean';
-
-      let mapped = [];
-      let memIdx = 0; // in units of 4 bytes
-      for (let outParam of outParams) {
-        if (!outParam.isPtr) {
-          console.error(`skipping ${fn.name} - out param is not pointer`);
-          return null;
-        }
-        let read, type;
-        if (outParam.type === 'Z3_string') {
-          read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
-          ++memIdx;
-        } else if (isZ3PointerType(outParam.type)) {
-          read = `getOutUint(${memIdx}) as unknown as ${outParam.type}`;
-          ++memIdx;
-        } else if (outParam.type === 'unsigned') {
-          read = `getOutUint(${memIdx})`;
-          ++memIdx;
-        } else if (outParam.type === 'int') {
-          read = `getOutInt(${memIdx})`;
-          ++memIdx;
-        } else if (outParam.type === 'uint64_t') {
-          if (memIdx % 2 === 1) {
-            ++memIdx;
-          }
-          read = `getOutUint64(${memIdx/2})`;
-          memIdx += 2;
-        } else if (outParam.type === 'int64_t') {
-          if (memIdx % 2 === 1) {
-            ++memIdx;
-          }
-          read = `getOutInt64(${memIdx/2})`;
-          memIdx += 2;
-        } else {
-          console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
-          return null;
-        }
-        if (memIdx > 16) {
-          console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx}, which is > 16`);
-          return null;
-        }
-        mapped.push({
-          name: outParam.name,
-          read,
-          type: outParam.type,
-        });
-      }
-      if (outParams.length === 1) {
-        let outParam = mapped[0];
-        returnType = `${outParam.type} | null`;
-        suffix += `return ${outParam.read}`;
-      } else {
-        console.error(`skipping ${fn.name} - multiple out parameters`);
-        return null;
-      }
+      returnType += ' | null';
+    } else if (fn.ret === 'void') {
+      cReturnType = 'void';
     } else {
       console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
       return null;
