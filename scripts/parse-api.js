@@ -82,15 +82,16 @@ let primitiveTypes = {
 };
 
 let optTypes = {
-};
-
-// parse type declarations
-let types = {
   __proto__: null,
 
   Z3_sort_opt: 'Z3_sort',
   Z3_ast_opt: 'Z3_ast',
   Z3_func_interp_opt: 'Z3_func_interp',
+};
+
+// parse type declarations
+let types = {
+  __proto__: null,
 
   // these are function types I can't be bothered to parse
   Z3_error_handler: 'Z3_error_handler',

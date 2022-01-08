@@ -14,9 +14,6 @@ type int = number;
 type uint64_t = bigint;
 type int64_t = bigint;
 
-export type Z3_sort_opt = Pointer<'Z3_sort_opt'>;
-export type Z3_ast_opt = Pointer<'Z3_ast_opt'>;
-export type Z3_func_interp_opt = Pointer<'Z3_func_interp_opt'>;
 export type Z3_error_handler = Pointer<'Z3_error_handler'>;
 export type Z3_push_eh = Pointer<'Z3_push_eh'>;
 export type Z3_pop_eh = Pointer<'Z3_pop_eh'>;
@@ -792,7 +789,7 @@ export async function init() {
         name: Z3_symbol,
         recognizer: Z3_symbol,
         field_names: Z3_symbol[],
-        sorts: Z3_sort_opt[],
+        sorts: (Z3_sort | null)[],
         sort_refs: unsigned[]
       ): Z3_constructor {
         if (field_names.length !== sorts.length) {
@@ -2932,11 +2929,22 @@ export async function init() {
         }
         return getOutUint(0) as unknown as Z3_ast;
       },
-      model_get_const_interp: Mod._Z3_model_get_const_interp as (
+      model_get_const_interp: function (
         c: Z3_context,
         m: Z3_model,
         a: Z3_func_decl
-      ) => Z3_ast_opt,
+      ): Z3_ast | null {
+        let ret = Mod.ccall(
+          'Z3_model_get_const_interp',
+          'number',
+          ['number', 'number', 'number'],
+          [c, m, a]
+        );
+        if (ret === 0) {
+          return null;
+        }
+        return ret;
+      },
       model_has_interp: function (
         c: Z3_context,
         m: Z3_model,
@@ -2950,11 +2958,22 @@ export async function init() {
         );
         return ret;
       },
-      model_get_func_interp: Mod._Z3_model_get_func_interp as (
+      model_get_func_interp: function (
         c: Z3_context,
         m: Z3_model,
         f: Z3_func_decl
-      ) => Z3_func_interp_opt,
+      ): Z3_func_interp | null {
+        let ret = Mod.ccall(
+          'Z3_model_get_func_interp',
+          'number',
+          ['number', 'number', 'number'],
+          [c, m, f]
+        );
+        if (ret === 0) {
+          return null;
+        }
+        return ret;
+      },
       model_get_num_consts: Mod._Z3_model_get_num_consts as (
         c: Z3_context,
         m: Z3_model

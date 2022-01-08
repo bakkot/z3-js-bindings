@@ -35,7 +35,7 @@ import { init } from './build/lib';
   let head_tail = [ Z3.mk_string_symbol(ctx, "car"), Z3.mk_string_symbol(ctx, "cdr") ];
 
   let nil_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "nil"), Z3.mk_string_symbol(ctx, "is_nil"), [], [], []);
-  let cons_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "cons"), Z3.mk_string_symbol(ctx, "is_cons"), head_tail, [0 as any, 0 as any], [0 as any, 0 as any]);
+  let cons_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "cons"), Z3.mk_string_symbol(ctx, "is_cons"), head_tail, [null, null], [0, 0]);
 
   let cell = Z3.mk_datatype(ctx, Z3.mk_string_symbol(ctx, "cell"), [nil_con, cons_con]);
   console.log(Z3.query_constructor(ctx, nil_con, 0));

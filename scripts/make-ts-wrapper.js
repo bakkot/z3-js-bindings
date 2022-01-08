@@ -45,6 +45,7 @@ function toEm(p) {
   }
   if (p.isArray) {
     if (isZ3PointerType(type) || type === 'unsigned' || type === 'int') {
+      // this works for nullables also because null coerces to 0
       return `intArrayToByteArr(${p.name} as unknown as number[])`;
     } else if (type === 'boolean') {
       return `boolArrayToByteArr(${p.name})`;
@@ -88,10 +89,21 @@ function wrapFunction(fn) {
   // console.error(fn.name);
 
   let isAsync = asyncFns.includes(fn.name);
-  let trivial = !['string', 'boolean'].includes(fn.ret) && outParams.length === 0 && !inParams.some(p => p.type === 'string' || p.isArray);
+  let trivial = !['string', 'boolean'].includes(fn.ret) && !fn.nullableRet && outParams.length === 0 && !inParams.some(p => p.type === 'string' || p.isArray || p.nullable);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
-  let params = inParams.map(p => `${p.name}: ${p.type}${p.isArray ? '[]' : ''}`);
+
+  let params = inParams.map(p => {
+    let type = p.type;
+    if (p.isArray && p.nullable) {
+      type = `(${type} | null)[]`;
+    } else if (p.isArray) {
+      type = `${type}[]`;
+    } else if (p.nullable) {
+      type = `${type} | null`;
+    }
+    return `${p.name}: ${type}`;
+  });
 
   if (trivial && !isAsync) {
     return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
@@ -127,6 +139,11 @@ function wrapFunction(fn) {
 
   let arrayLengthParams = new Map();
   for (let p of inParams) {
+    if (p.nullable && !p.isArray) {
+      // this would be easy to implement - just map null to 0 - but nothing actually uses nullable non-array input parameters, so we can't ensure we've done it right
+      console.error(`skipping ${fn.name} - nullable input parameter`);
+      return null;
+    }
     if (!p.isArray) {
       continue;
     }
@@ -290,6 +307,15 @@ function wrapFunction(fn) {
 
   if (suffix === '') {
     suffix = `return ret;`;
+  }
+
+  if (fn.nullableRet) {
+    returnType += ' | null';
+    suffix = `
+      if (ret === 0) {
+        return null;
+      }
+    `.trim() + suffix;
   }
 
   let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
