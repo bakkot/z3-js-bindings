@@ -43,10 +43,8 @@ function toEm(p) {
     throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
   }
   if (p.isArray) {
-    if (isZ3PointerType(type)) {
-      return `pointerArrayToByteArr(${p.name} as unknown as number[])`;
-    } else if (type === 'unsigned') {
-      return `unsignedArrayToByteArr(${p.name} as unknown as number[])`;
+    if (isZ3PointerType(type) || type === 'unsigned' || type === 'int') {
+      return `intArrayToByteArr(${p.name} as unknown as number[])`;
     } else {
       throw new Error(`only know how to deal with arrays of pointers (got ${type})`);
     }
@@ -74,7 +72,7 @@ function wrapFunction(fn) {
       p.isPtr
       || p.type === 'Z3_string_ptr'
       || p.type === 'Z3_char_ptr'
-      || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned')
+      || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned' || p.type === 'int')
     );
   if (unknownInParam) {
     console.error(`skipping ${fn.name} - unknown in parameter ${JSON.stringify(unknownInParam)}`);
@@ -218,12 +216,8 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
   readonly __typeName2: T;
 }
 
-function pointerArrayToByteArr(pointers: number[]) {
-  return new Uint8Array((new Int32Array(pointers)).buffer);
-}
-
-function unsignedArrayToByteArr(unsingeds: number[]) {
-  return new Uint8Array((new Uint32Array(unsingeds)).buffer);
+function intArrayToByteArr(ints: number[]) {
+  return new Uint8Array((new Uint32Array(ints)).buffer);
 }
 
 ${Object.entries(primitiveTypes).filter(e => e[0] !== 'void' && e[0] !== 'Z3_string_ptr').map(e => `type ${e[0]} = ${e[1]};`).join('\n')}
