@@ -101,7 +101,7 @@ function wrapFunction(fn) {
   // console.error(fn.name);
 
   let isAsync = asyncFns.includes(fn.name);
-  let trivial = fn.ret !== 'Z3_string' && outParam === null && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
+  let trivial = !['Z3_string', 'string', 'Z3_bool', 'bool'].includes(fn.ret) && outParam === null && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
   let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`);

@@ -5,7 +5,8 @@ import { init } from './build/lib';
 (async () => {
   let { em, rawZ3: Z3 } = await init();
 
-  console.log(Z3.global_param_get('verbose'));
+  Z3.global_param_set('verbose', '10');
+  console.log('verbosity:', Z3.global_param_get('verbose'));
 
   let config = Z3.mk_config();
   let context = Z3.mk_context_rc(config);
