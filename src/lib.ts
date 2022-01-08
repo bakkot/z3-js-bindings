@@ -470,7 +470,7 @@ export async function init() {
       throw new Error('at least one argument to Distinct must be a Z3 expression');
     }
     let coerced = _coerce_expr_list(args, ctx);
-    let out = new BoolRef(Z3.mk_distinct(ctx.ref(), coerced.length, coerced.map(c => c.ast)), ctx);
+    let out = new BoolRef(Z3.mk_distinct(ctx.ref(), coerced.map(c => c.ast)), ctx);
 
     // Module._free(_args);
     return out;

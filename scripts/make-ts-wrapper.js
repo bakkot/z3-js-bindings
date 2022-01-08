@@ -66,14 +66,23 @@ function wrapFunction(fn) {
   let inParams = fn.params.filter(isInParam);
   let outParams = fn.params.filter(p => !isInParam(p));
 
+  if (fn.name === 'Z3_mk_func_decl') {
+    console.error(fn);
+  }
+
   // we'll figure out how to deal with these cases later
-  if (inParams.some(p =>
+  let unknownInParam = inParams.find(p =>
       p.isPtr
       || p.type === 'Z3_string_ptr'
       || p.type === 'Z3_char_ptr'
       || p.isArray && !isZ3PointerType(p.type)
-    ) || outParams.length > 1) {
-    console.error(`skipping ${fn.name}`);
+    );
+  if (unknownInParam) {
+    console.error(`skipping ${fn.name} - unknown in parameter ${JSON.stringify(unknownInParam)}`);
+    return null;
+  }
+  if (outParams.length > 1) {
+    console.error(`skipping ${fn.name} - multiple out paramaeters`);
     return null;
   }
 
@@ -82,12 +91,12 @@ function wrapFunction(fn) {
     // this special case is basically just Z3_model_eval
     outParam = outParams[0];
     if (fn.ret !== 'Z3_bool' || outParam.kind !== 'out' || outParam.isArray || !(outParam.isPtr && isZ3PointerType(outParam.type) || !outParam.isPtr && outParam.type === 'Z3_string_ptr')) {
-      console.error(`skipping ${fn.name}`);
+      console.error(`skipping ${fn.name} - unknown out parameter`);
       return null;
     }
   }
   if (fn.ret === 'Z3_string_ptr' || fn.ret === 'Z3_char_ptr') {
-    console.error(`skipping ${fn.name}`);
+    console.error(`skipping ${fn.name} - returns a string or char pointer`);
     return null;
   }
   // console.error(fn.name);
@@ -96,18 +105,18 @@ function wrapFunction(fn) {
   let trivial = fn.ret !== 'Z3_string' && outParam === null && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
-  let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`).join(', ');
+  let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`);
 
-  let args = fn.params.map(toEm).join(', ');
+  let args = fn.params.map(toEm);
 
   if (trivial && !isAsync) {
-    return `${name}: Mod._${fn.name} as ((${params}) => ${fn.ret})`;
+    return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
   }
 
   if (trivial) {
     // i.e. and async
-    return `${name}: function (${params}): Promise<${fn.ret}> {
-      return Mod.async_call(Mod._async_${fn.name}, ${args});
+    return `${name}: function (${params.join(', ')}): Promise<${fn.ret}> {
+      return Mod.async_call(Mod._async_${fn.name}, ${args.join(', ')});
     }`;
   }
 
@@ -119,12 +128,35 @@ function wrapFunction(fn) {
   }
 
   let ctypes = fn.params.map(p => p.isArray ? 'array' : toEmType(p.type));
+
+  // TODO handle the case where the length is of multiple arrays and they don't agree
+  let arrayLengthParams = new Set();
+  for (let i = 0; i < fn.params.length; ++i) {
+    let p = fn.params[i];
+    if (p.kind === 'in_array') {
+      let { sizeIndex } = p;
+      if (arrayLengthParams.has(sizeIndex)) {
+        console.error(`skipping ${fn.name} - returns a string or char pointer`);
+        return null;
+      }
+      arrayLengthParams.add(sizeIndex);
+      // console.error(fn.name, p);
+      if (fn.params[sizeIndex].type !== 'unsigned') {
+        throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${fn.params[i].type})`);
+      }
+      args[sizeIndex] = `${p.name}.length`;
+      params[sizeIndex] = null;
+    }
+  }
+
+  params = params.filter(p => p != null);
+
   let invocation = `Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}])`;
   if (outParam !== null) {
     let returnVal = outParam.type === 'Z3_string_ptr'
       ? `Mod.UTF8ToString(getOutPtr())`
       : `getOutPtr() as unknown as ${outParam.type}`;
-    return `${name}: function(${params}): ${outParam.type === 'Z3_string_ptr' ? 'string' : outParam.type} | null {
+    return `${name}: function(${params.join(', ')}): ${outParam.type === 'Z3_string_ptr' ? 'string' : outParam.type} | null {
       let ret = Mod.ccall('${fn.name}', 'boolean', ${JSON.stringify(ctypes)}, [${args}]);
       if (!ret) {
         return null;
@@ -133,7 +165,7 @@ function wrapFunction(fn) {
     }`;
   }
 
-  return `${name}: function(${params}): ${fn.ret} {
+  return `${name}: function(${params.join(', ')}): ${fn.ret} {
     return Mod.ccall('${fn.name}', '${toEmType(fn.ret)}', ${JSON.stringify(ctypes)}, [${args}]);
   }`;
 

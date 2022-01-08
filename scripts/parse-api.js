@@ -255,6 +255,18 @@ for (let fn of functions) {
       throw new Error(`unknown type ${param.type}`);
     }
     param.kind = defParams[idx].kind;
+    if (param.kind === 'in_array') {
+      param.sizeIndex = defParams[idx].sizeIndex;
+      if (!param.isArray && param.isPtr) {
+        // not clear why some things are written as `int * x` and others `int x[]`
+        // but we can jsut cast
+        param.isArray = true;
+        param.isPtr = false;
+      }
+      if (!param.isArray) {
+        throw new Error(`function ${fn.name} parameter ${idx} is marked as in_array but not typed as array`);
+      }
+    }
     ++idx;
   }
 }

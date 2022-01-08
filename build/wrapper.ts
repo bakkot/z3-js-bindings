@@ -609,13 +609,29 @@ export async function init() {
         domain: Z3_sort,
         range: Z3_sort
       ) => Z3_sort,
+      mk_array_sort_n: function (
+        c: Z3_context,
+        domain: Z3_sort[],
+        range: Z3_sort
+      ): Z3_sort {
+        return Mod.ccall(
+          'Z3_mk_array_sort_n',
+          'number',
+          ['number', 'number', 'array', 'number'],
+          [
+            c,
+            domain.length,
+            pointerArrayToByteArr(domain as unknown as number[]),
+            range,
+          ]
+        );
+      },
       del_constructor: Mod._Z3_del_constructor as (
         c: Z3_context,
         constr: Z3_constructor
       ) => void,
       mk_constructor_list: function (
         c: Z3_context,
-        num_constructors: unsigned,
         constructors: Z3_constructor[]
       ): Z3_constructor_list {
         return Mod.ccall(
@@ -624,7 +640,7 @@ export async function init() {
           ['number', 'number', 'array'],
           [
             c,
-            num_constructors,
+            constructors.length,
             pointerArrayToByteArr(constructors as unknown as number[]),
           ]
         );
@@ -636,7 +652,6 @@ export async function init() {
       mk_func_decl: function (
         c: Z3_context,
         s: Z3_symbol,
-        domain_size: unsigned,
         domain: Z3_sort[],
         range: Z3_sort
       ): Z3_func_decl {
@@ -647,7 +662,7 @@ export async function init() {
           [
             c,
             s,
-            domain_size,
+            domain.length,
             pointerArrayToByteArr(domain as unknown as number[]),
             range,
           ]
@@ -656,14 +671,18 @@ export async function init() {
       mk_app: function (
         c: Z3_context,
         d: Z3_func_decl,
-        num_args: unsigned,
         args: Z3_ast[]
       ): Z3_ast {
         return Mod.ccall(
           'Z3_mk_app',
           'number',
           ['number', 'number', 'number', 'array'],
-          [c, d, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [
+            c,
+            d,
+            args.length,
+            pointerArrayToByteArr(args as unknown as number[]),
+          ]
         );
       },
       mk_const: Mod._Z3_mk_const as (
@@ -674,7 +693,6 @@ export async function init() {
       mk_fresh_func_decl: function (
         c: Z3_context,
         prefix: string,
-        domain_size: unsigned,
         domain: Z3_sort[],
         range: Z3_sort
       ): Z3_func_decl {
@@ -685,7 +703,7 @@ export async function init() {
           [
             c,
             prefix,
-            domain_size,
+            domain.length,
             pointerArrayToByteArr(domain as unknown as number[]),
             range,
           ]
@@ -706,7 +724,6 @@ export async function init() {
       mk_rec_func_decl: function (
         c: Z3_context,
         s: Z3_symbol,
-        domain_size: unsigned,
         domain: Z3_sort[],
         range: Z3_sort
       ): Z3_func_decl {
@@ -717,7 +734,7 @@ export async function init() {
           [
             c,
             s,
-            domain_size,
+            domain.length,
             pointerArrayToByteArr(domain as unknown as number[]),
             range,
           ]
@@ -726,7 +743,6 @@ export async function init() {
       add_rec_def: function (
         c: Z3_context,
         f: Z3_func_decl,
-        n: unsigned,
         args: Z3_ast[],
         body: Z3_ast
       ): void {
@@ -734,22 +750,24 @@ export async function init() {
           'Z3_add_rec_def',
           'void',
           ['number', 'number', 'number', 'array', 'number'],
-          [c, f, n, pointerArrayToByteArr(args as unknown as number[]), body]
+          [
+            c,
+            f,
+            args.length,
+            pointerArrayToByteArr(args as unknown as number[]),
+            body,
+          ]
         );
       },
       mk_true: Mod._Z3_mk_true as (c: Z3_context) => Z3_ast,
       mk_false: Mod._Z3_mk_false as (c: Z3_context) => Z3_ast,
       mk_eq: Mod._Z3_mk_eq as (c: Z3_context, l: Z3_ast, r: Z3_ast) => Z3_ast,
-      mk_distinct: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_distinct: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_distinct',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
       mk_not: Mod._Z3_mk_not as (c: Z3_context, a: Z3_ast) => Z3_ast,
@@ -774,64 +792,44 @@ export async function init() {
         t1: Z3_ast,
         t2: Z3_ast
       ) => Z3_ast,
-      mk_and: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_and: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_and',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
-      mk_or: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_or: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_or',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
-      mk_add: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_add: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_add',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
-      mk_mul: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_mul: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_mul',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
-      mk_sub: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_sub: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_sub',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
       mk_unary_minus: Mod._Z3_mk_unary_minus as (
@@ -1102,17 +1100,66 @@ export async function init() {
         a: Z3_ast,
         i: Z3_ast
       ) => Z3_ast,
+      mk_select_n: function (c: Z3_context, a: Z3_ast, idxs: Z3_ast[]): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_select_n',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            a,
+            idxs.length,
+            pointerArrayToByteArr(idxs as unknown as number[]),
+          ]
+        );
+      },
       mk_store: Mod._Z3_mk_store as (
         c: Z3_context,
         a: Z3_ast,
         i: Z3_ast,
         v: Z3_ast
       ) => Z3_ast,
+      mk_store_n: function (
+        c: Z3_context,
+        a: Z3_ast,
+        idxs: Z3_ast[],
+        v: Z3_ast
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_store_n',
+          'number',
+          ['number', 'number', 'number', 'array', 'number'],
+          [
+            c,
+            a,
+            idxs.length,
+            pointerArrayToByteArr(idxs as unknown as number[]),
+            v,
+          ]
+        );
+      },
       mk_const_array: Mod._Z3_mk_const_array as (
         c: Z3_context,
         domain: Z3_sort,
         v: Z3_ast
       ) => Z3_ast,
+      mk_map: function (
+        c: Z3_context,
+        f: Z3_func_decl,
+        args: Z3_ast[]
+      ): Z3_ast {
+        return Mod.ccall(
+          'Z3_mk_map',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            f,
+            args.length,
+            pointerArrayToByteArr(args as unknown as number[]),
+          ]
+        );
+      },
       mk_array_default: Mod._Z3_mk_array_default as (
         c: Z3_context,
         array: Z3_ast
@@ -1148,28 +1195,20 @@ export async function init() {
         set: Z3_ast,
         elem: Z3_ast
       ) => Z3_ast,
-      mk_set_union: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_set_union: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_set_union',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
-      mk_set_intersect: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_set_intersect: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_set_intersect',
           'number',
           ['number', 'number', 'array'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
       mk_set_difference: Mod._Z3_mk_set_difference as (
@@ -1284,16 +1323,12 @@ export async function init() {
         seq: Z3_sort
       ) => Z3_ast,
       mk_seq_unit: Mod._Z3_mk_seq_unit as (c: Z3_context, a: Z3_ast) => Z3_ast,
-      mk_seq_concat: function (
-        c: Z3_context,
-        n: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_seq_concat: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_seq_concat',
           'number',
           ['number', 'number', 'array'],
-          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
       mk_seq_prefix: Mod._Z3_mk_seq_prefix as (
@@ -1389,28 +1424,20 @@ export async function init() {
         c: Z3_context,
         re: Z3_ast
       ) => Z3_ast,
-      mk_re_union: function (
-        c: Z3_context,
-        n: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_re_union: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_re_union',
           'number',
           ['number', 'number', 'array'],
-          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
-      mk_re_concat: function (
-        c: Z3_context,
-        n: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_re_concat: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_re_concat',
           'number',
           ['number', 'number', 'array'],
-          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
       mk_re_range: Mod._Z3_mk_re_range as (
@@ -1428,16 +1455,12 @@ export async function init() {
         lo: unsigned,
         hi: unsigned
       ) => Z3_ast,
-      mk_re_intersect: function (
-        c: Z3_context,
-        n: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      mk_re_intersect: function (c: Z3_context, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_mk_re_intersect',
           'number',
           ['number', 'number', 'array'],
-          [c, n, pointerArrayToByteArr(args as unknown as number[])]
+          [c, args.length, pointerArrayToByteArr(args as unknown as number[])]
         );
       },
       mk_re_complement: Mod._Z3_mk_re_complement as (
@@ -1499,16 +1522,12 @@ export async function init() {
         c: Z3_context,
         f: Z3_func_decl
       ) => Z3_func_decl,
-      mk_pattern: function (
-        c: Z3_context,
-        num_patterns: unsigned,
-        terms: Z3_ast[]
-      ): Z3_pattern {
+      mk_pattern: function (c: Z3_context, terms: Z3_ast[]): Z3_pattern {
         return Mod.ccall(
           'Z3_mk_pattern',
           'number',
           ['number', 'number', 'array'],
-          [c, num_patterns, pointerArrayToByteArr(terms as unknown as number[])]
+          [c, terms.length, pointerArrayToByteArr(terms as unknown as number[])]
         );
       },
       mk_bound: Mod._Z3_mk_bound as (
@@ -1516,170 +1535,10 @@ export async function init() {
         index: unsigned,
         ty: Z3_sort
       ) => Z3_ast,
-      mk_forall: function (
-        c: Z3_context,
-        weight: unsigned,
-        num_patterns: unsigned,
-        patterns: Z3_pattern[],
-        num_decls: unsigned,
-        sorts: Z3_sort[],
-        decl_names: Z3_symbol[],
-        body: Z3_ast
-      ): Z3_ast {
-        return Mod.ccall(
-          'Z3_mk_forall',
-          'number',
-          [
-            'number',
-            'number',
-            'number',
-            'array',
-            'number',
-            'array',
-            'array',
-            'number',
-          ],
-          [
-            c,
-            weight,
-            num_patterns,
-            pointerArrayToByteArr(patterns as unknown as number[]),
-            num_decls,
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            pointerArrayToByteArr(decl_names as unknown as number[]),
-            body,
-          ]
-        );
-      },
-      mk_exists: function (
-        c: Z3_context,
-        weight: unsigned,
-        num_patterns: unsigned,
-        patterns: Z3_pattern[],
-        num_decls: unsigned,
-        sorts: Z3_sort[],
-        decl_names: Z3_symbol[],
-        body: Z3_ast
-      ): Z3_ast {
-        return Mod.ccall(
-          'Z3_mk_exists',
-          'number',
-          [
-            'number',
-            'number',
-            'number',
-            'array',
-            'number',
-            'array',
-            'array',
-            'number',
-          ],
-          [
-            c,
-            weight,
-            num_patterns,
-            pointerArrayToByteArr(patterns as unknown as number[]),
-            num_decls,
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            pointerArrayToByteArr(decl_names as unknown as number[]),
-            body,
-          ]
-        );
-      },
-      mk_quantifier: function (
-        c: Z3_context,
-        is_forall: bool,
-        weight: unsigned,
-        num_patterns: unsigned,
-        patterns: Z3_pattern[],
-        num_decls: unsigned,
-        sorts: Z3_sort[],
-        decl_names: Z3_symbol[],
-        body: Z3_ast
-      ): Z3_ast {
-        return Mod.ccall(
-          'Z3_mk_quantifier',
-          'number',
-          [
-            'number',
-            'boolean',
-            'number',
-            'number',
-            'array',
-            'number',
-            'array',
-            'array',
-            'number',
-          ],
-          [
-            c,
-            is_forall,
-            weight,
-            num_patterns,
-            pointerArrayToByteArr(patterns as unknown as number[]),
-            num_decls,
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            pointerArrayToByteArr(decl_names as unknown as number[]),
-            body,
-          ]
-        );
-      },
-      mk_quantifier_ex: function (
-        c: Z3_context,
-        is_forall: bool,
-        weight: unsigned,
-        quantifier_id: Z3_symbol,
-        skolem_id: Z3_symbol,
-        num_patterns: unsigned,
-        patterns: Z3_pattern[],
-        num_no_patterns: unsigned,
-        no_patterns: Z3_ast[],
-        num_decls: unsigned,
-        sorts: Z3_sort[],
-        decl_names: Z3_symbol[],
-        body: Z3_ast
-      ): Z3_ast {
-        return Mod.ccall(
-          'Z3_mk_quantifier_ex',
-          'number',
-          [
-            'number',
-            'boolean',
-            'number',
-            'number',
-            'number',
-            'number',
-            'array',
-            'number',
-            'array',
-            'number',
-            'array',
-            'array',
-            'number',
-          ],
-          [
-            c,
-            is_forall,
-            weight,
-            quantifier_id,
-            skolem_id,
-            num_patterns,
-            pointerArrayToByteArr(patterns as unknown as number[]),
-            num_no_patterns,
-            pointerArrayToByteArr(no_patterns as unknown as number[]),
-            num_decls,
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            pointerArrayToByteArr(decl_names as unknown as number[]),
-            body,
-          ]
-        );
-      },
       mk_forall_const: function (
         c: Z3_context,
         weight: unsigned,
-        num_bound: unsigned,
         bound: Z3_app[],
-        num_patterns: unsigned,
         patterns: Z3_pattern[],
         body: Z3_ast
       ): Z3_ast {
@@ -1690,9 +1549,9 @@ export async function init() {
           [
             c,
             weight,
-            num_bound,
+            bound.length,
             pointerArrayToByteArr(bound as unknown as number[]),
-            num_patterns,
+            patterns.length,
             pointerArrayToByteArr(patterns as unknown as number[]),
             body,
           ]
@@ -1701,9 +1560,7 @@ export async function init() {
       mk_exists_const: function (
         c: Z3_context,
         weight: unsigned,
-        num_bound: unsigned,
         bound: Z3_app[],
-        num_patterns: unsigned,
         patterns: Z3_pattern[],
         body: Z3_ast
       ): Z3_ast {
@@ -1714,9 +1571,9 @@ export async function init() {
           [
             c,
             weight,
-            num_bound,
+            bound.length,
             pointerArrayToByteArr(bound as unknown as number[]),
-            num_patterns,
+            patterns.length,
             pointerArrayToByteArr(patterns as unknown as number[]),
             body,
           ]
@@ -1726,9 +1583,7 @@ export async function init() {
         c: Z3_context,
         is_forall: bool,
         weight: unsigned,
-        num_bound: unsigned,
         bound: Z3_app[],
-        num_patterns: unsigned,
         patterns: Z3_pattern[],
         body: Z3_ast
       ): Z3_ast {
@@ -1749,9 +1604,9 @@ export async function init() {
             c,
             is_forall,
             weight,
-            num_bound,
+            bound.length,
             pointerArrayToByteArr(bound as unknown as number[]),
-            num_patterns,
+            patterns.length,
             pointerArrayToByteArr(patterns as unknown as number[]),
             body,
           ]
@@ -1763,11 +1618,8 @@ export async function init() {
         weight: unsigned,
         quantifier_id: Z3_symbol,
         skolem_id: Z3_symbol,
-        num_bound: unsigned,
         bound: Z3_app[],
-        num_patterns: unsigned,
         patterns: Z3_pattern[],
-        num_no_patterns: unsigned,
         no_patterns: Z3_ast[],
         body: Z3_ast
       ): Z3_ast {
@@ -1794,39 +1646,18 @@ export async function init() {
             weight,
             quantifier_id,
             skolem_id,
-            num_bound,
+            bound.length,
             pointerArrayToByteArr(bound as unknown as number[]),
-            num_patterns,
+            patterns.length,
             pointerArrayToByteArr(patterns as unknown as number[]),
-            num_no_patterns,
+            no_patterns.length,
             pointerArrayToByteArr(no_patterns as unknown as number[]),
-            body,
-          ]
-        );
-      },
-      mk_lambda: function (
-        c: Z3_context,
-        num_decls: unsigned,
-        sorts: Z3_sort[],
-        decl_names: Z3_symbol[],
-        body: Z3_ast
-      ): Z3_ast {
-        return Mod.ccall(
-          'Z3_mk_lambda',
-          'number',
-          ['number', 'number', 'array', 'array', 'number'],
-          [
-            c,
-            num_decls,
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            pointerArrayToByteArr(decl_names as unknown as number[]),
             body,
           ]
         );
       },
       mk_lambda_const: function (
         c: Z3_context,
-        num_bound: unsigned,
         bound: Z3_app[],
         body: Z3_ast
       ): Z3_ast {
@@ -1836,7 +1667,7 @@ export async function init() {
           ['number', 'number', 'array', 'number'],
           [
             c,
-            num_bound,
+            bound.length,
             pointerArrayToByteArr(bound as unknown as number[]),
             body,
           ]
@@ -1938,22 +1769,21 @@ export async function init() {
         s: Z3_sort,
         col: unsigned
       ) => Z3_sort,
-      mk_atmost: function (
-        c: Z3_context,
-        num_args: unsigned,
-        args: Z3_ast[],
-        k: unsigned
-      ): Z3_ast {
+      mk_atmost: function (c: Z3_context, args: Z3_ast[], k: unsigned): Z3_ast {
         return Mod.ccall(
           'Z3_mk_atmost',
           'number',
           ['number', 'number', 'array', 'number'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[]), k]
+          [
+            c,
+            args.length,
+            pointerArrayToByteArr(args as unknown as number[]),
+            k,
+          ]
         );
       },
       mk_atleast: function (
         c: Z3_context,
-        num_args: unsigned,
         args: Z3_ast[],
         k: unsigned
       ): Z3_ast {
@@ -1961,7 +1791,12 @@ export async function init() {
           'Z3_mk_atleast',
           'number',
           ['number', 'number', 'array', 'number'],
-          [c, num_args, pointerArrayToByteArr(args as unknown as number[]), k]
+          [
+            c,
+            args.length,
+            pointerArrayToByteArr(args as unknown as number[]),
+            k,
+          ]
         );
       },
       func_decl_to_ast: Mod._Z3_func_decl_to_ast as (
@@ -2236,50 +2071,29 @@ export async function init() {
       simplify_get_param_descrs: Mod._Z3_simplify_get_param_descrs as (
         c: Z3_context
       ) => Z3_param_descrs,
-      update_term: function (
-        c: Z3_context,
-        a: Z3_ast,
-        num_args: unsigned,
-        args: Z3_ast[]
-      ): Z3_ast {
+      update_term: function (c: Z3_context, a: Z3_ast, args: Z3_ast[]): Z3_ast {
         return Mod.ccall(
           'Z3_update_term',
           'number',
           ['number', 'number', 'number', 'array'],
-          [c, a, num_args, pointerArrayToByteArr(args as unknown as number[])]
-        );
-      },
-      substitute: function (
-        c: Z3_context,
-        a: Z3_ast,
-        num_exprs: unsigned,
-        from: Z3_ast[],
-        to: Z3_ast[]
-      ): Z3_ast {
-        return Mod.ccall(
-          'Z3_substitute',
-          'number',
-          ['number', 'number', 'number', 'array', 'array'],
           [
             c,
             a,
-            num_exprs,
-            pointerArrayToByteArr(from as unknown as number[]),
-            pointerArrayToByteArr(to as unknown as number[]),
+            args.length,
+            pointerArrayToByteArr(args as unknown as number[]),
           ]
         );
       },
       substitute_vars: function (
         c: Z3_context,
         a: Z3_ast,
-        num_exprs: unsigned,
         to: Z3_ast[]
       ): Z3_ast {
         return Mod.ccall(
           'Z3_substitute_vars',
           'number',
           ['number', 'number', 'number', 'array'],
-          [c, a, num_exprs, pointerArrayToByteArr(to as unknown as number[])]
+          [c, a, to.length, pointerArrayToByteArr(to as unknown as number[])]
         );
       },
       translate: Mod._Z3_translate as (
@@ -2502,7 +2316,6 @@ export async function init() {
         logic: string,
         status: string,
         attributes: string,
-        num_assumptions: unsigned,
         assumptions: Z3_ast[],
         formula: Z3_ast
       ): Z3_string {
@@ -2525,79 +2338,9 @@ export async function init() {
             logic,
             status,
             attributes,
-            num_assumptions,
+            assumptions.length,
             pointerArrayToByteArr(assumptions as unknown as number[]),
             formula,
-          ]
-        );
-      },
-      parse_smtlib2_string: function (
-        c: Z3_context,
-        str: string,
-        num_sorts: unsigned,
-        sort_names: Z3_symbol[],
-        sorts: Z3_sort[],
-        num_decls: unsigned,
-        decl_names: Z3_symbol[],
-        decls: Z3_func_decl[]
-      ): Z3_ast_vector {
-        return Mod.ccall(
-          'Z3_parse_smtlib2_string',
-          'number',
-          [
-            'number',
-            'string',
-            'number',
-            'array',
-            'array',
-            'number',
-            'array',
-            'array',
-          ],
-          [
-            c,
-            str,
-            num_sorts,
-            pointerArrayToByteArr(sort_names as unknown as number[]),
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            num_decls,
-            pointerArrayToByteArr(decl_names as unknown as number[]),
-            pointerArrayToByteArr(decls as unknown as number[]),
-          ]
-        );
-      },
-      parse_smtlib2_file: function (
-        c: Z3_context,
-        file_name: string,
-        num_sorts: unsigned,
-        sort_names: Z3_symbol[],
-        sorts: Z3_sort[],
-        num_decls: unsigned,
-        decl_names: Z3_symbol[],
-        decls: Z3_func_decl[]
-      ): Z3_ast_vector {
-        return Mod.ccall(
-          'Z3_parse_smtlib2_file',
-          'number',
-          [
-            'number',
-            'string',
-            'number',
-            'array',
-            'array',
-            'number',
-            'array',
-            'array',
-          ],
-          [
-            c,
-            file_name,
-            num_sorts,
-            pointerArrayToByteArr(sort_names as unknown as number[]),
-            pointerArrayToByteArr(sorts as unknown as number[]),
-            num_decls,
-            pointerArrayToByteArr(decl_names as unknown as number[]),
-            pointerArrayToByteArr(decls as unknown as number[]),
           ]
         );
       },
@@ -2748,16 +2491,12 @@ export async function init() {
         t1: Z3_tactic,
         t2: Z3_tactic
       ) => Z3_tactic,
-      tactic_par_or: function (
-        c: Z3_context,
-        num: unsigned,
-        ts: Z3_tactic[]
-      ): Z3_tactic {
+      tactic_par_or: function (c: Z3_context, ts: Z3_tactic[]): Z3_tactic {
         return Mod.ccall(
           'Z3_tactic_par_or',
           'number',
           ['number', 'number', 'array'],
-          [c, num, pointerArrayToByteArr(ts as unknown as number[])]
+          [c, ts.length, pointerArrayToByteArr(ts as unknown as number[])]
         );
       },
       tactic_par_and_then: Mod._Z3_tactic_par_and_then as (
@@ -3046,6 +2785,25 @@ export async function init() {
         c: Z3_context,
         s: Z3_solver
       ) => Z3_ast_vector,
+      solver_propagate_declare: function (
+        c: Z3_context,
+        name: Z3_symbol,
+        domain: Z3_sort[],
+        range: Z3_sort
+      ): Z3_func_decl {
+        return Mod.ccall(
+          'Z3_solver_propagate_declare',
+          'number',
+          ['number', 'number', 'number', 'array', 'number'],
+          [
+            c,
+            name,
+            domain.length,
+            pointerArrayToByteArr(domain as unknown as number[]),
+            range,
+          ]
+        );
+      },
       solver_propagate_register: Mod._Z3_solver_propagate_register as (
         c: Z3_context,
         s: Z3_solver,
@@ -3062,7 +2820,6 @@ export async function init() {
       solver_check_assumptions: function (
         c: Z3_context,
         s: Z3_solver,
-        num_assumptions: unsigned,
         assumptions: Z3_ast[]
       ): Z3_lbool {
         return Mod.ccall(
@@ -3072,7 +2829,7 @@ export async function init() {
           [
             c,
             s,
-            num_assumptions,
+            assumptions.length,
             pointerArrayToByteArr(assumptions as unknown as number[]),
           ]
         );
