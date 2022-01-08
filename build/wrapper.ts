@@ -1535,6 +1535,175 @@ export async function init() {
         index: unsigned,
         ty: Z3_sort
       ) => Z3_ast,
+      mk_forall: function (
+        c: Z3_context,
+        weight: unsigned,
+        patterns: Z3_pattern[],
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        if (sorts.length !== decl_names.length) {
+          throw new TypeError(
+            `sorts and decl_names must be the same length (got ${sorts.length} and {decl_names.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_mk_forall',
+          'number',
+          [
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            weight,
+            patterns.length,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            sorts.length,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
+      },
+      mk_exists: function (
+        c: Z3_context,
+        weight: unsigned,
+        patterns: Z3_pattern[],
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        if (sorts.length !== decl_names.length) {
+          throw new TypeError(
+            `sorts and decl_names must be the same length (got ${sorts.length} and {decl_names.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_mk_exists',
+          'number',
+          [
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            weight,
+            patterns.length,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            sorts.length,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
+      },
+      mk_quantifier: function (
+        c: Z3_context,
+        is_forall: bool,
+        weight: unsigned,
+        patterns: Z3_pattern[],
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        if (sorts.length !== decl_names.length) {
+          throw new TypeError(
+            `sorts and decl_names must be the same length (got ${sorts.length} and {decl_names.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_mk_quantifier',
+          'number',
+          [
+            'number',
+            'boolean',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            is_forall,
+            weight,
+            patterns.length,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            sorts.length,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
+      },
+      mk_quantifier_ex: function (
+        c: Z3_context,
+        is_forall: bool,
+        weight: unsigned,
+        quantifier_id: Z3_symbol,
+        skolem_id: Z3_symbol,
+        patterns: Z3_pattern[],
+        no_patterns: Z3_ast[],
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        if (sorts.length !== decl_names.length) {
+          throw new TypeError(
+            `sorts and decl_names must be the same length (got ${sorts.length} and {decl_names.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_mk_quantifier_ex',
+          'number',
+          [
+            'number',
+            'boolean',
+            'number',
+            'number',
+            'number',
+            'number',
+            'array',
+            'number',
+            'array',
+            'number',
+            'array',
+            'array',
+            'number',
+          ],
+          [
+            c,
+            is_forall,
+            weight,
+            quantifier_id,
+            skolem_id,
+            patterns.length,
+            pointerArrayToByteArr(patterns as unknown as number[]),
+            no_patterns.length,
+            pointerArrayToByteArr(no_patterns as unknown as number[]),
+            sorts.length,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            body,
+          ]
+        );
+      },
       mk_forall_const: function (
         c: Z3_context,
         weight: unsigned,
@@ -1652,6 +1821,30 @@ export async function init() {
             pointerArrayToByteArr(patterns as unknown as number[]),
             no_patterns.length,
             pointerArrayToByteArr(no_patterns as unknown as number[]),
+            body,
+          ]
+        );
+      },
+      mk_lambda: function (
+        c: Z3_context,
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        body: Z3_ast
+      ): Z3_ast {
+        if (sorts.length !== decl_names.length) {
+          throw new TypeError(
+            `sorts and decl_names must be the same length (got ${sorts.length} and {decl_names.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_mk_lambda',
+          'number',
+          ['number', 'number', 'array', 'array', 'number'],
+          [
+            c,
+            sorts.length,
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            pointerArrayToByteArr(decl_names as unknown as number[]),
             body,
           ]
         );
@@ -2084,6 +2277,30 @@ export async function init() {
           ]
         );
       },
+      substitute: function (
+        c: Z3_context,
+        a: Z3_ast,
+        from: Z3_ast[],
+        to: Z3_ast[]
+      ): Z3_ast {
+        if (from.length !== to.length) {
+          throw new TypeError(
+            `from and to must be the same length (got ${from.length} and {to.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_substitute',
+          'number',
+          ['number', 'number', 'number', 'array', 'array'],
+          [
+            c,
+            a,
+            from.length,
+            pointerArrayToByteArr(from as unknown as number[]),
+            pointerArrayToByteArr(to as unknown as number[]),
+          ]
+        );
+      },
       substitute_vars: function (
         c: Z3_context,
         a: Z3_ast,
@@ -2341,6 +2558,92 @@ export async function init() {
             assumptions.length,
             pointerArrayToByteArr(assumptions as unknown as number[]),
             formula,
+          ]
+        );
+      },
+      parse_smtlib2_string: function (
+        c: Z3_context,
+        str: string,
+        sort_names: Z3_symbol[],
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        decls: Z3_func_decl[]
+      ): Z3_ast_vector {
+        if (sort_names.length !== sorts.length) {
+          throw new TypeError(
+            `sort_names and sorts must be the same length (got ${sort_names.length} and {sorts.length})`
+          );
+        }
+        if (decl_names.length !== decls.length) {
+          throw new TypeError(
+            `decl_names and decls must be the same length (got ${decl_names.length} and {decls.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_parse_smtlib2_string',
+          'number',
+          [
+            'number',
+            'string',
+            'number',
+            'array',
+            'array',
+            'number',
+            'array',
+            'array',
+          ],
+          [
+            c,
+            str,
+            sort_names.length,
+            pointerArrayToByteArr(sort_names as unknown as number[]),
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            decl_names.length,
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            pointerArrayToByteArr(decls as unknown as number[]),
+          ]
+        );
+      },
+      parse_smtlib2_file: function (
+        c: Z3_context,
+        file_name: string,
+        sort_names: Z3_symbol[],
+        sorts: Z3_sort[],
+        decl_names: Z3_symbol[],
+        decls: Z3_func_decl[]
+      ): Z3_ast_vector {
+        if (sort_names.length !== sorts.length) {
+          throw new TypeError(
+            `sort_names and sorts must be the same length (got ${sort_names.length} and {sorts.length})`
+          );
+        }
+        if (decl_names.length !== decls.length) {
+          throw new TypeError(
+            `decl_names and decls must be the same length (got ${decl_names.length} and {decls.length})`
+          );
+        }
+        return Mod.ccall(
+          'Z3_parse_smtlib2_file',
+          'number',
+          [
+            'number',
+            'string',
+            'number',
+            'array',
+            'array',
+            'number',
+            'array',
+            'array',
+          ],
+          [
+            c,
+            file_name,
+            sort_names.length,
+            pointerArrayToByteArr(sort_names as unknown as number[]),
+            pointerArrayToByteArr(sorts as unknown as number[]),
+            decl_names.length,
+            pointerArrayToByteArr(decl_names as unknown as number[]),
+            pointerArrayToByteArr(decls as unknown as number[]),
           ]
         );
       },

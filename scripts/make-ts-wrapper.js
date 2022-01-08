@@ -133,16 +133,21 @@ function wrapFunction(fn) {
   let suffix = null;
 
   // TODO handle the case where the length is of multiple arrays and they don't agree
-  let arrayLengthParams = new Set();
+  let arrayLengthParams = new Map();
   for (let i = 0; i < fn.params.length; ++i) {
     let p = fn.params[i];
     if (p.kind === 'in_array') {
       let { sizeIndex } = p;
       if (arrayLengthParams.has(sizeIndex)) {
-        console.error(`skipping ${fn.name} - size parameter is used for multiple arrays`);
-        return null;
+        let otherParam = arrayLengthParams.get(sizeIndex);
+        prefix += `
+          if (${otherParam}.length !== ${p.name}.length) {
+            throw new TypeError(\`${otherParam} and ${p.name} must be the same length (got \${${otherParam}.length} and \{${p.name}.length})\`);
+          }
+        `.trim();
+        continue;
       }
-      arrayLengthParams.add(sizeIndex);
+      arrayLengthParams.set(sizeIndex, p.name);
       // console.error(fn.name, p);
       if (fn.params[sizeIndex].type !== 'unsigned') {
         throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${fn.params[i].type})`);
