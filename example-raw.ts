@@ -5,29 +5,39 @@ import { init } from './build/lib';
 (async () => {
   let { em, rawZ3: Z3 } = await init();
 
+
   Z3.global_param_set('verbose', '10');
   console.log('verbosity:', Z3.global_param_get('verbose'));
 
   let config = Z3.mk_config();
-  let context = Z3.mk_context_rc(config);
+  let ctx = Z3.mk_context_rc(config);
   Z3.del_config(config);
 
-  let strAst = Z3.mk_u32string(context, [...'hello™'].map(x => x.codePointAt(0)!));
-  Z3.inc_ref(context, strAst);
+  let strAst = Z3.mk_u32string(ctx, [...'hello™'].map(x => x.codePointAt(0)!));
+  Z3.inc_ref(ctx, strAst);
 
-  console.log(Z3.is_string(context, strAst));
-  console.log(Z3.get_string(context, strAst));
+  console.log(Z3.is_string(ctx, strAst));
+  console.log(Z3.get_string(ctx, strAst));
 
 
-  let intSort = Z3.mk_int_sort(context);
-  let big = Z3.mk_int64(context, 42n, intSort);
-  console.log(Z3.get_numeral_string(context, big));
-  console.log(Z3.get_numeral_int64(context, big));
+  let intSort = Z3.mk_int_sort(ctx);
+  let big = Z3.mk_int64(ctx, 42n, intSort);
+  console.log(Z3.get_numeral_string(ctx, big));
+  console.log(Z3.get_numeral_int64(ctx, big));
 
   console.log(Z3.get_version());
 
-  Z3.dec_ref(context, strAst);
-  Z3.del_context(context);
+  let head_tail = [ Z3.mk_string_symbol(ctx, "car"), Z3.mk_string_symbol(ctx, "cdr") ];
+
+  let nil_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "nil"), Z3.mk_string_symbol(ctx, "is_nil"), [], [], []);
+  let cons_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "cons"), Z3.mk_string_symbol(ctx, "is_cons"), head_tail, [0 as any, 0 as any], [0 as any, 0 as any]);
+
+  let cell = Z3.mk_datatype(ctx, Z3.mk_string_symbol(ctx, "cell"), [nil_con, cons_con]);
+  console.log(Z3.query_constructor(ctx, nil_con, 0));
+  console.log(Z3.query_constructor(ctx, cons_con, 2));
+
+  Z3.dec_ref(ctx, strAst);
+  Z3.del_context(ctx);
 
   em.PThread.terminateAllThreads();
 

@@ -105,7 +105,15 @@ function wrapFunction(fn) {
     throw new Error('todo: nontrivial async functions');
   }
 
-  let ctypes = fn.params.map(p => p.isArray ? 'array' : p.isPtr ? 'number' : toEmType(p.type));
+  let ctypes = fn.params.map((p) =>
+    p.kind === "in_array"
+      ? "array"
+      : p.kind === "out_array"
+      ? "number"
+      : p.isPtr
+      ? "number"
+      : toEmType(p.type)
+  );
 
   let prefix = '';
   let suffix = '';
@@ -131,13 +139,11 @@ function wrapFunction(fn) {
 
     let sizeParam = fn.params[sizeIndex];
     if (!(sizeParam.kind === 'in' && sizeParam.type === 'unsigned' && !sizeParam.isPtr && !sizeParam.isArray)) {
-      throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${p.type})`);
+      throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${sizeParam.type})`);
     }
     args[sizeIndex] = `${p.name}.length`;
     params[sizeIndex] = null;
   }
-
-  params = params.filter(p => p != null);
 
   let returnType = fn.ret;
   let cReturnType = toEmType(fn.ret);
@@ -145,11 +151,41 @@ function wrapFunction(fn) {
     let mapped = [];
     let memIdx = 0; // offset from `outAddress` where the data should get written, in units of 4 bytes
 
-    let outArrayLengthParams = new Map();
     for (let outParam of outParams) {
-      if (outParam.isArray) {
-        if (false && isZ3PointerType(outParam.type)) {
-          prefix += ``
+      if (outParam.kind === 'inout_array') {
+        console.error(`skipping ${fn.name} - inout_array`);
+        return null;
+      } else if (outParam.kind === 'out_array') {
+        if (isZ3PointerType(outParam.type)) {
+          let { sizeIndex } = outParam;
+
+          let count;
+          if (arrayLengthParams.has(sizeIndex)) {
+            // i.e. this is also the length of an input array
+            count = args[sizeIndex];
+          } else {
+            let sizeParam = fn.params[sizeIndex];
+            if (!(sizeParam.kind === 'in' && sizeParam.type === 'unsigned' && !sizeParam.isPtr && !sizeParam.isArray)) {
+              throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${sizeParam.type})`);
+            }
+            count = sizeParam.name;
+          }
+          let outArrayAddress = `outArray_${outParam.name}`;
+          prefix += `
+            let ${outArrayAddress} = Mod._malloc(4 * ${count});
+            try {
+          `.trim();
+          suffix += `
+            } finally {
+              Mod._free(${outArrayAddress});
+            }
+          `.trim();
+          args[outParam.idx] = outArrayAddress;
+          mapped.push({
+            name: outParam.name,
+            read: `readIntArray(${outArrayAddress}, ${count}) as unknown as ${outParam.type}[]`,
+            type: `${outParam.type}[]`,
+          });
         } else {
           console.error(`skipping ${fn.name} - out array of ${outParam.type}`);
           return null;
@@ -210,10 +246,10 @@ function wrapFunction(fn) {
     if (outParams.length === 1) {
       let outParam = mapped[0];
       returnType = outParam.type;
-      suffix += `return ${outParam.read};`;
+      suffix = `return ${outParam.read};` + suffix;
     } else {
       returnType = `{ ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`
-      suffix += `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };`;
+      suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };` + suffix;
     }
 
     if (fn.ret === 'boolean') {
@@ -235,7 +271,7 @@ function wrapFunction(fn) {
 
   let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
 
-  let out = `${name}: function(${params.join(', ')}): ${returnType} {
+  let out = `${name}: function(${params.filter(p => p != null).join(', ')}): ${returnType} {
     ${prefix}`;
   if (suffix === '') {
     out += `return ${invocation};`
@@ -266,10 +302,6 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
   readonly __typeName2: T;
 }
 
-function intArrayToByteArr(ints: number[]) {
-  return new Uint8Array((new Uint32Array(ints)).buffer);
-}
-
 ${Object.entries(primitiveTypes).filter(e => e[0] !== 'void').map(e => `type ${e[0]} = ${e[1]};`).join('\n')}
 
 ${Object.keys(types).filter(k => k.startsWith('Z3')).map(makePointerType).join('\n')}
@@ -278,6 +310,14 @@ ${Object.entries(enums).map(e => wrapEnum(e[0], e[1])).join('\n\n')}
 
 export async function init() {
   let Mod = await initModule();
+
+  function intArrayToByteArr(ints: number[]) {
+    return new Uint8Array((new Uint32Array(ints)).buffer);
+  }
+
+  function readIntArray(address: number, count: number) {
+    return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
+  }
 
   // this supports a up to four out intergers/pointers
   // or up to two out int64s

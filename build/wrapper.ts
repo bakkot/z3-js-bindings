@@ -7,10 +7,6 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
   readonly __typeName2: T;
 }
 
-function intArrayToByteArr(ints: number[]) {
-  return new Uint8Array(new Uint32Array(ints).buffer);
-}
-
 type Z3_char_ptr = string;
 type unsigned = number;
 type double = number;
@@ -420,6 +416,14 @@ export enum Z3_goal_prec {
 export async function init() {
   let Mod = await initModule();
 
+  function intArrayToByteArr(ints: number[]) {
+    return new Uint8Array(new Uint32Array(ints).buffer);
+  }
+
+  function readIntArray(address: number, count: number) {
+    return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
+  }
+
   // this supports a up to four out intergers/pointers
   // or up to two out int64s
   let outAddress = Mod._malloc(16);
@@ -666,6 +670,23 @@ export async function init() {
         c: Z3_context,
         constr: Z3_constructor
       ) => void,
+      mk_datatype: function (
+        c: Z3_context,
+        name: Z3_symbol,
+        constructors: Z3_constructor[]
+      ): Z3_sort {
+        return Mod.ccall(
+          'Z3_mk_datatype',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            name,
+            constructors.length,
+            intArrayToByteArr(constructors as unknown as number[]),
+          ]
+        );
+      },
       mk_constructor_list: function (
         c: Z3_context,
         constructors: Z3_constructor[]
@@ -685,6 +706,74 @@ export async function init() {
         c: Z3_context,
         clist: Z3_constructor_list
       ) => void,
+      mk_datatypes: function (
+        c: Z3_context,
+        sort_names: Z3_symbol[],
+        constructor_lists: Z3_constructor_list[]
+      ): Z3_sort[] {
+        if (sort_names.length !== constructor_lists.length) {
+          throw new TypeError(
+            `sort_names and constructor_lists must be the same length (got ${sort_names.length} and {constructor_lists.length})`
+          );
+        }
+        let outArray_sorts = Mod._malloc(4 * sort_names.length);
+        try {
+          let ret = Mod.ccall(
+            'Z3_mk_datatypes',
+            'void',
+            ['number', 'number', 'array', 'number', 'array'],
+            [
+              c,
+              sort_names.length,
+              intArrayToByteArr(sort_names as unknown as number[]),
+              outArray_sorts,
+              intArrayToByteArr(constructor_lists as unknown as number[]),
+            ]
+          );
+          return readIntArray(
+            outArray_sorts,
+            sort_names.length
+          ) as unknown as Z3_sort[];
+        } finally {
+          Mod._free(outArray_sorts);
+        }
+      },
+      query_constructor: function (
+        c: Z3_context,
+        constr: Z3_constructor,
+        num_fields: unsigned
+      ): {
+        constructor: Z3_func_decl;
+        tester: Z3_func_decl;
+        accessors: Z3_func_decl[];
+      } {
+        let outArray_accessors = Mod._malloc(4 * num_fields);
+        try {
+          let ret = Mod.ccall(
+            'Z3_query_constructor',
+            'void',
+            ['number', 'number', 'number', 'number', 'number', 'number'],
+            [
+              c,
+              constr,
+              num_fields,
+              outAddress,
+              outAddress + 4,
+              outArray_accessors,
+            ]
+          );
+          return {
+            constructor: getOutUint(0) as unknown as Z3_func_decl,
+            tester: getOutUint(1) as unknown as Z3_func_decl,
+            accessors: readIntArray(
+              outArray_accessors,
+              num_fields
+            ) as unknown as Z3_func_decl[],
+          };
+        } finally {
+          Mod._free(outArray_accessors);
+        }
+      },
       mk_func_decl: function (
         c: Z3_context,
         s: Z3_symbol,

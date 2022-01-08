@@ -42,6 +42,7 @@ for (let line of apiLines) {
       break;
     }
     let kind = match.groups.kind;
+    if (kind === 'inout_array') kind = 'in_array'; // https://github.com/Z3Prover/z3/issues/5759
     if (kind === 'in' || kind === 'out') {
       ({ text, match } = expect(text, /^[A-Za-z0-9_]+/));
       parsedParams.push({ kind, type: match[0] });
@@ -198,7 +199,7 @@ for (let idx = 0; idx < contents.length;) {
         throw new Error(`failed to parse param type in ${JSON.stringify(slice)} for param ${JSON.stringify(param)}`);
       }
       paramType = match[0];
-      
+
       text = eatWs(text);
 
       ({ match, text } = eat(text, /^const(?![A-Za-z0-9_])/));
@@ -268,6 +269,9 @@ for (let fn of functions) {
     }
     param.kind = defParams[idx].kind;
     if (param.kind === 'in_array' || param.kind === 'out_array') {
+      if (defParams[idx].sizeIndex == null) {
+        throw new Error(`function ${fn.name} parameter ${idx} is marked as ${param.kind} but has no index`);
+      }
       param.sizeIndex = defParams[idx].sizeIndex;
       if (!param.isArray && param.isPtr) {
         // not clear why some things are written as `int * x` and others `int x[]`
@@ -276,7 +280,7 @@ for (let fn of functions) {
         param.isPtr = false;
       }
       if (!param.isArray) {
-        throw new Error(`function ${fn.name} parameter ${idx} is marked as in_array but not typed as array`);
+        throw new Error(`function ${fn.name} parameter ${idx} is marked as ${param.kind} but not typed as array`);
       }
     }
     ++idx;
