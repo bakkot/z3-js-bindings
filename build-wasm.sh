@@ -11,9 +11,9 @@ fi
 
 export ROOT=$PWD
 cd z3
-export CXXFLAGS="-s WASM_BIGINT -pthread -s USE_PTHREADS=1 -s DISABLE_EXCEPTION_CATCHING=0"
+export CXXFLAGS="-pthread -s USE_PTHREADS=1 -s DISABLE_EXCEPTION_CATCHING=0"
 export LDFLAGS="-s WASM_BIGINT -s -pthread -s USE_PTHREADS=1"
-if [ ! -d "z3/build/Makefile" ]; then
+if [ ! -f "build/Makefile" ]; then
   emconfigure python scripts/mk_make.py --staticlib --single-threaded
 fi
 

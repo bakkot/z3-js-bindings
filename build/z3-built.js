@@ -3033,6 +3033,1254 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_is_value')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_value', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_is_value on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_value', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_is_value on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_is_pos')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_pos', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_is_pos on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_pos', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_is_pos on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_is_neg')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_neg', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_is_neg on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_neg', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_is_neg on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_is_zero')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_zero', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_is_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_is_zero', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_is_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_sign')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_sign', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_sign on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_sign', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_sign on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_add')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_add', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_add on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_add', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_add on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_sub')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_sub', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_sub on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_sub', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_sub on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_mul')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_mul', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_mul on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_mul', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_mul on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_div')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_div', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_div on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_div', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_div on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_root')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_root', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_root on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_root', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_root on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_power')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_power', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_power on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_power', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_power on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_lt')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_lt', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_lt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_lt', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_lt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_gt')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_gt', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_gt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_gt', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_gt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_le')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_le', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_le on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_le', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_le on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_ge')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_ge', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_ge on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_ge', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_ge on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_eq')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_eq', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_eq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_eq', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_eq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_neq')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_neq', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_neq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_neq', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_neq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_roots')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_roots', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_roots on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_roots', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_roots on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_eval')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_eval', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_eval', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_get_poly')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_get_poly', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_get_poly on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_get_poly', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_get_poly on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_algebraic_get_i')) {
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_get_i', { configurable: true, get: function() { abort('You are getting _Z3_algebraic_get_i on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_algebraic_get_i', { configurable: true, set: function() { abort('You are setting _Z3_algebraic_get_i on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_ast_vector')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_ast_vector', { configurable: true, get: function() { abort('You are getting _Z3_mk_ast_vector on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_ast_vector', { configurable: true, set: function() { abort('You are setting _Z3_mk_ast_vector on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_inc_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_inc_ref', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_inc_ref', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_dec_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_dec_ref', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_dec_ref', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_size')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_size', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_size on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_size', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_size on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_get')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_get', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_get on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_get', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_get on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_set')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_set', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_set on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_set', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_set on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_resize')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_resize', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_resize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_resize', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_resize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_push')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_push', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_push on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_push', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_push on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_translate')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_translate', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_translate on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_translate', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_translate on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_vector_to_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_to_string', { configurable: true, get: function() { abort('You are getting _Z3_ast_vector_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_vector_to_string', { configurable: true, set: function() { abort('You are setting _Z3_ast_vector_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_ast_map')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_ast_map', { configurable: true, get: function() { abort('You are getting _Z3_mk_ast_map on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_ast_map', { configurable: true, set: function() { abort('You are setting _Z3_mk_ast_map on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_inc_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_inc_ref', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_inc_ref', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_dec_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_dec_ref', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_dec_ref', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_contains')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_contains', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_contains on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_contains', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_contains on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_find')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_find', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_find on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_find', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_find on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_insert')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_insert', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_insert on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_insert', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_insert on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_erase')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_erase', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_erase on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_erase', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_erase on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_reset')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_reset', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_reset on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_reset', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_reset on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_size')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_size', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_size on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_size', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_size on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_keys')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_keys', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_keys on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_keys', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_keys on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_ast_map_to_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_to_string', { configurable: true, get: function() { abort('You are getting _Z3_ast_map_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_ast_map_to_string', { configurable: true, set: function() { abort('You are setting _Z3_ast_map_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fixedpoint')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fixedpoint', { configurable: true, get: function() { abort('You are getting _Z3_mk_fixedpoint on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fixedpoint', { configurable: true, set: function() { abort('You are setting _Z3_mk_fixedpoint on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_inc_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_inc_ref', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_inc_ref', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_dec_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_dec_ref', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_dec_ref', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_add_rule')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_rule', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_add_rule on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_rule', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_add_rule on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_add_fact')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_fact', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_add_fact on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_fact', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_add_fact on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_assert')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_assert', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_assert on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_assert', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_assert on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_query')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_query', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_query', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_query_relations')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_query_relations', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_query_relations', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_answer')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_answer', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_answer on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_answer', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_answer on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_reason_unknown')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_reason_unknown', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_reason_unknown on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_reason_unknown', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_reason_unknown on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_update_rule')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_update_rule', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_update_rule on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_update_rule', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_update_rule on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_num_levels')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_num_levels', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_num_levels on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_num_levels', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_num_levels on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_cover_delta')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_cover_delta', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_cover_delta on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_cover_delta', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_cover_delta on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_add_cover')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_cover', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_add_cover on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_cover', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_add_cover on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_statistics')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_statistics', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_statistics on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_statistics', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_statistics on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_register_relation')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_register_relation', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_register_relation on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_register_relation', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_register_relation on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_set_predicate_representation')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_set_predicate_representation', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_set_predicate_representation on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_set_predicate_representation', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_set_predicate_representation on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_rules')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_rules', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_rules on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_rules', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_rules on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_assertions')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_assertions', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_assertions on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_assertions', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_assertions on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_set_params')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_set_params', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_set_params on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_set_params', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_set_params on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_help')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_help', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_help on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_help', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_help on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_param_descrs')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_param_descrs', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_param_descrs on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_param_descrs', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_param_descrs on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_to_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_to_string', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_to_string', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_from_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_from_string', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_from_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_from_string', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_from_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_from_file')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_from_file', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_from_file on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_from_file', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_from_file on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rounding_mode_sort')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rounding_mode_sort', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rounding_mode_sort on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rounding_mode_sort', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rounding_mode_sort on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_round_nearest_ties_to_even')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_nearest_ties_to_even', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_round_nearest_ties_to_even on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_nearest_ties_to_even', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_round_nearest_ties_to_even on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rne')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rne', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rne on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rne', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rne on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_round_nearest_ties_to_away')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_nearest_ties_to_away', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_round_nearest_ties_to_away on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_nearest_ties_to_away', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_round_nearest_ties_to_away on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rna')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rna', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rna on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rna', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rna on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_round_toward_positive')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_toward_positive', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_round_toward_positive on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_toward_positive', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_round_toward_positive on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rtp')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rtp', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rtp on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rtp', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rtp on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_round_toward_negative')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_toward_negative', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_round_toward_negative on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_toward_negative', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_round_toward_negative on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rtn')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rtn', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rtn on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rtn', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rtn on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_round_toward_zero')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_toward_zero', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_round_toward_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_toward_zero', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_round_toward_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rtz')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rtz', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rtz on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rtz', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rtz on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_half')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_half', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_half on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_half', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_half on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_16')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_16', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_16 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_16', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_16 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_single')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_single', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_single on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_single', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_single on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_32')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_32', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_32 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_32', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_32 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_double')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_double', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_double on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_double', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_double on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_64')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_64', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_64', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_quadruple')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_quadruple', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_quadruple on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_quadruple', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_quadruple on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sort_128')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_128', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sort_128 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sort_128', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sort_128 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_nan')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_nan', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_nan on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_nan', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_nan on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_inf')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_inf', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_inf on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_inf', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_inf on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_zero')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_zero', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_zero', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_fp')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_fp', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_fp on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_fp', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_fp on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_numeral_float')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_float', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_numeral_float on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_float', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_numeral_float on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_numeral_double')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_double', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_numeral_double on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_double', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_numeral_double on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_numeral_int')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_int', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_numeral_int on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_int', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_numeral_int on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_numeral_int_uint')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_int_uint', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_numeral_int_uint on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_int_uint', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_numeral_int_uint on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_numeral_int64_uint64')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_int64_uint64', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_numeral_int64_uint64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_numeral_int64_uint64', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_numeral_int64_uint64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_abs')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_abs', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_abs on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_abs', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_abs on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_neg')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_neg', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_neg on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_neg', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_neg on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_add')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_add', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_add on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_add', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_add on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sub')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sub', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sub on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sub', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sub on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_mul')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_mul', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_mul on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_mul', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_mul on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_div')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_div', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_div on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_div', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_div on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_fma')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_fma', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_fma on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_fma', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_fma on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_sqrt')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sqrt', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_sqrt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_sqrt', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_sqrt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_rem')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rem', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_rem on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_rem', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_rem on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_round_to_integral')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_to_integral', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_round_to_integral on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_round_to_integral', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_round_to_integral on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_min')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_min', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_min on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_min', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_min on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_max')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_max', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_max on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_max', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_max on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_leq')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_leq', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_leq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_leq', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_leq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_lt')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_lt', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_lt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_lt', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_lt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_geq')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_geq', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_geq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_geq', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_geq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_gt')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_gt', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_gt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_gt', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_gt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_eq')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_eq', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_eq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_eq', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_eq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_normal')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_normal', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_normal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_normal', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_normal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_subnormal')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_subnormal', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_subnormal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_subnormal', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_subnormal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_zero')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_zero', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_zero', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_infinite')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_infinite', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_infinite on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_infinite', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_infinite on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_nan')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_nan', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_nan on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_nan', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_nan on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_negative')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_negative', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_negative on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_negative', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_negative on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_is_positive')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_positive', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_is_positive on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_is_positive', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_is_positive on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_fp_bv')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_bv', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_fp_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_bv', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_fp_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_fp_float')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_float', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_fp_float on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_float', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_fp_float on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_fp_real')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_real', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_fp_real on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_real', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_fp_real on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_fp_signed')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_signed', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_fp_signed on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_signed', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_fp_signed on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_fp_unsigned')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_unsigned', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_fp_unsigned on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_unsigned', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_fp_unsigned on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_ubv')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_ubv', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_ubv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_ubv', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_ubv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_sbv')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_sbv', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_sbv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_sbv', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_sbv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_real')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_real', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_real on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_real', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_real on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_ebits')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_ebits', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_ebits on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_ebits', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_ebits on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_sbits')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_sbits', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_sbits on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_sbits', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_sbits on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_nan')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_nan', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_nan on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_nan', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_nan on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_inf')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_inf', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_inf on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_inf', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_inf on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_zero')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_zero', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_zero', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_zero on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_normal')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_normal', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_normal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_normal', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_normal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_subnormal')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_subnormal', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_subnormal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_subnormal', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_subnormal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_positive')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_positive', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_positive on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_positive', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_positive on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_is_numeral_negative')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_negative', { configurable: true, get: function() { abort('You are getting _Z3_fpa_is_numeral_negative on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_is_numeral_negative', { configurable: true, set: function() { abort('You are setting _Z3_fpa_is_numeral_negative on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_sign_bv')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_sign_bv', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_sign_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_sign_bv', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_sign_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_significand_bv')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_significand_bv', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_significand_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_significand_bv', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_significand_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_sign')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_sign', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_sign on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_sign', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_sign on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_significand_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_significand_string', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_significand_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_significand_string', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_significand_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_significand_uint64')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_significand_uint64', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_significand_uint64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_significand_uint64', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_significand_uint64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_exponent_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_exponent_string', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_exponent_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_exponent_string', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_exponent_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_exponent_int64')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_exponent_int64', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_exponent_int64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_exponent_int64', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_exponent_int64 on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fpa_get_numeral_exponent_bv')) {
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_exponent_bv', { configurable: true, get: function() { abort('You are getting _Z3_fpa_get_numeral_exponent_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fpa_get_numeral_exponent_bv', { configurable: true, set: function() { abort('You are setting _Z3_fpa_get_numeral_exponent_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_ieee_bv')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_ieee_bv', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_ieee_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_ieee_bv', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_ieee_bv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_fpa_to_fp_int_real')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_int_real', { configurable: true, get: function() { abort('You are getting _Z3_mk_fpa_to_fp_int_real on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_fpa_to_fp_int_real', { configurable: true, set: function() { abort('You are setting _Z3_mk_fpa_to_fp_int_real on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_mk_optimize')) {
+        Object.defineProperty(Module['ready'], '_Z3_mk_optimize', { configurable: true, get: function() { abort('You are getting _Z3_mk_optimize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_mk_optimize', { configurable: true, set: function() { abort('You are setting _Z3_mk_optimize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_inc_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_inc_ref', { configurable: true, get: function() { abort('You are getting _Z3_optimize_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_inc_ref', { configurable: true, set: function() { abort('You are setting _Z3_optimize_inc_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_dec_ref')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_dec_ref', { configurable: true, get: function() { abort('You are getting _Z3_optimize_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_dec_ref', { configurable: true, set: function() { abort('You are setting _Z3_optimize_dec_ref on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_assert')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_assert', { configurable: true, get: function() { abort('You are getting _Z3_optimize_assert on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_assert', { configurable: true, set: function() { abort('You are setting _Z3_optimize_assert on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_assert_and_track')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_assert_and_track', { configurable: true, get: function() { abort('You are getting _Z3_optimize_assert_and_track on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_assert_and_track', { configurable: true, set: function() { abort('You are setting _Z3_optimize_assert_and_track on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_assert_soft')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_assert_soft', { configurable: true, get: function() { abort('You are getting _Z3_optimize_assert_soft on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_assert_soft', { configurable: true, set: function() { abort('You are setting _Z3_optimize_assert_soft on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_maximize')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_maximize', { configurable: true, get: function() { abort('You are getting _Z3_optimize_maximize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_maximize', { configurable: true, set: function() { abort('You are setting _Z3_optimize_maximize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_minimize')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_minimize', { configurable: true, get: function() { abort('You are getting _Z3_optimize_minimize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_minimize', { configurable: true, set: function() { abort('You are setting _Z3_optimize_minimize on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_push')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_push', { configurable: true, get: function() { abort('You are getting _Z3_optimize_push on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_push', { configurable: true, set: function() { abort('You are setting _Z3_optimize_push on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_pop')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_pop', { configurable: true, get: function() { abort('You are getting _Z3_optimize_pop on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_pop', { configurable: true, set: function() { abort('You are setting _Z3_optimize_pop on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_check')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_check', { configurable: true, get: function() { abort('You are getting _Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_check', { configurable: true, set: function() { abort('You are setting _Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_reason_unknown')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_reason_unknown', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_reason_unknown on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_reason_unknown', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_reason_unknown on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_model')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_model', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_model on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_model', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_model on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_unsat_core')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_unsat_core', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_unsat_core on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_unsat_core', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_unsat_core on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_set_params')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_set_params', { configurable: true, get: function() { abort('You are getting _Z3_optimize_set_params on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_set_params', { configurable: true, set: function() { abort('You are setting _Z3_optimize_set_params on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_param_descrs')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_param_descrs', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_param_descrs on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_param_descrs', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_param_descrs on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_lower')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_lower', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_lower on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_lower', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_lower on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_upper')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_upper', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_upper on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_upper', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_upper on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_lower_as_vector')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_lower_as_vector', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_lower_as_vector on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_lower_as_vector', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_lower_as_vector on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_upper_as_vector')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_upper_as_vector', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_upper_as_vector on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_upper_as_vector', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_upper_as_vector on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_to_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_to_string', { configurable: true, get: function() { abort('You are getting _Z3_optimize_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_to_string', { configurable: true, set: function() { abort('You are setting _Z3_optimize_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_from_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_from_string', { configurable: true, get: function() { abort('You are getting _Z3_optimize_from_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_from_string', { configurable: true, set: function() { abort('You are setting _Z3_optimize_from_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_from_file')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_from_file', { configurable: true, get: function() { abort('You are getting _Z3_optimize_from_file on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_from_file', { configurable: true, set: function() { abort('You are setting _Z3_optimize_from_file on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_help')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_help', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_help on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_help', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_help on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_statistics')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_statistics', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_statistics on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_statistics', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_statistics on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_assertions')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_assertions', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_assertions on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_assertions', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_assertions on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_optimize_get_objectives')) {
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_objectives', { configurable: true, get: function() { abort('You are getting _Z3_optimize_get_objectives on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_optimize_get_objectives', { configurable: true, set: function() { abort('You are setting _Z3_optimize_get_objectives on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_polynomial_subresultants')) {
+        Object.defineProperty(Module['ready'], '_Z3_polynomial_subresultants', { configurable: true, get: function() { abort('You are getting _Z3_polynomial_subresultants on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_polynomial_subresultants', { configurable: true, set: function() { abort('You are setting _Z3_polynomial_subresultants on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_del')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_del', { configurable: true, get: function() { abort('You are getting _Z3_rcf_del on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_del', { configurable: true, set: function() { abort('You are setting _Z3_rcf_del on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mk_rational')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_rational', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mk_rational on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_rational', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mk_rational on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mk_small_int')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_small_int', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mk_small_int on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_small_int', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mk_small_int on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mk_pi')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_pi', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mk_pi on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_pi', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mk_pi on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mk_e')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_e', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mk_e on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_e', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mk_e on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mk_infinitesimal')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_infinitesimal', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mk_infinitesimal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_infinitesimal', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mk_infinitesimal on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mk_roots')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_roots', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mk_roots on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mk_roots', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mk_roots on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_add')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_add', { configurable: true, get: function() { abort('You are getting _Z3_rcf_add on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_add', { configurable: true, set: function() { abort('You are setting _Z3_rcf_add on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_sub')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_sub', { configurable: true, get: function() { abort('You are getting _Z3_rcf_sub on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_sub', { configurable: true, set: function() { abort('You are setting _Z3_rcf_sub on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_mul')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mul', { configurable: true, get: function() { abort('You are getting _Z3_rcf_mul on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_mul', { configurable: true, set: function() { abort('You are setting _Z3_rcf_mul on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_div')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_div', { configurable: true, get: function() { abort('You are getting _Z3_rcf_div on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_div', { configurable: true, set: function() { abort('You are setting _Z3_rcf_div on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_neg')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_neg', { configurable: true, get: function() { abort('You are getting _Z3_rcf_neg on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_neg', { configurable: true, set: function() { abort('You are setting _Z3_rcf_neg on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_inv')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_inv', { configurable: true, get: function() { abort('You are getting _Z3_rcf_inv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_inv', { configurable: true, set: function() { abort('You are setting _Z3_rcf_inv on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_power')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_power', { configurable: true, get: function() { abort('You are getting _Z3_rcf_power on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_power', { configurable: true, set: function() { abort('You are setting _Z3_rcf_power on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_lt')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_lt', { configurable: true, get: function() { abort('You are getting _Z3_rcf_lt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_lt', { configurable: true, set: function() { abort('You are setting _Z3_rcf_lt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_gt')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_gt', { configurable: true, get: function() { abort('You are getting _Z3_rcf_gt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_gt', { configurable: true, set: function() { abort('You are setting _Z3_rcf_gt on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_le')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_le', { configurable: true, get: function() { abort('You are getting _Z3_rcf_le on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_le', { configurable: true, set: function() { abort('You are setting _Z3_rcf_le on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_ge')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_ge', { configurable: true, get: function() { abort('You are getting _Z3_rcf_ge on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_ge', { configurable: true, set: function() { abort('You are setting _Z3_rcf_ge on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_eq')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_eq', { configurable: true, get: function() { abort('You are getting _Z3_rcf_eq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_eq', { configurable: true, set: function() { abort('You are setting _Z3_rcf_eq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_neq')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_neq', { configurable: true, get: function() { abort('You are getting _Z3_rcf_neq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_neq', { configurable: true, set: function() { abort('You are setting _Z3_rcf_neq on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_num_to_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_num_to_string', { configurable: true, get: function() { abort('You are getting _Z3_rcf_num_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_num_to_string', { configurable: true, set: function() { abort('You are setting _Z3_rcf_num_to_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_num_to_decimal_string')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_num_to_decimal_string', { configurable: true, get: function() { abort('You are getting _Z3_rcf_num_to_decimal_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_num_to_decimal_string', { configurable: true, set: function() { abort('You are setting _Z3_rcf_num_to_decimal_string on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_rcf_get_numerator_denominator')) {
+        Object.defineProperty(Module['ready'], '_Z3_rcf_get_numerator_denominator', { configurable: true, get: function() { abort('You are getting _Z3_rcf_get_numerator_denominator on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_rcf_get_numerator_denominator', { configurable: true, set: function() { abort('You are setting _Z3_rcf_get_numerator_denominator on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_query_from_lvl')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_query_from_lvl', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_query_from_lvl on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_query_from_lvl', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_query_from_lvl on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_ground_sat_answer')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_ground_sat_answer', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_ground_sat_answer on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_ground_sat_answer', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_ground_sat_answer on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_rules_along_trace')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_rules_along_trace', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_rules_along_trace on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_rules_along_trace', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_rules_along_trace on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_rule_names_along_trace')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_rule_names_along_trace', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_rule_names_along_trace on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_rule_names_along_trace', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_rule_names_along_trace on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_add_invariant')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_invariant', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_add_invariant on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_add_invariant', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_add_invariant on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_fixedpoint_get_reachable')) {
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_reachable', { configurable: true, get: function() { abort('You are getting _Z3_fixedpoint_get_reachable on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_fixedpoint_get_reachable', { configurable: true, set: function() { abort('You are setting _Z3_fixedpoint_get_reachable on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_qe_model_project')) {
+        Object.defineProperty(Module['ready'], '_Z3_qe_model_project', { configurable: true, get: function() { abort('You are getting _Z3_qe_model_project on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_qe_model_project', { configurable: true, set: function() { abort('You are setting _Z3_qe_model_project on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_qe_model_project_skolem')) {
+        Object.defineProperty(Module['ready'], '_Z3_qe_model_project_skolem', { configurable: true, get: function() { abort('You are getting _Z3_qe_model_project_skolem on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_qe_model_project_skolem', { configurable: true, set: function() { abort('You are setting _Z3_qe_model_project_skolem on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_model_extrapolate')) {
+        Object.defineProperty(Module['ready'], '_Z3_model_extrapolate', { configurable: true, get: function() { abort('You are getting _Z3_model_extrapolate on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_model_extrapolate', { configurable: true, set: function() { abort('You are setting _Z3_model_extrapolate on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_Z3_qe_lite')) {
+        Object.defineProperty(Module['ready'], '_Z3_qe_lite', { configurable: true, get: function() { abort('You are getting _Z3_qe_lite on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_Z3_qe_lite', { configurable: true, set: function() { abort('You are setting _Z3_qe_lite on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '__emscripten_thread_init')) {
         Object.defineProperty(Module['ready'], '__emscripten_thread_init', { configurable: true, get: function() { abort('You are getting __emscripten_thread_init on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '__emscripten_thread_init', { configurable: true, set: function() { abort('You are setting __emscripten_thread_init on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
@@ -4995,8 +6243,8 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  408372: function($0, $1) {resolve_async($0, $1);},  
- 408399: function($0) {reject_async($0, 'failed with unknown exception');}
+  410664: function($0, $1) {resolve_async($0, $1);},  
+ 410691: function($0) {reject_async($0, 'failed with unknown exception');}
 };
 
 
@@ -9885,7 +11133,9 @@ var asmLibraryArg = {
   "invoke_v": invoke_v,
   "invoke_vi": invoke_vi,
   "invoke_vid": invoke_vid,
+  "invoke_vidi": invoke_vidi,
   "invoke_vidii": invoke_vidii,
+  "invoke_vifi": invoke_vifi,
   "invoke_vii": invoke_vii,
   "invoke_viid": invoke_viid,
   "invoke_viidi": invoke_viidi,
@@ -9893,6 +11143,7 @@ var asmLibraryArg = {
   "invoke_viiid": invoke_viiid,
   "invoke_viiii": invoke_viiii,
   "invoke_viiiid": invoke_viiiid,
+  "invoke_viiiif": invoke_viiiif,
   "invoke_viiiii": invoke_viiiii,
   "invoke_viiiiii": invoke_viiiiii,
   "invoke_viiiiiii": invoke_viiiiiii,
@@ -9904,9 +11155,11 @@ var asmLibraryArg = {
   "invoke_viiiiiiiiiiiii": invoke_viiiiiiiiiiiii,
   "invoke_viiiiiiiiiiiiiii": invoke_viiiiiiiiiiiiiii,
   "invoke_viiiiiji": invoke_viiiiiji,
+  "invoke_viiiiijj": invoke_viiiiijj,
   "invoke_viij": invoke_viij,
   "invoke_viiji": invoke_viiji,
   "invoke_viijii": invoke_viijii,
+  "invoke_viijji": invoke_viijji,
   "invoke_vij": invoke_vij,
   "invoke_viji": invoke_viji,
   "llvm_eh_typeid_for": _llvm_eh_typeid_for,
@@ -9998,6 +11251,246 @@ var _Z3_get_array_sort_domain = Module["_Z3_get_array_sort_domain"] = createExpo
 
 /** @type {function(...*):?} */
 var _Z3_get_array_sort_range = Module["_Z3_get_array_sort_range"] = createExportWrapper("Z3_get_array_sort_range");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rounding_mode_sort = Module["_Z3_mk_fpa_rounding_mode_sort"] = createExportWrapper("Z3_mk_fpa_rounding_mode_sort");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_round_nearest_ties_to_even = Module["_Z3_mk_fpa_round_nearest_ties_to_even"] = createExportWrapper("Z3_mk_fpa_round_nearest_ties_to_even");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rne = Module["_Z3_mk_fpa_rne"] = createExportWrapper("Z3_mk_fpa_rne");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_round_nearest_ties_to_away = Module["_Z3_mk_fpa_round_nearest_ties_to_away"] = createExportWrapper("Z3_mk_fpa_round_nearest_ties_to_away");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rna = Module["_Z3_mk_fpa_rna"] = createExportWrapper("Z3_mk_fpa_rna");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_round_toward_positive = Module["_Z3_mk_fpa_round_toward_positive"] = createExportWrapper("Z3_mk_fpa_round_toward_positive");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rtp = Module["_Z3_mk_fpa_rtp"] = createExportWrapper("Z3_mk_fpa_rtp");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_round_toward_negative = Module["_Z3_mk_fpa_round_toward_negative"] = createExportWrapper("Z3_mk_fpa_round_toward_negative");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rtn = Module["_Z3_mk_fpa_rtn"] = createExportWrapper("Z3_mk_fpa_rtn");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_round_toward_zero = Module["_Z3_mk_fpa_round_toward_zero"] = createExportWrapper("Z3_mk_fpa_round_toward_zero");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rtz = Module["_Z3_mk_fpa_rtz"] = createExportWrapper("Z3_mk_fpa_rtz");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort = Module["_Z3_mk_fpa_sort"] = createExportWrapper("Z3_mk_fpa_sort");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_half = Module["_Z3_mk_fpa_sort_half"] = createExportWrapper("Z3_mk_fpa_sort_half");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_16 = Module["_Z3_mk_fpa_sort_16"] = createExportWrapper("Z3_mk_fpa_sort_16");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_single = Module["_Z3_mk_fpa_sort_single"] = createExportWrapper("Z3_mk_fpa_sort_single");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_32 = Module["_Z3_mk_fpa_sort_32"] = createExportWrapper("Z3_mk_fpa_sort_32");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_double = Module["_Z3_mk_fpa_sort_double"] = createExportWrapper("Z3_mk_fpa_sort_double");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_64 = Module["_Z3_mk_fpa_sort_64"] = createExportWrapper("Z3_mk_fpa_sort_64");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_quadruple = Module["_Z3_mk_fpa_sort_quadruple"] = createExportWrapper("Z3_mk_fpa_sort_quadruple");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sort_128 = Module["_Z3_mk_fpa_sort_128"] = createExportWrapper("Z3_mk_fpa_sort_128");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_nan = Module["_Z3_mk_fpa_nan"] = createExportWrapper("Z3_mk_fpa_nan");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_inf = Module["_Z3_mk_fpa_inf"] = createExportWrapper("Z3_mk_fpa_inf");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_zero = Module["_Z3_mk_fpa_zero"] = createExportWrapper("Z3_mk_fpa_zero");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_fp = Module["_Z3_mk_fpa_fp"] = createExportWrapper("Z3_mk_fpa_fp");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_numeral_float = Module["_Z3_mk_fpa_numeral_float"] = createExportWrapper("Z3_mk_fpa_numeral_float");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_numeral_double = Module["_Z3_mk_fpa_numeral_double"] = createExportWrapper("Z3_mk_fpa_numeral_double");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_numeral_int = Module["_Z3_mk_fpa_numeral_int"] = createExportWrapper("Z3_mk_fpa_numeral_int");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_numeral_int_uint = Module["_Z3_mk_fpa_numeral_int_uint"] = createExportWrapper("Z3_mk_fpa_numeral_int_uint");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_numeral_int64_uint64 = Module["_Z3_mk_fpa_numeral_int64_uint64"] = createExportWrapper("Z3_mk_fpa_numeral_int64_uint64");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_abs = Module["_Z3_mk_fpa_abs"] = createExportWrapper("Z3_mk_fpa_abs");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_neg = Module["_Z3_mk_fpa_neg"] = createExportWrapper("Z3_mk_fpa_neg");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_add = Module["_Z3_mk_fpa_add"] = createExportWrapper("Z3_mk_fpa_add");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sub = Module["_Z3_mk_fpa_sub"] = createExportWrapper("Z3_mk_fpa_sub");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_mul = Module["_Z3_mk_fpa_mul"] = createExportWrapper("Z3_mk_fpa_mul");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_div = Module["_Z3_mk_fpa_div"] = createExportWrapper("Z3_mk_fpa_div");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_fma = Module["_Z3_mk_fpa_fma"] = createExportWrapper("Z3_mk_fpa_fma");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_sqrt = Module["_Z3_mk_fpa_sqrt"] = createExportWrapper("Z3_mk_fpa_sqrt");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_rem = Module["_Z3_mk_fpa_rem"] = createExportWrapper("Z3_mk_fpa_rem");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_round_to_integral = Module["_Z3_mk_fpa_round_to_integral"] = createExportWrapper("Z3_mk_fpa_round_to_integral");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_min = Module["_Z3_mk_fpa_min"] = createExportWrapper("Z3_mk_fpa_min");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_max = Module["_Z3_mk_fpa_max"] = createExportWrapper("Z3_mk_fpa_max");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_leq = Module["_Z3_mk_fpa_leq"] = createExportWrapper("Z3_mk_fpa_leq");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_lt = Module["_Z3_mk_fpa_lt"] = createExportWrapper("Z3_mk_fpa_lt");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_geq = Module["_Z3_mk_fpa_geq"] = createExportWrapper("Z3_mk_fpa_geq");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_gt = Module["_Z3_mk_fpa_gt"] = createExportWrapper("Z3_mk_fpa_gt");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_eq = Module["_Z3_mk_fpa_eq"] = createExportWrapper("Z3_mk_fpa_eq");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_normal = Module["_Z3_mk_fpa_is_normal"] = createExportWrapper("Z3_mk_fpa_is_normal");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_subnormal = Module["_Z3_mk_fpa_is_subnormal"] = createExportWrapper("Z3_mk_fpa_is_subnormal");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_zero = Module["_Z3_mk_fpa_is_zero"] = createExportWrapper("Z3_mk_fpa_is_zero");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_infinite = Module["_Z3_mk_fpa_is_infinite"] = createExportWrapper("Z3_mk_fpa_is_infinite");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_nan = Module["_Z3_mk_fpa_is_nan"] = createExportWrapper("Z3_mk_fpa_is_nan");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_negative = Module["_Z3_mk_fpa_is_negative"] = createExportWrapper("Z3_mk_fpa_is_negative");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_is_positive = Module["_Z3_mk_fpa_is_positive"] = createExportWrapper("Z3_mk_fpa_is_positive");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_fp_bv = Module["_Z3_mk_fpa_to_fp_bv"] = createExportWrapper("Z3_mk_fpa_to_fp_bv");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_fp_float = Module["_Z3_mk_fpa_to_fp_float"] = createExportWrapper("Z3_mk_fpa_to_fp_float");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_fp_real = Module["_Z3_mk_fpa_to_fp_real"] = createExportWrapper("Z3_mk_fpa_to_fp_real");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_fp_signed = Module["_Z3_mk_fpa_to_fp_signed"] = createExportWrapper("Z3_mk_fpa_to_fp_signed");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_fp_unsigned = Module["_Z3_mk_fpa_to_fp_unsigned"] = createExportWrapper("Z3_mk_fpa_to_fp_unsigned");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_ubv = Module["_Z3_mk_fpa_to_ubv"] = createExportWrapper("Z3_mk_fpa_to_ubv");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_sbv = Module["_Z3_mk_fpa_to_sbv"] = createExportWrapper("Z3_mk_fpa_to_sbv");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_real = Module["_Z3_mk_fpa_to_real"] = createExportWrapper("Z3_mk_fpa_to_real");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_ebits = Module["_Z3_fpa_get_ebits"] = createExportWrapper("Z3_fpa_get_ebits");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_sbits = Module["_Z3_fpa_get_sbits"] = createExportWrapper("Z3_fpa_get_sbits");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_sign = Module["_Z3_fpa_get_numeral_sign"] = createExportWrapper("Z3_fpa_get_numeral_sign");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_sign_bv = Module["_Z3_fpa_get_numeral_sign_bv"] = createExportWrapper("Z3_fpa_get_numeral_sign_bv");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_significand_bv = Module["_Z3_fpa_get_numeral_significand_bv"] = createExportWrapper("Z3_fpa_get_numeral_significand_bv");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_significand_string = Module["_Z3_fpa_get_numeral_significand_string"] = createExportWrapper("Z3_fpa_get_numeral_significand_string");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_significand_uint64 = Module["_Z3_fpa_get_numeral_significand_uint64"] = createExportWrapper("Z3_fpa_get_numeral_significand_uint64");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_exponent_string = Module["_Z3_fpa_get_numeral_exponent_string"] = createExportWrapper("Z3_fpa_get_numeral_exponent_string");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_exponent_int64 = Module["_Z3_fpa_get_numeral_exponent_int64"] = createExportWrapper("Z3_fpa_get_numeral_exponent_int64");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_get_numeral_exponent_bv = Module["_Z3_fpa_get_numeral_exponent_bv"] = createExportWrapper("Z3_fpa_get_numeral_exponent_bv");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_ieee_bv = Module["_Z3_mk_fpa_to_ieee_bv"] = createExportWrapper("Z3_mk_fpa_to_ieee_bv");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fpa_to_fp_int_real = Module["_Z3_mk_fpa_to_fp_int_real"] = createExportWrapper("Z3_mk_fpa_to_fp_int_real");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_nan = Module["_Z3_fpa_is_numeral_nan"] = createExportWrapper("Z3_fpa_is_numeral_nan");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_inf = Module["_Z3_fpa_is_numeral_inf"] = createExportWrapper("Z3_fpa_is_numeral_inf");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_zero = Module["_Z3_fpa_is_numeral_zero"] = createExportWrapper("Z3_fpa_is_numeral_zero");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_normal = Module["_Z3_fpa_is_numeral_normal"] = createExportWrapper("Z3_fpa_is_numeral_normal");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_subnormal = Module["_Z3_fpa_is_numeral_subnormal"] = createExportWrapper("Z3_fpa_is_numeral_subnormal");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_positive = Module["_Z3_fpa_is_numeral_positive"] = createExportWrapper("Z3_fpa_is_numeral_positive");
+
+/** @type {function(...*):?} */
+var _Z3_fpa_is_numeral_negative = Module["_Z3_fpa_is_numeral_negative"] = createExportWrapper("Z3_fpa_is_numeral_negative");
 
 /** @type {function(...*):?} */
 var _Z3_mk_int_sort = Module["_Z3_mk_int_sort"] = createExportWrapper("Z3_mk_int_sort");
@@ -10225,6 +11718,39 @@ var _Z3_func_entry_get_arg = Module["_Z3_func_entry_get_arg"] = createExportWrap
 var _Z3_model_to_string = Module["_Z3_model_to_string"] = createExportWrapper("Z3_model_to_string");
 
 /** @type {function(...*):?} */
+var _Z3_mk_ast_map = Module["_Z3_mk_ast_map"] = createExportWrapper("Z3_mk_ast_map");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_inc_ref = Module["_Z3_ast_map_inc_ref"] = createExportWrapper("Z3_ast_map_inc_ref");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_dec_ref = Module["_Z3_ast_map_dec_ref"] = createExportWrapper("Z3_ast_map_dec_ref");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_contains = Module["_Z3_ast_map_contains"] = createExportWrapper("Z3_ast_map_contains");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_find = Module["_Z3_ast_map_find"] = createExportWrapper("Z3_ast_map_find");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_insert = Module["_Z3_ast_map_insert"] = createExportWrapper("Z3_ast_map_insert");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_reset = Module["_Z3_ast_map_reset"] = createExportWrapper("Z3_ast_map_reset");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_erase = Module["_Z3_ast_map_erase"] = createExportWrapper("Z3_ast_map_erase");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_size = Module["_Z3_ast_map_size"] = createExportWrapper("Z3_ast_map_size");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_keys = Module["_Z3_ast_map_keys"] = createExportWrapper("Z3_ast_map_keys");
+
+/** @type {function(...*):?} */
+var _Z3_ast_map_to_string = Module["_Z3_ast_map_to_string"] = createExportWrapper("Z3_ast_map_to_string");
+
+/** @type {function(...*):?} */
 var _Z3_get_relation_arity = Module["_Z3_get_relation_arity"] = createExportWrapper("Z3_get_relation_arity");
 
 /** @type {function(...*):?} */
@@ -10235,6 +11761,210 @@ var _Z3_mk_finite_domain_sort = Module["_Z3_mk_finite_domain_sort"] = createExpo
 
 /** @type {function(...*):?} */
 var _Z3_get_finite_domain_sort_size = Module["_Z3_get_finite_domain_sort_size"] = createExportWrapper("Z3_get_finite_domain_sort_size");
+
+/** @type {function(...*):?} */
+var _Z3_mk_fixedpoint = Module["_Z3_mk_fixedpoint"] = createExportWrapper("Z3_mk_fixedpoint");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_inc_ref = Module["_Z3_fixedpoint_inc_ref"] = createExportWrapper("Z3_fixedpoint_inc_ref");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_dec_ref = Module["_Z3_fixedpoint_dec_ref"] = createExportWrapper("Z3_fixedpoint_dec_ref");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_assert = Module["_Z3_fixedpoint_assert"] = createExportWrapper("Z3_fixedpoint_assert");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_add_rule = Module["_Z3_fixedpoint_add_rule"] = createExportWrapper("Z3_fixedpoint_add_rule");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_add_fact = Module["_Z3_fixedpoint_add_fact"] = createExportWrapper("Z3_fixedpoint_add_fact");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query = Module["_Z3_fixedpoint_query"] = createExportWrapper("Z3_fixedpoint_query");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_answer = Module["_Z3_fixedpoint_get_answer"] = createExportWrapper("Z3_fixedpoint_get_answer");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_reason_unknown = Module["_Z3_fixedpoint_get_reason_unknown"] = createExportWrapper("Z3_fixedpoint_get_reason_unknown");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_to_string = Module["_Z3_fixedpoint_to_string"] = createExportWrapper("Z3_fixedpoint_to_string");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_from_string = Module["_Z3_fixedpoint_from_string"] = createExportWrapper("Z3_fixedpoint_from_string");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_from_file = Module["_Z3_fixedpoint_from_file"] = createExportWrapper("Z3_fixedpoint_from_file");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_statistics = Module["_Z3_fixedpoint_get_statistics"] = createExportWrapper("Z3_fixedpoint_get_statistics");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_register_relation = Module["_Z3_fixedpoint_register_relation"] = createExportWrapper("Z3_fixedpoint_register_relation");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_set_predicate_representation = Module["_Z3_fixedpoint_set_predicate_representation"] = createExportWrapper("Z3_fixedpoint_set_predicate_representation");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_rules = Module["_Z3_fixedpoint_get_rules"] = createExportWrapper("Z3_fixedpoint_get_rules");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_assertions = Module["_Z3_fixedpoint_get_assertions"] = createExportWrapper("Z3_fixedpoint_get_assertions");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_update_rule = Module["_Z3_fixedpoint_update_rule"] = createExportWrapper("Z3_fixedpoint_update_rule");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_num_levels = Module["_Z3_fixedpoint_get_num_levels"] = createExportWrapper("Z3_fixedpoint_get_num_levels");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_cover_delta = Module["_Z3_fixedpoint_get_cover_delta"] = createExportWrapper("Z3_fixedpoint_get_cover_delta");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_add_cover = Module["_Z3_fixedpoint_add_cover"] = createExportWrapper("Z3_fixedpoint_add_cover");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_help = Module["_Z3_fixedpoint_get_help"] = createExportWrapper("Z3_fixedpoint_get_help");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_param_descrs = Module["_Z3_fixedpoint_get_param_descrs"] = createExportWrapper("Z3_fixedpoint_get_param_descrs");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_set_params = Module["_Z3_fixedpoint_set_params"] = createExportWrapper("Z3_fixedpoint_set_params");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query_from_lvl = Module["_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("Z3_fixedpoint_query_from_lvl");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_ground_sat_answer = Module["_Z3_fixedpoint_get_ground_sat_answer"] = createExportWrapper("Z3_fixedpoint_get_ground_sat_answer");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_rules_along_trace = Module["_Z3_fixedpoint_get_rules_along_trace"] = createExportWrapper("Z3_fixedpoint_get_rules_along_trace");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_rule_names_along_trace = Module["_Z3_fixedpoint_get_rule_names_along_trace"] = createExportWrapper("Z3_fixedpoint_get_rule_names_along_trace");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_add_invariant = Module["_Z3_fixedpoint_add_invariant"] = createExportWrapper("Z3_fixedpoint_add_invariant");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_get_reachable = Module["_Z3_fixedpoint_get_reachable"] = createExportWrapper("Z3_fixedpoint_get_reachable");
+
+/** @type {function(...*):?} */
+var _Z3_mk_ast_vector = Module["_Z3_mk_ast_vector"] = createExportWrapper("Z3_mk_ast_vector");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_inc_ref = Module["_Z3_ast_vector_inc_ref"] = createExportWrapper("Z3_ast_vector_inc_ref");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_dec_ref = Module["_Z3_ast_vector_dec_ref"] = createExportWrapper("Z3_ast_vector_dec_ref");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_size = Module["_Z3_ast_vector_size"] = createExportWrapper("Z3_ast_vector_size");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_get = Module["_Z3_ast_vector_get"] = createExportWrapper("Z3_ast_vector_get");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_set = Module["_Z3_ast_vector_set"] = createExportWrapper("Z3_ast_vector_set");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_resize = Module["_Z3_ast_vector_resize"] = createExportWrapper("Z3_ast_vector_resize");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_push = Module["_Z3_ast_vector_push"] = createExportWrapper("Z3_ast_vector_push");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_translate = Module["_Z3_ast_vector_translate"] = createExportWrapper("Z3_ast_vector_translate");
+
+/** @type {function(...*):?} */
+var _Z3_ast_vector_to_string = Module["_Z3_ast_vector_to_string"] = createExportWrapper("Z3_ast_vector_to_string");
+
+/** @type {function(...*):?} */
+var _Z3_mk_optimize = Module["_Z3_mk_optimize"] = createExportWrapper("Z3_mk_optimize");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_inc_ref = Module["_Z3_optimize_inc_ref"] = createExportWrapper("Z3_optimize_inc_ref");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_dec_ref = Module["_Z3_optimize_dec_ref"] = createExportWrapper("Z3_optimize_dec_ref");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_assert = Module["_Z3_optimize_assert"] = createExportWrapper("Z3_optimize_assert");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_assert_and_track = Module["_Z3_optimize_assert_and_track"] = createExportWrapper("Z3_optimize_assert_and_track");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_assert_soft = Module["_Z3_optimize_assert_soft"] = createExportWrapper("Z3_optimize_assert_soft");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_maximize = Module["_Z3_optimize_maximize"] = createExportWrapper("Z3_optimize_maximize");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_minimize = Module["_Z3_optimize_minimize"] = createExportWrapper("Z3_optimize_minimize");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_push = Module["_Z3_optimize_push"] = createExportWrapper("Z3_optimize_push");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_pop = Module["_Z3_optimize_pop"] = createExportWrapper("Z3_optimize_pop");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_unsat_core = Module["_Z3_optimize_get_unsat_core"] = createExportWrapper("Z3_optimize_get_unsat_core");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_reason_unknown = Module["_Z3_optimize_get_reason_unknown"] = createExportWrapper("Z3_optimize_get_reason_unknown");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_model = Module["_Z3_optimize_get_model"] = createExportWrapper("Z3_optimize_get_model");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_set_params = Module["_Z3_optimize_set_params"] = createExportWrapper("Z3_optimize_set_params");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_param_descrs = Module["_Z3_optimize_get_param_descrs"] = createExportWrapper("Z3_optimize_get_param_descrs");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_lower = Module["_Z3_optimize_get_lower"] = createExportWrapper("Z3_optimize_get_lower");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_upper = Module["_Z3_optimize_get_upper"] = createExportWrapper("Z3_optimize_get_upper");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_lower_as_vector = Module["_Z3_optimize_get_lower_as_vector"] = createExportWrapper("Z3_optimize_get_lower_as_vector");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_upper_as_vector = Module["_Z3_optimize_get_upper_as_vector"] = createExportWrapper("Z3_optimize_get_upper_as_vector");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_to_string = Module["_Z3_optimize_to_string"] = createExportWrapper("Z3_optimize_to_string");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_help = Module["_Z3_optimize_get_help"] = createExportWrapper("Z3_optimize_get_help");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_statistics = Module["_Z3_optimize_get_statistics"] = createExportWrapper("Z3_optimize_get_statistics");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_from_string = Module["_Z3_optimize_from_string"] = createExportWrapper("Z3_optimize_from_string");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_from_file = Module["_Z3_optimize_from_file"] = createExportWrapper("Z3_optimize_from_file");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_assertions = Module["_Z3_optimize_get_assertions"] = createExportWrapper("Z3_optimize_get_assertions");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_get_objectives = Module["_Z3_optimize_get_objectives"] = createExportWrapper("Z3_optimize_get_objectives");
 
 /** @type {function(...*):?} */
 var _Z3_mk_linear_order = Module["_Z3_mk_linear_order"] = createExportWrapper("Z3_mk_linear_order");
@@ -10250,6 +11980,69 @@ var _Z3_mk_tree_order = Module["_Z3_mk_tree_order"] = createExportWrapper("Z3_mk
 
 /** @type {function(...*):?} */
 var _Z3_mk_transitive_closure = Module["_Z3_mk_transitive_closure"] = createExportWrapper("Z3_mk_transitive_closure");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_is_value = Module["_Z3_algebraic_is_value"] = createExportWrapper("Z3_algebraic_is_value");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_is_pos = Module["_Z3_algebraic_is_pos"] = createExportWrapper("Z3_algebraic_is_pos");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_sign = Module["_Z3_algebraic_sign"] = createExportWrapper("Z3_algebraic_sign");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_is_neg = Module["_Z3_algebraic_is_neg"] = createExportWrapper("Z3_algebraic_is_neg");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_is_zero = Module["_Z3_algebraic_is_zero"] = createExportWrapper("Z3_algebraic_is_zero");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_add = Module["_Z3_algebraic_add"] = createExportWrapper("Z3_algebraic_add");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_sub = Module["_Z3_algebraic_sub"] = createExportWrapper("Z3_algebraic_sub");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_mul = Module["_Z3_algebraic_mul"] = createExportWrapper("Z3_algebraic_mul");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_div = Module["_Z3_algebraic_div"] = createExportWrapper("Z3_algebraic_div");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_root = Module["_Z3_algebraic_root"] = createExportWrapper("Z3_algebraic_root");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_power = Module["_Z3_algebraic_power"] = createExportWrapper("Z3_algebraic_power");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_lt = Module["_Z3_algebraic_lt"] = createExportWrapper("Z3_algebraic_lt");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_gt = Module["_Z3_algebraic_gt"] = createExportWrapper("Z3_algebraic_gt");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_le = Module["_Z3_algebraic_le"] = createExportWrapper("Z3_algebraic_le");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_ge = Module["_Z3_algebraic_ge"] = createExportWrapper("Z3_algebraic_ge");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_eq = Module["_Z3_algebraic_eq"] = createExportWrapper("Z3_algebraic_eq");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_neq = Module["_Z3_algebraic_neq"] = createExportWrapper("Z3_algebraic_neq");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_roots = Module["_Z3_algebraic_roots"] = createExportWrapper("Z3_algebraic_roots");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_get_poly = Module["_Z3_algebraic_get_poly"] = createExportWrapper("Z3_algebraic_get_poly");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_get_i = Module["_Z3_algebraic_get_i"] = createExportWrapper("Z3_algebraic_get_i");
 
 /** @type {function(...*):?} */
 var _Z3_mk_tactic = Module["_Z3_mk_tactic"] = createExportWrapper("Z3_mk_tactic");
@@ -10660,6 +12453,18 @@ var _Z3_set_error = Module["_Z3_set_error"] = createExportWrapper("Z3_set_error"
 var _Z3_set_ast_print_mode = Module["_Z3_set_ast_print_mode"] = createExportWrapper("Z3_set_ast_print_mode");
 
 /** @type {function(...*):?} */
+var _Z3_qe_model_project = Module["_Z3_qe_model_project"] = createExportWrapper("Z3_qe_model_project");
+
+/** @type {function(...*):?} */
+var _Z3_qe_model_project_skolem = Module["_Z3_qe_model_project_skolem"] = createExportWrapper("Z3_qe_model_project_skolem");
+
+/** @type {function(...*):?} */
+var _Z3_model_extrapolate = Module["_Z3_model_extrapolate"] = createExportWrapper("Z3_model_extrapolate");
+
+/** @type {function(...*):?} */
+var _Z3_qe_lite = Module["_Z3_qe_lite"] = createExportWrapper("Z3_qe_lite");
+
+/** @type {function(...*):?} */
 var _Z3_open_log = Module["_Z3_open_log"] = createExportWrapper("Z3_open_log");
 
 /** @type {function(...*):?} */
@@ -10682,6 +12487,9 @@ var _Z3_mk_pbge = Module["_Z3_mk_pbge"] = createExportWrapper("Z3_mk_pbge");
 
 /** @type {function(...*):?} */
 var _Z3_mk_pbeq = Module["_Z3_mk_pbeq"] = createExportWrapper("Z3_mk_pbeq");
+
+/** @type {function(...*):?} */
+var _Z3_polynomial_subresultants = Module["_Z3_polynomial_subresultants"] = createExportWrapper("Z3_polynomial_subresultants");
 
 /** @type {function(...*):?} */
 var _Z3_mk_goal = Module["_Z3_mk_goal"] = createExportWrapper("Z3_mk_goal");
@@ -10733,6 +12541,75 @@ var _Z3_goal_to_string = Module["_Z3_goal_to_string"] = createExportWrapper("Z3_
 
 /** @type {function(...*):?} */
 var _Z3_goal_to_dimacs_string = Module["_Z3_goal_to_dimacs_string"] = createExportWrapper("Z3_goal_to_dimacs_string");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_del = Module["_Z3_rcf_del"] = createExportWrapper("Z3_rcf_del");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mk_rational = Module["_Z3_rcf_mk_rational"] = createExportWrapper("Z3_rcf_mk_rational");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mk_small_int = Module["_Z3_rcf_mk_small_int"] = createExportWrapper("Z3_rcf_mk_small_int");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mk_pi = Module["_Z3_rcf_mk_pi"] = createExportWrapper("Z3_rcf_mk_pi");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mk_e = Module["_Z3_rcf_mk_e"] = createExportWrapper("Z3_rcf_mk_e");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mk_infinitesimal = Module["_Z3_rcf_mk_infinitesimal"] = createExportWrapper("Z3_rcf_mk_infinitesimal");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mk_roots = Module["_Z3_rcf_mk_roots"] = createExportWrapper("Z3_rcf_mk_roots");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_add = Module["_Z3_rcf_add"] = createExportWrapper("Z3_rcf_add");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_sub = Module["_Z3_rcf_sub"] = createExportWrapper("Z3_rcf_sub");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_mul = Module["_Z3_rcf_mul"] = createExportWrapper("Z3_rcf_mul");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_div = Module["_Z3_rcf_div"] = createExportWrapper("Z3_rcf_div");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_neg = Module["_Z3_rcf_neg"] = createExportWrapper("Z3_rcf_neg");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_inv = Module["_Z3_rcf_inv"] = createExportWrapper("Z3_rcf_inv");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_power = Module["_Z3_rcf_power"] = createExportWrapper("Z3_rcf_power");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_lt = Module["_Z3_rcf_lt"] = createExportWrapper("Z3_rcf_lt");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_gt = Module["_Z3_rcf_gt"] = createExportWrapper("Z3_rcf_gt");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_le = Module["_Z3_rcf_le"] = createExportWrapper("Z3_rcf_le");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_ge = Module["_Z3_rcf_ge"] = createExportWrapper("Z3_rcf_ge");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_eq = Module["_Z3_rcf_eq"] = createExportWrapper("Z3_rcf_eq");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_neq = Module["_Z3_rcf_neq"] = createExportWrapper("Z3_rcf_neq");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_num_to_string = Module["_Z3_rcf_num_to_string"] = createExportWrapper("Z3_rcf_num_to_string");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_num_to_decimal_string = Module["_Z3_rcf_num_to_decimal_string"] = createExportWrapper("Z3_rcf_num_to_decimal_string");
+
+/** @type {function(...*):?} */
+var _Z3_rcf_get_numerator_denominator = Module["_Z3_rcf_get_numerator_denominator"] = createExportWrapper("Z3_rcf_get_numerator_denominator");
 
 /** @type {function(...*):?} */
 var _Z3_mk_seq_sort = Module["_Z3_mk_seq_sort"] = createExportWrapper("Z3_mk_seq_sort");
@@ -11510,8 +13387,8 @@ var ___cxa_can_catch = Module["___cxa_can_catch"] = createExportWrapper("__cxa_c
 /** @type {function(...*):?} */
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = createExportWrapper("__cxa_is_pointer_type");
 
-var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 409160;
-var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 405220;
+var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 411448;
+var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 407340;
 function invoke_vi(index,a1) {
 var sp = stackSave();
 try {
@@ -12187,6 +14064,61 @@ function invoke_viji(index,a1,a2,a3) {
 var sp = stackSave();
 try {
   getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_vifi(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiif(index,a1,a2,a3,a4,a5) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_vidi(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viijji(index,a1,a2,a3,a4,a5) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiiijj(index,a1,a2,a3,a4,a5,a6,a7) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
