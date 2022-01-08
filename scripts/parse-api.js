@@ -11,6 +11,8 @@ let files = [
   'z3_fixedpoint.h',
   'z3_fpa.h',
   'z3_optimization.h',
+  'z3_polynomial.h',
+  'z3_rcf.h',
 ];
 
 

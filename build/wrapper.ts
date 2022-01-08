@@ -5081,6 +5081,182 @@ export async function init() {
         c: Z3_context,
         o: Z3_optimize
       ) => Z3_ast_vector,
+      polynomial_subresultants: Mod._Z3_polynomial_subresultants as (
+        c: Z3_context,
+        p: Z3_ast,
+        q: Z3_ast,
+        x: Z3_ast
+      ) => Z3_ast_vector,
+      rcf_del: Mod._Z3_rcf_del as (c: Z3_context, a: Z3_rcf_num) => void,
+      rcf_mk_rational: function (c: Z3_context, val: string): Z3_rcf_num {
+        let ret = Mod.ccall(
+          'Z3_rcf_mk_rational',
+          'number',
+          ['number', 'string'],
+          [c, val]
+        );
+        return ret;
+      },
+      rcf_mk_small_int: Mod._Z3_rcf_mk_small_int as (
+        c: Z3_context,
+        val: int
+      ) => Z3_rcf_num,
+      rcf_mk_pi: Mod._Z3_rcf_mk_pi as (c: Z3_context) => Z3_rcf_num,
+      rcf_mk_e: Mod._Z3_rcf_mk_e as (c: Z3_context) => Z3_rcf_num,
+      rcf_mk_infinitesimal: Mod._Z3_rcf_mk_infinitesimal as (
+        c: Z3_context
+      ) => Z3_rcf_num,
+      rcf_mk_roots: function (
+        c: Z3_context,
+        a: Z3_rcf_num[]
+      ): { rv: unsigned; roots: Z3_rcf_num[] } {
+        let outArray_roots = Mod._malloc(4 * a.length);
+        try {
+          let ret = Mod.ccall(
+            'Z3_rcf_mk_roots',
+            'number',
+            ['number', 'number', 'array', 'number'],
+            [
+              c,
+              a.length,
+              intArrayToByteArr(a as unknown as number[]),
+              outArray_roots,
+            ]
+          );
+          return {
+            rv: ret,
+            roots: readUintArray(
+              outArray_roots,
+              a.length
+            ) as unknown as Z3_rcf_num[],
+          };
+        } finally {
+          Mod._free(outArray_roots);
+        }
+      },
+      rcf_add: Mod._Z3_rcf_add as (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        b: Z3_rcf_num
+      ) => Z3_rcf_num,
+      rcf_sub: Mod._Z3_rcf_sub as (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        b: Z3_rcf_num
+      ) => Z3_rcf_num,
+      rcf_mul: Mod._Z3_rcf_mul as (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        b: Z3_rcf_num
+      ) => Z3_rcf_num,
+      rcf_div: Mod._Z3_rcf_div as (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        b: Z3_rcf_num
+      ) => Z3_rcf_num,
+      rcf_neg: Mod._Z3_rcf_neg as (c: Z3_context, a: Z3_rcf_num) => Z3_rcf_num,
+      rcf_inv: Mod._Z3_rcf_inv as (c: Z3_context, a: Z3_rcf_num) => Z3_rcf_num,
+      rcf_power: Mod._Z3_rcf_power as (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        k: unsigned
+      ) => Z3_rcf_num,
+      rcf_lt: function (c: Z3_context, a: Z3_rcf_num, b: Z3_rcf_num): boolean {
+        let ret = Mod.ccall(
+          'Z3_rcf_lt',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      rcf_gt: function (c: Z3_context, a: Z3_rcf_num, b: Z3_rcf_num): boolean {
+        let ret = Mod.ccall(
+          'Z3_rcf_gt',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      rcf_le: function (c: Z3_context, a: Z3_rcf_num, b: Z3_rcf_num): boolean {
+        let ret = Mod.ccall(
+          'Z3_rcf_le',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      rcf_ge: function (c: Z3_context, a: Z3_rcf_num, b: Z3_rcf_num): boolean {
+        let ret = Mod.ccall(
+          'Z3_rcf_ge',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      rcf_eq: function (c: Z3_context, a: Z3_rcf_num, b: Z3_rcf_num): boolean {
+        let ret = Mod.ccall(
+          'Z3_rcf_eq',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      rcf_neq: function (c: Z3_context, a: Z3_rcf_num, b: Z3_rcf_num): boolean {
+        let ret = Mod.ccall(
+          'Z3_rcf_neq',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, a, b]
+        );
+        return ret;
+      },
+      rcf_num_to_string: function (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        compact: boolean,
+        html: boolean
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_rcf_num_to_string',
+          'string',
+          ['number', 'number', 'boolean', 'boolean'],
+          [c, a, compact, html]
+        );
+        return ret;
+      },
+      rcf_num_to_decimal_string: function (
+        c: Z3_context,
+        a: Z3_rcf_num,
+        prec: unsigned
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_rcf_num_to_decimal_string',
+          'string',
+          ['number', 'number', 'number'],
+          [c, a, prec]
+        );
+        return ret;
+      },
+      rcf_get_numerator_denominator: function (
+        c: Z3_context,
+        a: Z3_rcf_num
+      ): { n: Z3_rcf_num; d: Z3_rcf_num } {
+        let ret = Mod.ccall(
+          'Z3_rcf_get_numerator_denominator',
+          'void',
+          ['number', 'number', 'number', 'number'],
+          [c, a, outAddress, outAddress + 4]
+        );
+        return {
+          n: getOutUint(0) as unknown as Z3_rcf_num,
+          d: getOutUint(1) as unknown as Z3_rcf_num,
+        };
+      },
     },
   };
 }

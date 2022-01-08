@@ -297,7 +297,7 @@ function wrapFunction(fn) {
       returnType += ' | null';
     } else if (fn.ret === 'void') {
       cReturnType = 'void';
-    } else if (isZ3PointerType(fn.ret)) {
+    } else if (isZ3PointerType(fn.ret) || fn.ret === 'unsigned') {
       cReturnType = 'number';
     } else {
       console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
