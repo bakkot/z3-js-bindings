@@ -100,7 +100,7 @@ for (let file of files) {
         break;
       }
       let kind = match.groups.kind;
-      if (kind === 'inout_array') kind = 'in_array'; // https://github.com/Z3Prover/z3/issues/5759
+      if (kind === 'inout_array') kind = 'in_array'; // https://github.com/Z3Prover/z3/discussions/5761
       if (kind === 'in' || kind === 'out') {
         ({ text, match } = expect(text, /^[A-Za-z0-9_]+/));
         parsedParams.push({ kind, type: match[0] });

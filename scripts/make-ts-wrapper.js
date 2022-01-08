@@ -176,10 +176,7 @@ function wrapFunction(fn) {
     let memIdx = 0; // offset from `outAddress` where the data should get written, in units of 4 bytes
 
     for (let outParam of outParams) {
-      if (outParam.kind === 'inout_array') {
-        console.error(`skipping ${fn.name} - inout_array`);
-        return null;
-      } else if (outParam.kind === 'out_array') {
+      if (outParam.isArray) {
         if (isZ3PointerType(outParam.type) || outParam.type === 'unsigned') {
           let { sizeIndex } = outParam;
 
