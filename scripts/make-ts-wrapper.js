@@ -35,6 +35,10 @@ function isZ3PointerType(type) {
 }
 
 function toEm(p) {
+  if (typeof p === 'string') {
+    // we've already set this, e.g. by replacing it with an expression
+    return p;
+  }
   let { type } = p;
   if (p.kind === 'out') {
     if (type === 'Z3_string_ptr' || type.startsWith('Z3_') && type !== 'Z3_string') {
@@ -85,10 +89,9 @@ function wrapFunction(fn) {
 
   let outParam = null;
   if (outParams.length === 1) {
-    // this special case is basically just Z3_model_eval
     outParam = outParams[0];
-    if (outParam.kind !== 'out' || outParam.isArray || !(outParam.isPtr && isZ3PointerType(outParam.type) || !outParam.isPtr && outParam.type === 'Z3_string_ptr')) {
-      console.error(`skipping ${fn.name} - unknown out parameter`);
+    if (outParam.kind !== 'out' || outParam.isArray) {
+      console.error(`skipping ${fn.name} - out array`);
       return null;
     }
   }
@@ -104,8 +107,6 @@ function wrapFunction(fn) {
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
   let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`);
 
-  let args = fn.params.map(toEm);
-
   if (trivial && !isAsync) {
     return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
   }
@@ -113,12 +114,11 @@ function wrapFunction(fn) {
   if (trivial) {
     // i.e. and async
     return `${name}: function (${params.join(', ')}): Promise<${fn.ret}> {
-      return Mod.async_call(Mod._async_${fn.name}, ${args.join(', ')});
+      return Mod.async_call(Mod._async_${fn.name}, ${fn.params.map(toEm).join(', ')});
     }`;
   }
 
   // otherwise fall back to ccall
-  // TODO could be cwrap...
 
   if (isAsync) {
     throw new Error('todo: nontrivial async functions');
@@ -128,6 +128,8 @@ function wrapFunction(fn) {
 
   let prefix = '';
   let suffix = null;
+
+  let args = fn.params;
 
   // TODO handle the case where the length is of multiple arrays and they don't agree
   let arrayLengthParams = new Map();
@@ -167,15 +169,18 @@ function wrapFunction(fn) {
         }
       `.trim();
       cReturnType = 'boolean';
-      if (outParam.type === 'Z3_string_ptr') {
+      if (!outParam.isPtr && outParam.type === 'Z3_string_ptr') {
         returnType = 'string | null';
         suffix += `
           return Mod.UTF8ToString(getOutPtr());`
-      } else {
+      } else if (outParam.isPtr && isZ3PointerType(outParam.type)) {
         returnType = `${outParam.type} | null`;
         suffix += `
           return getOutPtr() as unknown as ${outParam.type};
         `.trim();
+      } else {
+        console.error(`skipping ${fn.name} - unknown out parameter kind`);
+        return null;
       }
     } else {
       console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
@@ -183,7 +188,7 @@ function wrapFunction(fn) {
     }
   }
 
-  let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args}])`;
+  let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
 
   let out = `${name}: function(${params.join(', ')}): ${returnType} {
     ${prefix}`;
