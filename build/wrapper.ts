@@ -5257,6 +5257,90 @@ export async function init() {
           d: getOutUint(1) as unknown as Z3_rcf_num,
         };
       },
+      fixedpoint_query_from_lvl: Mod._Z3_fixedpoint_query_from_lvl as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        query: Z3_ast,
+        lvl: unsigned
+      ) => Z3_lbool,
+      fixedpoint_get_ground_sat_answer:
+        Mod._Z3_fixedpoint_get_ground_sat_answer as (
+          c: Z3_context,
+          d: Z3_fixedpoint
+        ) => Z3_ast,
+      fixedpoint_get_rules_along_trace:
+        Mod._Z3_fixedpoint_get_rules_along_trace as (
+          c: Z3_context,
+          d: Z3_fixedpoint
+        ) => Z3_ast_vector,
+      fixedpoint_get_rule_names_along_trace:
+        Mod._Z3_fixedpoint_get_rule_names_along_trace as (
+          c: Z3_context,
+          d: Z3_fixedpoint
+        ) => Z3_symbol,
+      fixedpoint_add_invariant: Mod._Z3_fixedpoint_add_invariant as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        pred: Z3_func_decl,
+        property: Z3_ast
+      ) => void,
+      fixedpoint_get_reachable: Mod._Z3_fixedpoint_get_reachable as (
+        c: Z3_context,
+        d: Z3_fixedpoint,
+        pred: Z3_func_decl
+      ) => Z3_ast,
+      qe_model_project: function (
+        c: Z3_context,
+        m: Z3_model,
+        bound: Z3_app[],
+        body: Z3_ast
+      ): Z3_ast {
+        let ret = Mod.ccall(
+          'Z3_qe_model_project',
+          'number',
+          ['number', 'number', 'number', 'array', 'number'],
+          [
+            c,
+            m,
+            bound.length,
+            intArrayToByteArr(bound as unknown as number[]),
+            body,
+          ]
+        );
+        return ret;
+      },
+      qe_model_project_skolem: function (
+        c: Z3_context,
+        m: Z3_model,
+        bound: Z3_app[],
+        body: Z3_ast,
+        map: Z3_ast_map
+      ): Z3_ast {
+        let ret = Mod.ccall(
+          'Z3_qe_model_project_skolem',
+          'number',
+          ['number', 'number', 'number', 'array', 'number', 'number'],
+          [
+            c,
+            m,
+            bound.length,
+            intArrayToByteArr(bound as unknown as number[]),
+            body,
+            map,
+          ]
+        );
+        return ret;
+      },
+      model_extrapolate: Mod._Z3_model_extrapolate as (
+        c: Z3_context,
+        m: Z3_model,
+        fml: Z3_ast
+      ) => Z3_ast,
+      qe_lite: Mod._Z3_qe_lite as (
+        c: Z3_context,
+        vars: Z3_ast_vector,
+        body: Z3_ast
+      ) => Z3_ast,
     },
   };
 }

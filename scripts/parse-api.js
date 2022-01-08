@@ -13,6 +13,7 @@ let files = [
   'z3_optimization.h',
   'z3_polynomial.h',
   'z3_rcf.h',
+  'z3_spacer.h',
 ];
 
 
@@ -84,9 +85,9 @@ for (let file of files) {
   // we filter first to ensure our regex isn't too strict
   let apiLines = contents.split('\n').filter(l => /def_API|extra_API/.test(l));
   for (let line of apiLines) {
-    let match = line.match(/^\s*(?<def>def_API|extra_API)\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\s*\)\s*$/);
+    let match = line.match(/^\s*(?<def>def_API|extra_API) *\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\s*\)\s*$/);
     if (match == null) {
-      throw new Error(`failed to match ${JSON.stringify(line)}`);
+      throw new Error(`failed to match def_API call ${JSON.stringify(line)}`);
     }
     let { name, ret, def } = match.groups;
     let params = match.groups.params.trim();
@@ -208,7 +209,7 @@ for (let file of files) {
     idx = lineEnd;
 
     let slice = contents.substring(lineStart, lineEnd);
-    let match = slice.match(/^\s*(?<ret>[A-Za-z0-9_]+) +Z3_API +(?<name>[A-Za-z0-9_]+) *\((?<params>[^)]*)\)/);
+    let match = slice.match(/^\s*(?<ret>[A-Za-z0-9_]+) +Z3_API +(?<name>[A-Za-z0-9_]+)\s*\((?<params>[^)]*)\)/);
     if (match == null) {
       throw new Error(`failed to match c definition: ${JSON.stringify(slice)}`);
     }
