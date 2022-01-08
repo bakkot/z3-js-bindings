@@ -4905,6 +4905,182 @@ export async function init() {
         sig: Z3_ast,
         s: Z3_sort
       ) => Z3_ast,
+      mk_optimize: Mod._Z3_mk_optimize as (c: Z3_context) => Z3_optimize,
+      optimize_inc_ref: Mod._Z3_optimize_inc_ref as (
+        c: Z3_context,
+        d: Z3_optimize
+      ) => void,
+      optimize_dec_ref: Mod._Z3_optimize_dec_ref as (
+        c: Z3_context,
+        d: Z3_optimize
+      ) => void,
+      optimize_assert: Mod._Z3_optimize_assert as (
+        c: Z3_context,
+        o: Z3_optimize,
+        a: Z3_ast
+      ) => void,
+      optimize_assert_and_track: Mod._Z3_optimize_assert_and_track as (
+        c: Z3_context,
+        o: Z3_optimize,
+        a: Z3_ast,
+        t: Z3_ast
+      ) => void,
+      optimize_assert_soft: function (
+        c: Z3_context,
+        o: Z3_optimize,
+        a: Z3_ast,
+        weight: string,
+        id: Z3_symbol
+      ): unsigned {
+        let ret = Mod.ccall(
+          'Z3_optimize_assert_soft',
+          'number',
+          ['number', 'number', 'number', 'string', 'number'],
+          [c, o, a, weight, id]
+        );
+        return ret;
+      },
+      optimize_maximize: Mod._Z3_optimize_maximize as (
+        c: Z3_context,
+        o: Z3_optimize,
+        t: Z3_ast
+      ) => unsigned,
+      optimize_minimize: Mod._Z3_optimize_minimize as (
+        c: Z3_context,
+        o: Z3_optimize,
+        t: Z3_ast
+      ) => unsigned,
+      optimize_push: Mod._Z3_optimize_push as (
+        c: Z3_context,
+        d: Z3_optimize
+      ) => void,
+      optimize_pop: Mod._Z3_optimize_pop as (
+        c: Z3_context,
+        d: Z3_optimize
+      ) => void,
+      optimize_check: function (
+        c: Z3_context,
+        o: Z3_optimize,
+        assumptions: Z3_ast[]
+      ): Z3_lbool {
+        let ret = Mod.ccall(
+          'Z3_optimize_check',
+          'number',
+          ['number', 'number', 'number', 'array'],
+          [
+            c,
+            o,
+            assumptions.length,
+            intArrayToByteArr(assumptions as unknown as number[]),
+          ]
+        );
+        return ret;
+      },
+      optimize_get_reason_unknown: function (
+        c: Z3_context,
+        d: Z3_optimize
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_optimize_get_reason_unknown',
+          'string',
+          ['number', 'number'],
+          [c, d]
+        );
+        return ret;
+      },
+      optimize_get_model: Mod._Z3_optimize_get_model as (
+        c: Z3_context,
+        o: Z3_optimize
+      ) => Z3_model,
+      optimize_get_unsat_core: Mod._Z3_optimize_get_unsat_core as (
+        c: Z3_context,
+        o: Z3_optimize
+      ) => Z3_ast_vector,
+      optimize_set_params: Mod._Z3_optimize_set_params as (
+        c: Z3_context,
+        o: Z3_optimize,
+        p: Z3_params
+      ) => void,
+      optimize_get_param_descrs: Mod._Z3_optimize_get_param_descrs as (
+        c: Z3_context,
+        o: Z3_optimize
+      ) => Z3_param_descrs,
+      optimize_get_lower: Mod._Z3_optimize_get_lower as (
+        c: Z3_context,
+        o: Z3_optimize,
+        idx: unsigned
+      ) => Z3_ast,
+      optimize_get_upper: Mod._Z3_optimize_get_upper as (
+        c: Z3_context,
+        o: Z3_optimize,
+        idx: unsigned
+      ) => Z3_ast,
+      optimize_get_lower_as_vector: Mod._Z3_optimize_get_lower_as_vector as (
+        c: Z3_context,
+        o: Z3_optimize,
+        idx: unsigned
+      ) => Z3_ast_vector,
+      optimize_get_upper_as_vector: Mod._Z3_optimize_get_upper_as_vector as (
+        c: Z3_context,
+        o: Z3_optimize,
+        idx: unsigned
+      ) => Z3_ast_vector,
+      optimize_to_string: function (c: Z3_context, o: Z3_optimize): string {
+        let ret = Mod.ccall(
+          'Z3_optimize_to_string',
+          'string',
+          ['number', 'number'],
+          [c, o]
+        );
+        return ret;
+      },
+      optimize_from_string: function (
+        c: Z3_context,
+        o: Z3_optimize,
+        s: string
+      ): void {
+        let ret = Mod.ccall(
+          'Z3_optimize_from_string',
+          'void',
+          ['number', 'number', 'string'],
+          [c, o, s]
+        );
+        return ret;
+      },
+      optimize_from_file: function (
+        c: Z3_context,
+        o: Z3_optimize,
+        s: string
+      ): void {
+        let ret = Mod.ccall(
+          'Z3_optimize_from_file',
+          'void',
+          ['number', 'number', 'string'],
+          [c, o, s]
+        );
+        return ret;
+      },
+      optimize_get_help: function (c: Z3_context, t: Z3_optimize): string {
+        let ret = Mod.ccall(
+          'Z3_optimize_get_help',
+          'string',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      optimize_get_statistics: Mod._Z3_optimize_get_statistics as (
+        c: Z3_context,
+        d: Z3_optimize
+      ) => Z3_stats,
+      optimize_get_assertions: Mod._Z3_optimize_get_assertions as (
+        c: Z3_context,
+        o: Z3_optimize
+      ) => Z3_ast_vector,
+      optimize_get_objectives: Mod._Z3_optimize_get_objectives as (
+        c: Z3_context,
+        o: Z3_optimize
+      ) => Z3_ast_vector,
     },
   };
 }

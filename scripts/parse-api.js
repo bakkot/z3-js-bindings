@@ -10,6 +10,7 @@ let files = [
   'z3_ast_containers.h',
   'z3_fixedpoint.h',
   'z3_fpa.h',
+  'z3_optimization.h',
 ];
 
 
