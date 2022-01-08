@@ -425,11 +425,15 @@ export async function init() {
 
   // this supports a up to four out intergers/pointers
   // or up to two out int64s
-  let outIntAddress = Mod._malloc(16);
-  let outUintArray = new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 4);
+  let outAddress = Mod._malloc(16);
+  let outUintArray = new Uint32Array(Mod.HEAPU32.buffer, outAddress, 4);
   let getOutUint = (i: 0 | 1 | 2 | 3) => outUintArray[i];
-  let outIntArray = new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 4);
+  let outIntArray = new Int32Array(Mod.HEAPU32.buffer, outAddress, 4);
   let getOutInt = (i: 0 | 1 | 2 | 3) => outIntArray[i];
+  let outUint64Array = new BigUint64Array(Mod.HEAPU32.buffer, outAddress, 2);
+  let getOutUint64 = (i: 0 | 1) => outUint64Array[i];
+  let outInt64Array = new BigInt64Array(Mod.HEAPU32.buffer, outAddress, 2);
+  let getOutInt64 = (i: 0 | 1) => outInt64Array[i];
 
   return {
     em: Mod,
@@ -443,12 +447,12 @@ export async function init() {
         );
       },
       global_param_reset_all: Mod._Z3_global_param_reset_all as () => void,
-      global_param_get: function (param_id: string): string | null {
+      global_param_get: function (param_id: string): Z3_string | null {
         let ret = Mod.ccall(
           'Z3_global_param_get',
           'boolean',
           ['string', 'number'],
-          [param_id, outIntAddress]
+          [param_id, outAddress]
         );
         if (!ret) {
           return null;
@@ -1961,6 +1965,21 @@ export async function init() {
         c: Z3_context,
         t: Z3_sort
       ) => unsigned,
+      get_finite_domain_sort_size: function (
+        c: Z3_context,
+        s: Z3_sort
+      ): uint64_t | null {
+        let ret = Mod.ccall(
+          'Z3_get_finite_domain_sort_size',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, s, outAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutUint64(0);
+      },
       get_array_sort_domain: Mod._Z3_get_array_sort_domain as (
         c: Z3_context,
         t: Z3_sort
@@ -2323,7 +2342,7 @@ export async function init() {
           'Z3_get_numeral_int',
           'boolean',
           ['number', 'number', 'number'],
-          [c, v, outIntAddress]
+          [c, v, outAddress]
         );
         if (!ret) {
           return null;
@@ -2335,12 +2354,36 @@ export async function init() {
           'Z3_get_numeral_uint',
           'boolean',
           ['number', 'number', 'number'],
-          [c, v, outIntAddress]
+          [c, v, outAddress]
         );
         if (!ret) {
           return null;
         }
         return getOutUint(0);
+      },
+      get_numeral_uint64: function (c: Z3_context, v: Z3_ast): uint64_t | null {
+        let ret = Mod.ccall(
+          'Z3_get_numeral_uint64',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, v, outAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutUint64(0);
+      },
+      get_numeral_int64: function (c: Z3_context, v: Z3_ast): int64_t | null {
+        let ret = Mod.ccall(
+          'Z3_get_numeral_int64',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, v, outAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutInt64(0);
       },
       get_algebraic_number_lower: Mod._Z3_get_algebraic_number_lower as (
         c: Z3_context,
@@ -2514,7 +2557,7 @@ export async function init() {
           'Z3_model_eval',
           'boolean',
           ['number', 'number', 'number', 'boolean', 'number'],
-          [c, m, t, model_completion, outIntAddress]
+          [c, m, t, model_completion, outAddress]
         );
         if (!ret) {
           return null;

@@ -41,8 +41,8 @@ function toEm(p) {
   }
   let { type } = p;
   if (p.kind === 'out') {
-    if (p.isPtr && (type.startsWith('Z3_') || type === 'unsigned' || type === 'int')) {
-      return 'outIntAddress';
+    if (p.isPtr && (type.startsWith('Z3_') || ['unsigned', 'int', 'uint64_t', 'int64_t'].includes(type))) {
+      return 'outAddress';
     }
     throw new Error(`unknown out parameter type ${JSON.stringify(p)}`);
   }
@@ -79,10 +79,6 @@ function wrapFunction(fn) {
     );
   if (unknownInParam) {
     console.error(`skipping ${fn.name} - unknown in parameter ${JSON.stringify(unknownInParam)}`);
-    return null;
-  }
-  if (outParams.length > 1) {
-    console.error(`skipping ${fn.name} - multiple out paramaeters`);
     return null;
   }
 
@@ -166,57 +162,59 @@ function wrapFunction(fn) {
       `.trim();
       cReturnType = 'boolean';
 
-      // let mapped = [];
-      // using a for instead of .map so we can exit the parent
-      // let idx = 0;
-      // for (let outParam of outParams) {
-      //   if (outParam.isPtr === ())
-      //   let read;
-      //   switch (outParam.type) {
-      //     case 'Z3_string_ptr': {
-      //       if (outParam.isPtr) {
-      //         console.error(`skipping ${fn.name} - out string pointers not supported`);
-      //         return null;
-      //       }
-      //       read = 
-      //     }
-      //   }
-      //   mapped.push({
-      //     name: outParam.name,
-      //     val: 
-      //   });
-      //   ++idx;
-      // }
-      if (outParams.length === 1) {
-        let outParam = outParams[0];
+      let mapped = [];
+      let memIdx = 0; // in units of 4 bytes
+      for (let outParam of outParams) {
         if (!outParam.isPtr) {
           console.error(`skipping ${fn.name} - out param is not pointer`);
           return null;
         }
-
+        let read, type;
         if (outParam.type === 'Z3_string') {
-          returnType = 'string | null';
-          suffix += `
-            return Mod.UTF8ToString(getOutUint(0));`
+          read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
+          ++memIdx;
         } else if (isZ3PointerType(outParam.type)) {
-          returnType = `${outParam.type} | null`;
-          suffix += `
-            return getOutUint(0) as unknown as ${outParam.type};
-          `.trim();
+          read = `getOutUint(${memIdx}) as unknown as ${outParam.type}`;
+          ++memIdx;
         } else if (outParam.type === 'unsigned') {
-          returnType = `${outParam.type} | null`;
-          suffix += `
-            return getOutUint(0);
-          `.trim();
+          read = `getOutUint(${memIdx})`;
+          ++memIdx;
         } else if (outParam.type === 'int') {
-          returnType = `${outParam.type} | null`;
-          suffix += `
-            return getOutInt(0);
-          `.trim();
+          read = `getOutInt(${memIdx})`;
+          ++memIdx;
+        } else if (outParam.type === 'uint64_t') {
+          if (memIdx % 2 === 1) {
+            ++memIdx;
+          }
+          read = `getOutUint64(${memIdx/2})`;
+          memIdx += 2;
+        } else if (outParam.type === 'int64_t') {
+          if (memIdx % 2 === 1) {
+            ++memIdx;
+          }
+          read = `getOutInt64(${memIdx/2})`;
+          memIdx += 2;
         } else {
-          console.error(`skipping ${fn.name} - unknown out parameter kind ${JSON.stringify(outParam)}`);
+          console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
           return null;
         }
+        if (memIdx > 16) {
+          console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx}, which is > 16`);
+          return null;
+        }
+        mapped.push({
+          name: outParam.name,
+          read,
+          type: outParam.type,
+        });
+      }
+      if (outParams.length === 1) {
+        let outParam = mapped[0];
+        returnType = `${outParam.type} | null`;
+        suffix += `return ${outParam.read}`;
+      } else {
+        console.error(`skipping ${fn.name} - multiple out parameters`);
+        return null;
       }
     } else {
       console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
@@ -272,11 +270,15 @@ export async function init() {
 
   // this supports a up to four out intergers/pointers
   // or up to two out int64s
-  let outIntAddress = Mod._malloc(16);
-  let outUintArray = (new Uint32Array(Mod.HEAPU32.buffer, outIntAddress, 4));
+  let outAddress = Mod._malloc(16);
+  let outUintArray = (new Uint32Array(Mod.HEAPU32.buffer, outAddress, 4));
   let getOutUint = (i: 0 | 1 | 2 | 3) => outUintArray[i];
-  let outIntArray = (new Int32Array(Mod.HEAPU32.buffer, outIntAddress, 4));
+  let outIntArray = (new Int32Array(Mod.HEAPU32.buffer, outAddress, 4));
   let getOutInt = (i: 0 | 1 | 2 | 3) => outIntArray[i];
+  let outUint64Array = (new BigUint64Array(Mod.HEAPU32.buffer, outAddress, 2));
+  let getOutUint64 = (i: 0 | 1) => outUint64Array[i];
+  let outInt64Array = (new BigInt64Array(Mod.HEAPU32.buffer, outAddress, 2));
+  let getOutInt64 = (i: 0 | 1) => outInt64Array[i];
 
   return {
     em: Mod,
