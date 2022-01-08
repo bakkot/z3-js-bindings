@@ -81,11 +81,13 @@ let primitiveTypes = {
   int64_t: 'bigint',
 };
 
+let optTypes = {
+};
+
 // parse type declarations
 let types = {
   __proto__: null,
 
-  // these are done with #define for some reason
   Z3_sort_opt: 'Z3_sort',
   Z3_ast_opt: 'Z3_ast',
   Z3_func_interp_opt: 'Z3_func_interp',
@@ -236,16 +238,28 @@ for (let idx = 0; idx < contents.length;) {
         isPtr = true;
       }
 
+      let nullable = false;
+      if (paramType in optTypes) {
+        nullable = true;
+        paramType = optTypes[paramType];
+      }
+
       paramType = aliases[paramType] ?? paramType;
 
-      parsedParams.push({ type: paramType, name: paramName, isConst, isPtr, isArray });
+      parsedParams.push({ type: paramType, name: paramName, isConst, isPtr, isArray, nullable });
     }
+  }
+
+  let nullableRet = false;
+  if (ret in optTypes) {
+    nullableRet = true;
+    ret = optTypes[ret];
   }
 
   ret = aliases[ret] ?? ret;
 
   if (name in defApis) {
-    functions.push({ ret, name, params: parsedParams });
+    functions.push({ ret, name, params: parsedParams, nullableRet });
   }
   // only a few things are missing `def_API`; we'll skip those
 }

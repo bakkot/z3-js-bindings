@@ -288,19 +288,19 @@ function wrapFunction(fn) {
     }
   }
 
+  if (suffix === '') {
+    suffix = `return ret;`;
+  }
+
   let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
 
   let out = `${name}: function(${params.filter(p => p != null).join(', ')}): ${returnType} {
     ${prefix}`;
-  if (suffix === '') {
-    out += `return ${invocation};`
-  } else {
-    out += `
-      let ret = ${invocation};
-      ${suffix}
-    `.trim();
+  out += `
+    let ret = ${invocation};
+    ${suffix}
   }
-  out += `}`;
+  `.trim();
   return out;
 }
 
