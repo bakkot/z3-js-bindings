@@ -21,9 +21,6 @@ function toEmType(type) {
   if (['boolean', 'number', 'string', 'bigint', 'void'].includes(type)) {
     return type;
   }
-  if (type === 'Z3_string') {
-    return 'string';
-  }
   if (type.startsWith('Z3_')) {
     return 'number';
   }
@@ -31,7 +28,7 @@ function toEmType(type) {
 }
 
 function isZ3PointerType(type) {
-  return type.startsWith('Z3_') && type !== 'Z3_string';
+  return type.startsWith('Z3_');
 }
 
 function toEm(p) {
@@ -54,7 +51,7 @@ function toEm(p) {
     type = primitiveTypes[type];
   }
 
-  if (['boolean', 'number', 'bigint', 'string', 'Z3_string'].includes(type)) {
+  if (['boolean', 'number', 'bigint', 'string'].includes(type)) {
     return p.name;
   }
   if (type.startsWith('Z3_')) {
@@ -92,10 +89,10 @@ function wrapFunction(fn) {
   // console.error(fn.name);
 
   let isAsync = asyncFns.includes(fn.name);
-  let trivial = !['Z3_string', 'string', 'Z3_bool', 'bool'].includes(fn.ret) && outParams.length === 0 && !inParams.some(p => p.type === 'Z3_string' || p.isArray);
+  let trivial = !['string', 'boolean'].includes(fn.ret) && outParams.length === 0 && !inParams.some(p => p.type === 'string' || p.isArray);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
-  let params = inParams.map(p => `${p.name}: ${p.type === 'Z3_string' ? 'string' : p.type}${p.isArray ? '[]' : ''}`);
+  let params = inParams.map(p => `${p.name}: ${p.type}${p.isArray ? '[]' : ''}`);
 
   if (trivial && !isAsync) {
     return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
@@ -161,7 +158,7 @@ function wrapFunction(fn) {
         args[outParam.idx] = memIdx === 0 ? 'outAddress' : `outAddress + ${memIdx * 4}`;
       }
       let read, type;
-      if (outParam.type === 'Z3_string') {
+      if (outParam.type === 'string') {
         read = `Mod.UTF8ToString(getOutUint(${memIdx}))`;
         setArg();
         ++memIdx;
@@ -214,7 +211,7 @@ function wrapFunction(fn) {
       suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };`;
     }
 
-    if (fn.ret === 'bool' || fn.ret === 'Z3_bool') {
+    if (fn.ret === 'boolean') {
       // assume the boolean indicates succes
       suffix = `
         if (!ret) {

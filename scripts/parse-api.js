@@ -62,18 +62,22 @@ for (let line of apiLines) {
   defApis[name] = { params: parsedParams, ret, extra: def === 'extra_API' };
 }
 
-let primitiveTypes = {
+
+let aliases = {
   __proto__: null,
-  bool: 'boolean',
   Z3_bool: 'boolean',
   Z3_string: 'string',
+  bool: 'boolean',
+};
+
+let primitiveTypes = {
+  __proto__: null,
   Z3_char_ptr: 'string',
   unsigned: 'number',
   double: 'number',
   int: 'number',
   uint64_t: 'bigint',
   int64_t: 'bigint',
-  void: 'void',
 };
 
 // parse type declarations
@@ -231,9 +235,13 @@ for (let idx = 0; idx < contents.length;) {
         isPtr = true;
       }
 
+      paramType = aliases[paramType] ?? paramType;
+
       parsedParams.push({ type: paramType, name: paramName, isConst, isPtr, isArray });
     }
   }
+
+  ret = aliases[ret] ?? ret;
 
   if (name in defApis) {
     functions.push({ ret, name, params: parsedParams });
@@ -242,7 +250,7 @@ for (let idx = 0; idx < contents.length;) {
 }
 
 function isKnownType(t) {
-  return t in enums || t in types || t in primitiveTypes;
+  return t in enums || t in types || t in primitiveTypes || ['string', 'boolean', 'void'].includes(t);
 }
 
 for (let fn of functions) {

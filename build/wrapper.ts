@@ -11,9 +11,6 @@ function intArrayToByteArr(ints: number[]) {
   return new Uint8Array(new Uint32Array(ints).buffer);
 }
 
-type bool = boolean;
-type Z3_bool = boolean;
-type Z3_string = string;
 type Z3_char_ptr = string;
 type unsigned = number;
 type double = number;
@@ -447,7 +444,7 @@ export async function init() {
         );
       },
       global_param_reset_all: Mod._Z3_global_param_reset_all as () => void,
-      global_param_get: function (param_id: string): Z3_string | null {
+      global_param_get: function (param_id: string): string | null {
         let ret = Mod.ccall(
           'Z3_global_param_get',
           'boolean',
@@ -504,7 +501,7 @@ export async function init() {
         c: Z3_context,
         p: Z3_params,
         k: Z3_symbol,
-        v: bool
+        v: boolean
       ) => void,
       params_set_uint: Mod._Z3_params_set_uint as (
         c: Z3_context,
@@ -524,7 +521,7 @@ export async function init() {
         k: Z3_symbol,
         v: Z3_symbol
       ) => void,
-      params_to_string: function (c: Z3_context, p: Z3_params): Z3_string {
+      params_to_string: function (c: Z3_context, p: Z3_params): string {
         return Mod.ccall(
           'Z3_params_to_string',
           'string',
@@ -563,7 +560,7 @@ export async function init() {
         c: Z3_context,
         p: Z3_param_descrs,
         s: Z3_symbol
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_param_descrs_get_documentation',
           'string',
@@ -574,7 +571,7 @@ export async function init() {
       param_descrs_to_string: function (
         c: Z3_context,
         p: Z3_param_descrs
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_param_descrs_to_string',
           'string',
@@ -1085,13 +1082,13 @@ export async function init() {
       mk_bv2int: Mod._Z3_mk_bv2int as (
         c: Z3_context,
         t1: Z3_ast,
-        is_signed: bool
+        is_signed: boolean
       ) => Z3_ast,
       mk_bvadd_no_overflow: Mod._Z3_mk_bvadd_no_overflow as (
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
-        is_signed: bool
+        is_signed: boolean
       ) => Z3_ast,
       mk_bvadd_no_underflow: Mod._Z3_mk_bvadd_no_underflow as (
         c: Z3_context,
@@ -1107,7 +1104,7 @@ export async function init() {
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
-        is_signed: bool
+        is_signed: boolean
       ) => Z3_ast,
       mk_bvsdiv_no_overflow: Mod._Z3_mk_bvsdiv_no_overflow as (
         c: Z3_context,
@@ -1122,7 +1119,7 @@ export async function init() {
         c: Z3_context,
         t1: Z3_ast,
         t2: Z3_ast,
-        is_signed: bool
+        is_signed: boolean
       ) => Z3_ast,
       mk_bvmul_no_underflow: Mod._Z3_mk_bvmul_no_underflow as (
         c: Z3_context,
@@ -1286,7 +1283,7 @@ export async function init() {
         c: Z3_context,
         s: Z3_sort
       ) => Z3_sort,
-      is_seq_sort: function (c: Z3_context, s: Z3_sort): bool {
+      is_seq_sort: function (c: Z3_context, s: Z3_sort): boolean {
         return Mod.ccall(
           'Z3_is_seq_sort',
           'boolean',
@@ -1302,7 +1299,7 @@ export async function init() {
         c: Z3_context,
         seq: Z3_sort
       ) => Z3_sort,
-      is_re_sort: function (c: Z3_context, s: Z3_sort): bool {
+      is_re_sort: function (c: Z3_context, s: Z3_sort): boolean {
         return Mod.ccall(
           'Z3_is_re_sort',
           'boolean',
@@ -1316,7 +1313,7 @@ export async function init() {
       ) => Z3_sort,
       mk_string_sort: Mod._Z3_mk_string_sort as (c: Z3_context) => Z3_sort,
       mk_char_sort: Mod._Z3_mk_char_sort as (c: Z3_context) => Z3_sort,
-      is_string_sort: function (c: Z3_context, s: Z3_sort): bool {
+      is_string_sort: function (c: Z3_context, s: Z3_sort): boolean {
         return Mod.ccall(
           'Z3_is_string_sort',
           'boolean',
@@ -1324,7 +1321,7 @@ export async function init() {
           [c, s]
         );
       },
-      is_char_sort: function (c: Z3_context, s: Z3_sort): bool {
+      is_char_sort: function (c: Z3_context, s: Z3_sort): boolean {
         return Mod.ccall(
           'Z3_is_char_sort',
           'boolean',
@@ -1356,7 +1353,7 @@ export async function init() {
           [c, chars.length, intArrayToByteArr(chars as unknown as number[])]
         );
       },
-      is_string: function (c: Z3_context, s: Z3_ast): bool {
+      is_string: function (c: Z3_context, s: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_string',
           'boolean',
@@ -1364,7 +1361,7 @@ export async function init() {
           [c, s]
         );
       },
-      get_string: function (c: Z3_context, s: Z3_ast): Z3_string {
+      get_string: function (c: Z3_context, s: Z3_ast): string {
         return Mod.ccall(
           'Z3_get_string',
           'string',
@@ -1671,7 +1668,7 @@ export async function init() {
       },
       mk_quantifier: function (
         c: Z3_context,
-        is_forall: bool,
+        is_forall: boolean,
         weight: unsigned,
         patterns: Z3_pattern[],
         sorts: Z3_sort[],
@@ -1712,7 +1709,7 @@ export async function init() {
       },
       mk_quantifier_ex: function (
         c: Z3_context,
-        is_forall: bool,
+        is_forall: boolean,
         weight: unsigned,
         quantifier_id: Z3_symbol,
         skolem_id: Z3_symbol,
@@ -1808,7 +1805,7 @@ export async function init() {
       },
       mk_quantifier_const: function (
         c: Z3_context,
-        is_forall: bool,
+        is_forall: boolean,
         weight: unsigned,
         bound: Z3_app[],
         patterns: Z3_pattern[],
@@ -1841,7 +1838,7 @@ export async function init() {
       },
       mk_quantifier_const_ex: function (
         c: Z3_context,
-        is_forall: bool,
+        is_forall: boolean,
         weight: unsigned,
         quantifier_id: Z3_symbol,
         skolem_id: Z3_symbol,
@@ -1932,7 +1929,7 @@ export async function init() {
         c: Z3_context,
         s: Z3_symbol
       ) => int,
-      get_symbol_string: function (c: Z3_context, s: Z3_symbol): Z3_string {
+      get_symbol_string: function (c: Z3_context, s: Z3_symbol): string {
         return Mod.ccall(
           'Z3_get_symbol_string',
           'string',
@@ -1949,7 +1946,7 @@ export async function init() {
         s: Z3_sort
       ) => unsigned,
       sort_to_ast: Mod._Z3_sort_to_ast as (c: Z3_context, s: Z3_sort) => Z3_ast,
-      is_eq_sort: function (c: Z3_context, s1: Z3_sort, s2: Z3_sort): bool {
+      is_eq_sort: function (c: Z3_context, s1: Z3_sort, s2: Z3_sort): boolean {
         return Mod.ccall(
           'Z3_is_eq_sort',
           'boolean',
@@ -2138,7 +2135,7 @@ export async function init() {
         c: Z3_context,
         f1: Z3_func_decl,
         f2: Z3_func_decl
-      ): bool {
+      ): boolean {
         return Mod.ccall(
           'Z3_is_eq_func_decl',
           'boolean',
@@ -2218,7 +2215,7 @@ export async function init() {
         c: Z3_context,
         d: Z3_func_decl,
         idx: unsigned
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_get_decl_rational_parameter',
           'string',
@@ -2240,7 +2237,7 @@ export async function init() {
         a: Z3_app,
         i: unsigned
       ) => Z3_ast,
-      is_eq_ast: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): bool {
+      is_eq_ast: function (c: Z3_context, t1: Z3_ast, t2: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_eq_ast',
           'boolean',
@@ -2254,7 +2251,7 @@ export async function init() {
         a: Z3_ast
       ) => unsigned,
       get_sort: Mod._Z3_get_sort as (c: Z3_context, a: Z3_ast) => Z3_sort,
-      is_well_sorted: function (c: Z3_context, t: Z3_ast): bool {
+      is_well_sorted: function (c: Z3_context, t: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_well_sorted',
           'boolean',
@@ -2270,10 +2267,10 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast
       ) => Z3_ast_kind,
-      is_app: function (c: Z3_context, a: Z3_ast): bool {
+      is_app: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall('Z3_is_app', 'boolean', ['number', 'number'], [c, a]);
       },
-      is_numeral_ast: function (c: Z3_context, a: Z3_ast): bool {
+      is_numeral_ast: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_numeral_ast',
           'boolean',
@@ -2281,7 +2278,7 @@ export async function init() {
           [c, a]
         );
       },
-      is_algebraic_number: function (c: Z3_context, a: Z3_ast): bool {
+      is_algebraic_number: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_algebraic_number',
           'boolean',
@@ -2294,7 +2291,7 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast
       ) => Z3_func_decl,
-      get_numeral_string: function (c: Z3_context, a: Z3_ast): Z3_string {
+      get_numeral_string: function (c: Z3_context, a: Z3_ast): string {
         return Mod.ccall(
           'Z3_get_numeral_string',
           'string',
@@ -2302,10 +2299,7 @@ export async function init() {
           [c, a]
         );
       },
-      get_numeral_binary_string: function (
-        c: Z3_context,
-        a: Z3_ast
-      ): Z3_string {
+      get_numeral_binary_string: function (c: Z3_context, a: Z3_ast): string {
         return Mod.ccall(
           'Z3_get_numeral_binary_string',
           'string',
@@ -2317,7 +2311,7 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast,
         precision: unsigned
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_get_numeral_decimal_string',
           'string',
@@ -2442,7 +2436,7 @@ export async function init() {
         c: Z3_context,
         a: Z3_ast
       ) => unsigned,
-      is_quantifier_forall: function (c: Z3_context, a: Z3_ast): bool {
+      is_quantifier_forall: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_quantifier_forall',
           'boolean',
@@ -2450,7 +2444,7 @@ export async function init() {
           [c, a]
         );
       },
-      is_quantifier_exists: function (c: Z3_context, a: Z3_ast): bool {
+      is_quantifier_exists: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_quantifier_exists',
           'boolean',
@@ -2458,7 +2452,7 @@ export async function init() {
           [c, a]
         );
       },
-      is_lambda: function (c: Z3_context, a: Z3_ast): bool {
+      is_lambda: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_lambda',
           'boolean',
@@ -2513,7 +2507,7 @@ export async function init() {
         a: Z3_ast,
         p: Z3_params
       ) => Z3_ast,
-      simplify_get_help: function (c: Z3_context): Z3_string {
+      simplify_get_help: function (c: Z3_context): string {
         return Mod.ccall('Z3_simplify_get_help', 'string', ['number'], [c]);
       },
       simplify_get_param_descrs: Mod._Z3_simplify_get_param_descrs as (
@@ -2581,7 +2575,7 @@ export async function init() {
         c: Z3_context,
         m: Z3_model,
         t: Z3_ast,
-        model_completion: bool
+        model_completion: boolean
       ): Z3_ast | null {
         let ret = Mod.ccall(
           'Z3_model_eval',
@@ -2603,7 +2597,7 @@ export async function init() {
         c: Z3_context,
         m: Z3_model,
         a: Z3_func_decl
-      ): bool {
+      ): boolean {
         return Mod.ccall(
           'Z3_model_has_interp',
           'boolean',
@@ -2653,7 +2647,7 @@ export async function init() {
         m: Z3_model,
         dst: Z3_context
       ) => Z3_model,
-      is_as_array: function (c: Z3_context, a: Z3_ast): bool {
+      is_as_array: function (c: Z3_context, a: Z3_ast): boolean {
         return Mod.ccall(
           'Z3_is_as_array',
           'boolean',
@@ -2734,7 +2728,7 @@ export async function init() {
         e: Z3_func_entry,
         i: unsigned
       ) => Z3_ast,
-      open_log: function (filename: string): bool {
+      open_log: function (filename: string): boolean {
         return Mod.ccall('Z3_open_log', 'boolean', ['string'], [filename]);
       },
       append_log: function (string: string): void {
@@ -2742,13 +2736,13 @@ export async function init() {
       },
       close_log: Mod._Z3_close_log as () => void,
       toggle_warning_messages: Mod._Z3_toggle_warning_messages as (
-        enabled: bool
+        enabled: boolean
       ) => void,
       set_ast_print_mode: Mod._Z3_set_ast_print_mode as (
         c: Z3_context,
         mode: Z3_ast_print_mode
       ) => void,
-      ast_to_string: function (c: Z3_context, a: Z3_ast): Z3_string {
+      ast_to_string: function (c: Z3_context, a: Z3_ast): string {
         return Mod.ccall(
           'Z3_ast_to_string',
           'string',
@@ -2756,7 +2750,7 @@ export async function init() {
           [c, a]
         );
       },
-      pattern_to_string: function (c: Z3_context, p: Z3_pattern): Z3_string {
+      pattern_to_string: function (c: Z3_context, p: Z3_pattern): string {
         return Mod.ccall(
           'Z3_pattern_to_string',
           'string',
@@ -2764,7 +2758,7 @@ export async function init() {
           [c, p]
         );
       },
-      sort_to_string: function (c: Z3_context, s: Z3_sort): Z3_string {
+      sort_to_string: function (c: Z3_context, s: Z3_sort): string {
         return Mod.ccall(
           'Z3_sort_to_string',
           'string',
@@ -2772,10 +2766,7 @@ export async function init() {
           [c, s]
         );
       },
-      func_decl_to_string: function (
-        c: Z3_context,
-        d: Z3_func_decl
-      ): Z3_string {
+      func_decl_to_string: function (c: Z3_context, d: Z3_func_decl): string {
         return Mod.ccall(
           'Z3_func_decl_to_string',
           'string',
@@ -2783,7 +2774,7 @@ export async function init() {
           [c, d]
         );
       },
-      model_to_string: function (c: Z3_context, m: Z3_model): Z3_string {
+      model_to_string: function (c: Z3_context, m: Z3_model): string {
         return Mod.ccall(
           'Z3_model_to_string',
           'string',
@@ -2799,7 +2790,7 @@ export async function init() {
         attributes: string,
         assumptions: Z3_ast[],
         formula: Z3_ast
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_benchmark_to_smtlib_string',
           'string',
@@ -2911,10 +2902,7 @@ export async function init() {
           ]
         );
       },
-      eval_smtlib2_string: function (
-        UNNAMED: Z3_context,
-        str: string
-      ): Z3_string {
+      eval_smtlib2_string: function (UNNAMED: Z3_context, str: string): string {
         return Mod.ccall(
           'Z3_eval_smtlib2_string',
           'string',
@@ -2926,7 +2914,7 @@ export async function init() {
         c: Z3_context
       ) => Z3_error_code,
       set_error: Mod._Z3_set_error as (c: Z3_context, e: Z3_error_code) => void,
-      get_error_msg: function (c: Z3_context, err: Z3_error_code): Z3_string {
+      get_error_msg: function (c: Z3_context, err: Z3_error_code): string {
         return Mod.ccall(
           'Z3_get_error_msg',
           'string',
@@ -2953,7 +2941,7 @@ export async function init() {
           revision_number: getOutUint(3),
         };
       },
-      get_full_version: function (): Z3_string {
+      get_full_version: function (): string {
         return Mod.ccall('Z3_get_full_version', 'string', [], []);
       },
       enable_trace: function (tag: string): void {
@@ -2966,9 +2954,9 @@ export async function init() {
       finalize_memory: Mod._Z3_finalize_memory as () => void,
       mk_goal: Mod._Z3_mk_goal as (
         c: Z3_context,
-        models: bool,
-        unsat_cores: bool,
-        proofs: bool
+        models: boolean,
+        unsat_cores: boolean,
+        proofs: boolean
       ) => Z3_goal,
       goal_inc_ref: Mod._Z3_goal_inc_ref as (c: Z3_context, g: Z3_goal) => void,
       goal_dec_ref: Mod._Z3_goal_dec_ref as (c: Z3_context, g: Z3_goal) => void,
@@ -2981,7 +2969,7 @@ export async function init() {
         g: Z3_goal,
         a: Z3_ast
       ) => void,
-      goal_inconsistent: function (c: Z3_context, g: Z3_goal): bool {
+      goal_inconsistent: function (c: Z3_context, g: Z3_goal): boolean {
         return Mod.ccall(
           'Z3_goal_inconsistent',
           'boolean',
@@ -3001,7 +2989,7 @@ export async function init() {
         c: Z3_context,
         g: Z3_goal
       ) => unsigned,
-      goal_is_decided_sat: function (c: Z3_context, g: Z3_goal): bool {
+      goal_is_decided_sat: function (c: Z3_context, g: Z3_goal): boolean {
         return Mod.ccall(
           'Z3_goal_is_decided_sat',
           'boolean',
@@ -3009,7 +2997,7 @@ export async function init() {
           [c, g]
         );
       },
-      goal_is_decided_unsat: function (c: Z3_context, g: Z3_goal): bool {
+      goal_is_decided_unsat: function (c: Z3_context, g: Z3_goal): boolean {
         return Mod.ccall(
           'Z3_goal_is_decided_unsat',
           'boolean',
@@ -3027,7 +3015,7 @@ export async function init() {
         g: Z3_goal,
         m: Z3_model
       ) => Z3_model,
-      goal_to_string: function (c: Z3_context, g: Z3_goal): Z3_string {
+      goal_to_string: function (c: Z3_context, g: Z3_goal): string {
         return Mod.ccall(
           'Z3_goal_to_string',
           'string',
@@ -3038,8 +3026,8 @@ export async function init() {
       goal_to_dimacs_string: function (
         c: Z3_context,
         g: Z3_goal,
-        include_names: bool
-      ): Z3_string {
+        include_names: boolean
+      ): string {
         return Mod.ccall(
           'Z3_goal_to_dimacs_string',
           'string',
@@ -3178,7 +3166,7 @@ export async function init() {
       ) => Z3_probe,
       probe_not: Mod._Z3_probe_not as (x: Z3_context, p: Z3_probe) => Z3_probe,
       get_num_tactics: Mod._Z3_get_num_tactics as (c: Z3_context) => unsigned,
-      get_tactic_name: function (c: Z3_context, i: unsigned): Z3_string {
+      get_tactic_name: function (c: Z3_context, i: unsigned): string {
         return Mod.ccall(
           'Z3_get_tactic_name',
           'string',
@@ -3187,7 +3175,7 @@ export async function init() {
         );
       },
       get_num_probes: Mod._Z3_get_num_probes as (c: Z3_context) => unsigned,
-      get_probe_name: function (c: Z3_context, i: unsigned): Z3_string {
+      get_probe_name: function (c: Z3_context, i: unsigned): string {
         return Mod.ccall(
           'Z3_get_probe_name',
           'string',
@@ -3195,7 +3183,7 @@ export async function init() {
           [c, i]
         );
       },
-      tactic_get_help: function (c: Z3_context, t: Z3_tactic): Z3_string {
+      tactic_get_help: function (c: Z3_context, t: Z3_tactic): string {
         return Mod.ccall(
           'Z3_tactic_get_help',
           'string',
@@ -3207,7 +3195,7 @@ export async function init() {
         c: Z3_context,
         t: Z3_tactic
       ) => Z3_param_descrs,
-      tactic_get_descr: function (c: Z3_context, name: string): Z3_string {
+      tactic_get_descr: function (c: Z3_context, name: string): string {
         return Mod.ccall(
           'Z3_tactic_get_descr',
           'string',
@@ -3215,7 +3203,7 @@ export async function init() {
           [c, name]
         );
       },
-      probe_get_descr: function (c: Z3_context, name: string): Z3_string {
+      probe_get_descr: function (c: Z3_context, name: string): string {
         return Mod.ccall(
           'Z3_probe_get_descr',
           'string',
@@ -3250,7 +3238,7 @@ export async function init() {
       apply_result_to_string: function (
         c: Z3_context,
         r: Z3_apply_result
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_apply_result_to_string',
           'string',
@@ -3289,7 +3277,7 @@ export async function init() {
         src: Z3_solver,
         dst: Z3_solver
       ) => void,
-      solver_get_help: function (c: Z3_context, s: Z3_solver): Z3_string {
+      solver_get_help: function (c: Z3_context, s: Z3_solver): string {
         return Mod.ccall(
           'Z3_solver_get_help',
           'string',
@@ -3517,7 +3505,7 @@ export async function init() {
       solver_get_reason_unknown: function (
         c: Z3_context,
         s: Z3_solver
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_solver_get_reason_unknown',
           'string',
@@ -3529,7 +3517,7 @@ export async function init() {
         c: Z3_context,
         s: Z3_solver
       ) => Z3_stats,
-      solver_to_string: function (c: Z3_context, s: Z3_solver): Z3_string {
+      solver_to_string: function (c: Z3_context, s: Z3_solver): string {
         return Mod.ccall(
           'Z3_solver_to_string',
           'string',
@@ -3540,8 +3528,8 @@ export async function init() {
       solver_to_dimacs_string: function (
         c: Z3_context,
         s: Z3_solver,
-        include_names: bool
-      ): Z3_string {
+        include_names: boolean
+      ): string {
         return Mod.ccall(
           'Z3_solver_to_dimacs_string',
           'string',
@@ -3549,7 +3537,7 @@ export async function init() {
           [c, s, include_names]
         );
       },
-      stats_to_string: function (c: Z3_context, s: Z3_stats): Z3_string {
+      stats_to_string: function (c: Z3_context, s: Z3_stats): string {
         return Mod.ccall(
           'Z3_stats_to_string',
           'string',
@@ -3573,7 +3561,7 @@ export async function init() {
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): Z3_string {
+      ): string {
         return Mod.ccall(
           'Z3_stats_get_key',
           'string',
@@ -3585,7 +3573,7 @@ export async function init() {
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): bool {
+      ): boolean {
         return Mod.ccall(
           'Z3_stats_is_uint',
           'boolean',
@@ -3597,7 +3585,7 @@ export async function init() {
         c: Z3_context,
         s: Z3_stats,
         idx: unsigned
-      ): bool {
+      ): boolean {
         return Mod.ccall(
           'Z3_stats_is_double',
           'boolean',
