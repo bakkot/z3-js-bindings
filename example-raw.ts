@@ -19,6 +19,10 @@ import { init } from './build/lib';
   console.log(Z3.get_string(context, strAst));
 
 
+  let intSort = Z3.mk_int_sort(context);
+  let big = Z3.mk_int64(context, 42n, intSort);
+  console.log(Z3.get_numeral_string(context, big));
+
   Z3.dec_ref(context, strAst);
   Z3.del_context(context);
 

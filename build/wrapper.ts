@@ -18,8 +18,8 @@ type Z3_char_ptr = string;
 type unsigned = number;
 type double = number;
 type int = number;
-type uint64_t = number;
-type int64_t = number;
+type uint64_t = bigint;
+type int64_t = bigint;
 
 export type Z3_sort_opt = Pointer<'Z3_sort_opt'>;
 export type Z3_ast_opt = Pointer<'Z3_ast_opt'>;

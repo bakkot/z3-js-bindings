@@ -18,7 +18,7 @@ function toEmType(type) {
   if (type in primitiveTypes) {
     type = primitiveTypes[type];
   }
-  if (['boolean', 'number', 'string', 'void'].includes(type)) {
+  if (['boolean', 'number', 'string', 'bigint', 'void'].includes(type)) {
     return type;
   }
   if (type === 'Z3_string') {
@@ -57,7 +57,7 @@ function toEm(p) {
     type = primitiveTypes[type];
   }
 
-  if (['boolean', 'number', 'string', 'Z3_string'].includes(type)) {
+  if (['boolean', 'number', 'bigint', 'string', 'Z3_string'].includes(type)) {
     return p.name;
   }
   if (type.startsWith('Z3_')) {

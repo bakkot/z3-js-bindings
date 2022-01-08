@@ -3843,7 +3843,7 @@ function setValue(ptr, value, type, noSafe) {
       case 'i8': HEAP8[((ptr)>>0)] = value; break;
       case 'i16': HEAP16[((ptr)>>1)] = value; break;
       case 'i32': HEAP32[((ptr)>>2)] = value; break;
-      case 'i64': (tempI64 = [value>>>0,(tempDouble=value,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[((ptr)>>2)] = tempI64[0],HEAP32[(((ptr)+(4))>>2)] = tempI64[1]); break;
+      case 'i64': HEAP64[((ptr)>>3)] = BigInt(value); break;
       case 'float': HEAPF32[((ptr)>>2)] = value; break;
       case 'double': HEAPF64[((ptr)>>3)] = value; break;
       default: abort('invalid type for setValue: ' + type);
@@ -3861,7 +3861,7 @@ function getValue(ptr, type, noSafe) {
       case 'i8': return HEAP8[((ptr)>>0)];
       case 'i16': return HEAP16[((ptr)>>1)];
       case 'i32': return HEAP32[((ptr)>>2)];
-      case 'i64': return HEAP32[((ptr)>>2)];
+      case 'i64': return Number(HEAP64[((ptr)>>3)]);
       case 'float': return HEAPF32[((ptr)>>2)];
       case 'double': return Number(HEAPF64[((ptr)>>3)]);
       default: abort('invalid type for getValue: ' + type);
@@ -4435,6 +4435,11 @@ var HEAP,
 /** @type {Float64Array} */
   HEAPF64;
 
+/** @type {BigInt64Array} */
+var HEAP64,
+/** @type {BigUint64Array} */
+    HEAPU64;
+
 if (ENVIRONMENT_IS_PTHREAD) {
   // Grab imports from the pthread to local scope.
   buffer = Module['buffer'];
@@ -4451,6 +4456,8 @@ function updateGlobalBufferAndViews(buf) {
   Module['HEAPU32'] = HEAPU32 = new Uint32Array(buf);
   Module['HEAPF32'] = HEAPF32 = new Float32Array(buf);
   Module['HEAPF64'] = HEAPF64 = new Float64Array(buf);
+  Module['HEAP64'] = HEAP64 = new BigInt64Array(buf);
+  Module['HEAPU64'] = HEAPU64 = new BigUint64Array(buf);
 }
 
 var TOTAL_STACK = 5242880;
@@ -8143,7 +8150,7 @@ var ASM_CONSTS = {
         HEAP32[(((buf)+(24))>>2)] = stat.gid;
         HEAP32[(((buf)+(28))>>2)] = stat.rdev;
         HEAP32[(((buf)+(32))>>2)] = 0;
-        (tempI64 = [stat.size>>>0,(tempDouble=stat.size,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(40))>>2)] = tempI64[0],HEAP32[(((buf)+(44))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(40))>>3)] = BigInt(stat.size);
         HEAP32[(((buf)+(48))>>2)] = 4096;
         HEAP32[(((buf)+(52))>>2)] = stat.blocks;
         HEAP32[(((buf)+(56))>>2)] = (stat.atime.getTime() / 1000)|0;
@@ -8152,7 +8159,7 @@ var ASM_CONSTS = {
         HEAP32[(((buf)+(68))>>2)] = 0;
         HEAP32[(((buf)+(72))>>2)] = (stat.ctime.getTime() / 1000)|0;
         HEAP32[(((buf)+(76))>>2)] = 0;
-        (tempI64 = [stat.ino>>>0,(tempDouble=stat.ino,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[(((buf)+(80))>>2)] = tempI64[0],HEAP32[(((buf)+(84))>>2)] = tempI64[1]);
+        HEAP64[(((buf)+(80))>>3)] = BigInt(stat.ino);
         return 0;
       },doMsync:function(addr, stream, len, flags, offset) {
         var buffer = HEAPU8.slice(addr, addr + len);
@@ -8593,12 +8600,20 @@ var ASM_CONSTS = {
         // type info here). To do that, add a "prefix" before each value that
         // indicates if it is a BigInt, which effectively doubles the number of
         // values we serialize for proxying. TODO: pack this?
-        var serializedNumCallArgs = numCallArgs ;
+        var serializedNumCallArgs = numCallArgs * 2;
         var args = stackAlloc(serializedNumCallArgs * 8);
         var b = args >> 3;
         for (var i = 0; i < numCallArgs; i++) {
           var arg = outerArgs[2 + i];
-          HEAPF64[b + i] = arg;
+          if (typeof arg === 'bigint') {
+            // The prefix is non-zero to indicate a bigint.
+            HEAP64[b + 2*i] = BigInt(1);
+            HEAP64[b + 2*i + 1] = arg;
+          } else {
+            // The prefix is zero to indicate a JS Number.
+            HEAP64[b + 2*i] = BigInt(0);
+            HEAPF64[b + 2*i + 1] = arg;
+          }
         }
         return _emscripten_run_in_main_runtime_thread_js(index, serializedNumCallArgs, args, sync);
       });
@@ -8606,10 +8621,17 @@ var ASM_CONSTS = {
   
   var _emscripten_receive_on_main_thread_js_callArgs = [];
   function _emscripten_receive_on_main_thread_js(index, numCallArgs, args) {
+      numCallArgs /= 2;
       _emscripten_receive_on_main_thread_js_callArgs.length = numCallArgs;
       var b = args >> 3;
       for (var i = 0; i < numCallArgs; i++) {
-        _emscripten_receive_on_main_thread_js_callArgs[i] = HEAPF64[b + i];
+        if (HEAP64[b + 2*i]) {
+          // It's a BigInt.
+          _emscripten_receive_on_main_thread_js_callArgs[i] = HEAP64[b + 2*i + 1];
+        } else {
+          // It's a Number.
+          _emscripten_receive_on_main_thread_js_callArgs[i] = HEAPF64[b + 2*i + 1];
+        }
       }
       // Proxied JS library funcs are encoded as positive values, and
       // EM_ASMs as negative values (see include_asm_consts)
@@ -9143,12 +9165,12 @@ var ASM_CONSTS = {
   
 
   
-  function _fd_seek(fd, offset_low, offset_high, whence, newOffset) {
+  function _fd_seek(fd, offset_bigint, whence, newOffset) {
     if (ENVIRONMENT_IS_PTHREAD)
-      return _emscripten_proxy_to_main_thread_js(11, 1, fd, offset_low, offset_high, whence, newOffset);
+      return _emscripten_proxy_to_main_thread_js(11, 1, fd, offset_bigint, whence, newOffset);
     try {
   
-      
+      var offset_low = Number(offset_bigint & BigInt(0xffffffff)) | 0, offset_high = Number(offset_bigint >> BigInt(32)) | 0;
       var stream = SYSCALLS.getStreamFromFD(fd);
       var HIGH_OFFSET = 0x100000000; // 2^32
       // use an unsigned operator on low and shift high by 32-bits
@@ -9161,7 +9183,7 @@ var ASM_CONSTS = {
       }
   
       FS.llseek(stream, offset, whence);
-      (tempI64 = [stream.position>>>0,(tempDouble=stream.position,(+(Math.abs(tempDouble))) >= 1.0 ? (tempDouble > 0.0 ? ((Math.min((+(Math.floor((tempDouble)/4294967296.0))), 4294967295.0))|0)>>>0 : (~~((+(Math.ceil((tempDouble - +(((~~(tempDouble)))>>>0))/4294967296.0)))))>>>0) : 0)],HEAP32[((newOffset)>>2)] = tempI64[0],HEAP32[(((newOffset)+(4))>>2)] = tempI64[1]);
+      HEAP64[((newOffset)>>3)] = BigInt(stream.position);
       if (stream.getdents && offset === 0 && whence === 0) stream.getdents = null; // reset readdir state
       return 0;
     } catch (e) {
@@ -9208,10 +9230,6 @@ var ASM_CONSTS = {
     
   }
   
-
-  function _setTempRet0(val) {
-      setTempRet0(val);
-    }
 
   function __isLeapYear(year) {
         return year%4 === 0 && (year%100 !== 0 || year%400 === 0);
@@ -9894,7 +9912,6 @@ var asmLibraryArg = {
   "llvm_eh_typeid_for": _llvm_eh_typeid_for,
   "memory": wasmMemory || Module['wasmMemory'],
   "proc_exit": _proc_exit,
-  "setTempRet0": _setTempRet0,
   "strftime_l": _strftime_l
 };
 var asm = createWasm();
@@ -11493,63 +11510,6 @@ var ___cxa_can_catch = Module["___cxa_can_catch"] = createExportWrapper("__cxa_c
 /** @type {function(...*):?} */
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = createExportWrapper("__cxa_is_pointer_type");
 
-/** @type {function(...*):?} */
-var dynCall_viij = Module["dynCall_viij"] = createExportWrapper("dynCall_viij");
-
-/** @type {function(...*):?} */
-var dynCall_iiji = Module["dynCall_iiji"] = createExportWrapper("dynCall_iiji");
-
-/** @type {function(...*):?} */
-var dynCall_jii = Module["dynCall_jii"] = createExportWrapper("dynCall_jii");
-
-/** @type {function(...*):?} */
-var dynCall_jiij = Module["dynCall_jiij"] = createExportWrapper("dynCall_jiij");
-
-/** @type {function(...*):?} */
-var dynCall_viiiiiji = Module["dynCall_viiiiiji"] = createExportWrapper("dynCall_viiiiiji");
-
-/** @type {function(...*):?} */
-var dynCall_iij = Module["dynCall_iij"] = createExportWrapper("dynCall_iij");
-
-/** @type {function(...*):?} */
-var dynCall_j = Module["dynCall_j"] = createExportWrapper("dynCall_j");
-
-/** @type {function(...*):?} */
-var dynCall_ji = Module["dynCall_ji"] = createExportWrapper("dynCall_ji");
-
-/** @type {function(...*):?} */
-var dynCall_viiji = Module["dynCall_viiji"] = createExportWrapper("dynCall_viiji");
-
-/** @type {function(...*):?} */
-var dynCall_vij = Module["dynCall_vij"] = createExportWrapper("dynCall_vij");
-
-/** @type {function(...*):?} */
-var dynCall_iijii = Module["dynCall_iijii"] = createExportWrapper("dynCall_iijii");
-
-/** @type {function(...*):?} */
-var dynCall_jiji = Module["dynCall_jiji"] = createExportWrapper("dynCall_jiji");
-
-/** @type {function(...*):?} */
-var dynCall_iiiiij = Module["dynCall_iiiiij"] = createExportWrapper("dynCall_iiiiij");
-
-/** @type {function(...*):?} */
-var dynCall_viijii = Module["dynCall_viijii"] = createExportWrapper("dynCall_viijii");
-
-/** @type {function(...*):?} */
-var dynCall_jiiii = Module["dynCall_jiiii"] = createExportWrapper("dynCall_jiiii");
-
-/** @type {function(...*):?} */
-var dynCall_iiiiijj = Module["dynCall_iiiiijj"] = createExportWrapper("dynCall_iiiiijj");
-
-/** @type {function(...*):?} */
-var dynCall_iiiiiijj = Module["dynCall_iiiiiijj"] = createExportWrapper("dynCall_iiiiiijj");
-
-/** @type {function(...*):?} */
-var dynCall_viji = Module["dynCall_viji"] = createExportWrapper("dynCall_viji");
-
-/** @type {function(...*):?} */
-var dynCall_iiij = Module["dynCall_iiij"] = createExportWrapper("dynCall_iiij");
-
 var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 409160;
 var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 405220;
 function invoke_vi(index,a1) {
@@ -11816,6 +11776,39 @@ try {
 }
 }
 
+function invoke_viij(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiji(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_jii(index,a1,a2) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
 function invoke_iiiiiiiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13) {
 var sp = stackSave();
 try {
@@ -11827,10 +11820,54 @@ try {
 }
 }
 
+function invoke_jiij(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiiiji(index,a1,a2,a3,a4,a5,a6,a7) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
 function invoke_iiiiiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11) {
 var sp = stackSave();
 try {
   return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iij(index,a1,a2) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_j(index) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)();
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -11864,6 +11901,17 @@ function invoke_viiiiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11) {
 var sp = stackSave();
 try {
   getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_ji(index,a1) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -11992,10 +12040,54 @@ try {
 }
 }
 
+function invoke_viiji(index,a1,a2,a3,a4) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_vij(index,a1,a2) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
 function invoke_fii(index,a1,a2) {
 var sp = stackSave();
 try {
   return getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iijii(index,a1,a2,a3,a4) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viijii(index,a1,a2,a3,a4,a5) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -12014,10 +12106,32 @@ try {
 }
 }
 
+function invoke_iiiiij(index,a1,a2,a3,a4,a5) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
 function invoke_iiiiid(index,a1,a2,a3,a4,a5) {
 var sp = stackSave();
 try {
   return getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_jiiii(index,a1,a2,a3,a4) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -12069,10 +12183,10 @@ try {
 }
 }
 
-function invoke_viij(index,a1,a2,a3,a4) {
+function invoke_viji(index,a1,a2,a3) {
 var sp = stackSave();
 try {
-  dynCall_viij(index,a1,a2,a3,a4);
+  getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -12080,164 +12194,10 @@ try {
 }
 }
 
-function invoke_iiji(index,a1,a2,a3,a4) {
+function invoke_iiij(index,a1,a2,a3) {
 var sp = stackSave();
 try {
-  return dynCall_iiji(index,a1,a2,a3,a4);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_jii(index,a1,a2) {
-var sp = stackSave();
-try {
-  return dynCall_jii(index,a1,a2);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_jiij(index,a1,a2,a3,a4) {
-var sp = stackSave();
-try {
-  return dynCall_jiij(index,a1,a2,a3,a4);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiiiiji(index,a1,a2,a3,a4,a5,a6,a7,a8) {
-var sp = stackSave();
-try {
-  dynCall_viiiiiji(index,a1,a2,a3,a4,a5,a6,a7,a8);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iij(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  return dynCall_iij(index,a1,a2,a3);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_j(index) {
-var sp = stackSave();
-try {
-  return dynCall_j(index);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_ji(index,a1) {
-var sp = stackSave();
-try {
-  return dynCall_ji(index,a1);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiji(index,a1,a2,a3,a4,a5) {
-var sp = stackSave();
-try {
-  dynCall_viiji(index,a1,a2,a3,a4,a5);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_vij(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  dynCall_vij(index,a1,a2,a3);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iijii(index,a1,a2,a3,a4,a5) {
-var sp = stackSave();
-try {
-  return dynCall_iijii(index,a1,a2,a3,a4,a5);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viijii(index,a1,a2,a3,a4,a5,a6) {
-var sp = stackSave();
-try {
-  dynCall_viijii(index,a1,a2,a3,a4,a5,a6);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiiiij(index,a1,a2,a3,a4,a5,a6) {
-var sp = stackSave();
-try {
-  return dynCall_iiiiij(index,a1,a2,a3,a4,a5,a6);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_jiiii(index,a1,a2,a3,a4) {
-var sp = stackSave();
-try {
-  return dynCall_jiiii(index,a1,a2,a3,a4);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viji(index,a1,a2,a3,a4) {
-var sp = stackSave();
-try {
-  dynCall_viji(index,a1,a2,a3,a4);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiij(index,a1,a2,a3,a4) {
-var sp = stackSave();
-try {
-  return dynCall_iiij(index,a1,a2,a3,a4);
+  return getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -12333,8 +12293,6 @@ if (!Object.getOwnPropertyDescriptor(Module, "jstoi_s")) Module["jstoi_s"] = fun
 if (!Object.getOwnPropertyDescriptor(Module, "getExecutableName")) Module["getExecutableName"] = function() { abort("'getExecutableName' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "listenOnce")) Module["listenOnce"] = function() { abort("'listenOnce' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "autoResumeAudioContext")) Module["autoResumeAudioContext"] = function() { abort("'autoResumeAudioContext' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "dynCallLegacy")) Module["dynCallLegacy"] = function() { abort("'dynCallLegacy' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
-if (!Object.getOwnPropertyDescriptor(Module, "getDynCaller")) Module["getDynCaller"] = function() { abort("'getDynCaller' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "dynCall")) Module["dynCall"] = function() { abort("'dynCall' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "callRuntimeCallbacks")) Module["callRuntimeCallbacks"] = function() { abort("'callRuntimeCallbacks' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };
 if (!Object.getOwnPropertyDescriptor(Module, "wasmTableMirror")) Module["wasmTableMirror"] = function() { abort("'wasmTableMirror' was not exported. add it to EXPORTED_RUNTIME_METHODS (see the FAQ)") };

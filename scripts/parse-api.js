@@ -71,8 +71,8 @@ let primitiveTypes = {
   unsigned: 'number',
   double: 'number',
   int: 'number',
-  uint64_t: 'number',
-  int64_t: 'number',
+  uint64_t: 'bigint',
+  int64_t: 'bigint',
   void: 'void',
 };
 
