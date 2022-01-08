@@ -424,17 +424,15 @@ export async function init() {
     return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
   }
 
-  // this supports a up to four out intergers/pointers
-  // or up to two out int64s
-  let outAddress = Mod._malloc(16);
+  let outAddress = Mod._malloc(24);
   let outUintArray = new Uint32Array(Mod.HEAPU32.buffer, outAddress, 4);
-  let getOutUint = (i: 0 | 1 | 2 | 3) => outUintArray[i];
+  let getOutUint = (i: 0 | 1 | 2 | 3 | 4 | 5) => outUintArray[i];
   let outIntArray = new Int32Array(Mod.HEAPU32.buffer, outAddress, 4);
-  let getOutInt = (i: 0 | 1 | 2 | 3) => outIntArray[i];
+  let getOutInt = (i: 0 | 1 | 2 | 3 | 4 | 5) => outIntArray[i];
   let outUint64Array = new BigUint64Array(Mod.HEAPU32.buffer, outAddress, 2);
-  let getOutUint64 = (i: 0 | 1) => outUint64Array[i];
+  let getOutUint64 = (i: 0 | 1 | 2) => outUint64Array[i];
   let outInt64Array = new BigInt64Array(Mod.HEAPU32.buffer, outAddress, 2);
-  let getOutInt64 = (i: 0 | 1) => outInt64Array[i];
+  let getOutInt64 = (i: 0 | 1 | 2) => outInt64Array[i];
 
   return {
     em: Mod,
@@ -632,6 +630,150 @@ export async function init() {
             range,
           ]
         );
+      },
+      mk_tuple_sort: function (
+        c: Z3_context,
+        mk_tuple_name: Z3_symbol,
+        field_names: Z3_symbol[],
+        field_sorts: Z3_sort[]
+      ): {
+        rv: Z3_sort;
+        mk_tuple_decl: Z3_func_decl;
+        proj_decl: Z3_func_decl[];
+      } {
+        if (field_names.length !== field_sorts.length) {
+          throw new TypeError(
+            `field_names and field_sorts must be the same length (got ${field_names.length} and {field_sorts.length})`
+          );
+        }
+        let outArray_proj_decl = Mod._malloc(4 * field_names.length);
+        try {
+          let ret = Mod.ccall(
+            'Z3_mk_tuple_sort',
+            'number',
+            [
+              'number',
+              'number',
+              'number',
+              'array',
+              'array',
+              'number',
+              'number',
+            ],
+            [
+              c,
+              mk_tuple_name,
+              field_names.length,
+              intArrayToByteArr(field_names as unknown as number[]),
+              intArrayToByteArr(field_sorts as unknown as number[]),
+              outAddress,
+              outArray_proj_decl,
+            ]
+          );
+          return {
+            rv: ret,
+            mk_tuple_decl: getOutUint(0) as unknown as Z3_func_decl,
+            proj_decl: readUintArray(
+              outArray_proj_decl,
+              field_names.length
+            ) as unknown as Z3_func_decl[],
+          };
+        } finally {
+          Mod._free(outArray_proj_decl);
+        }
+      },
+      mk_enumeration_sort: function (
+        c: Z3_context,
+        name: Z3_symbol,
+        enum_names: Z3_symbol[]
+      ): {
+        rv: Z3_sort;
+        enum_consts: Z3_func_decl[];
+        enum_testers: Z3_func_decl[];
+      } {
+        let outArray_enum_consts = Mod._malloc(4 * enum_names.length);
+        try {
+          let outArray_enum_testers = Mod._malloc(4 * enum_names.length);
+          try {
+            let ret = Mod.ccall(
+              'Z3_mk_enumeration_sort',
+              'number',
+              ['number', 'number', 'number', 'array', 'number', 'number'],
+              [
+                c,
+                name,
+                enum_names.length,
+                intArrayToByteArr(enum_names as unknown as number[]),
+                outArray_enum_consts,
+                outArray_enum_testers,
+              ]
+            );
+            return {
+              rv: ret,
+              enum_consts: readUintArray(
+                outArray_enum_consts,
+                enum_names.length
+              ) as unknown as Z3_func_decl[],
+              enum_testers: readUintArray(
+                outArray_enum_testers,
+                enum_names.length
+              ) as unknown as Z3_func_decl[],
+            };
+          } finally {
+            Mod._free(outArray_enum_testers);
+          }
+        } finally {
+          Mod._free(outArray_enum_consts);
+        }
+      },
+      mk_list_sort: function (
+        c: Z3_context,
+        name: Z3_symbol,
+        elem_sort: Z3_sort
+      ): {
+        rv: Z3_sort;
+        nil_decl: Z3_func_decl;
+        is_nil_decl: Z3_func_decl;
+        cons_decl: Z3_func_decl;
+        is_cons_decl: Z3_func_decl;
+        head_decl: Z3_func_decl;
+        tail_decl: Z3_func_decl;
+      } {
+        let ret = Mod.ccall(
+          'Z3_mk_list_sort',
+          'number',
+          [
+            'number',
+            'number',
+            'number',
+            'number',
+            'number',
+            'number',
+            'number',
+            'number',
+            'number',
+          ],
+          [
+            c,
+            name,
+            elem_sort,
+            outAddress,
+            outAddress + 4,
+            outAddress + 8,
+            outAddress + 12,
+            outAddress + 16,
+            outAddress + 20,
+          ]
+        );
+        return {
+          rv: ret,
+          nil_decl: getOutUint(0) as unknown as Z3_func_decl,
+          is_nil_decl: getOutUint(1) as unknown as Z3_func_decl,
+          cons_decl: getOutUint(2) as unknown as Z3_func_decl,
+          is_cons_decl: getOutUint(3) as unknown as Z3_func_decl,
+          head_decl: getOutUint(4) as unknown as Z3_func_decl,
+          tail_decl: getOutUint(5) as unknown as Z3_func_decl,
+        };
       },
       mk_constructor: function (
         c: Z3_context,
@@ -3583,6 +3725,33 @@ export async function init() {
             intArrayToByteArr(assumptions as unknown as number[]),
           ]
         );
+      },
+      get_implied_equalities: function (
+        c: Z3_context,
+        s: Z3_solver,
+        terms: Z3_ast[]
+      ): { rv: Z3_lbool; class_ids: unsigned[] } {
+        let outArray_class_ids = Mod._malloc(4 * terms.length);
+        try {
+          let ret = Mod.ccall(
+            'Z3_get_implied_equalities',
+            'number',
+            ['number', 'number', 'number', 'array', 'number'],
+            [
+              c,
+              s,
+              terms.length,
+              intArrayToByteArr(terms as unknown as number[]),
+              outArray_class_ids,
+            ]
+          );
+          return {
+            rv: ret,
+            class_ids: readUintArray(outArray_class_ids, terms.length),
+          };
+        } finally {
+          Mod._free(outArray_class_ids);
+        }
       },
       solver_get_consequences: Mod._Z3_solver_get_consequences as (
         c: Z3_context,

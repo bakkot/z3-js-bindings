@@ -13,6 +13,9 @@ let subtypes = {
 
 let makePointerType = t => `export type ${t} = ` + (t in subtypes ? `Subpointer<'${t}', '${subtypes[t]}'>;` : `Pointer<'${t}'>;`);
 
+// this supports a up to 6 out intergers/pointers
+// or up to 3 out int64s
+const BYTES_TO_ALLOCATE_FOR_OUT_PARAMS = 24;
 
 function toEmType(type) {
   if (type in primitiveTypes) {
@@ -175,11 +178,11 @@ function wrapFunction(fn) {
             let ${outArrayAddress} = Mod._malloc(4 * ${count});
             try {
           `.trim();
-          suffix += `
+          suffix = `
             } finally {
               Mod._free(${outArrayAddress});
             }
-          `.trim();
+          `.trim() + suffix;
           args[outParam.idx] = outArrayAddress;
           mapped.push({
             name: outParam.name,
@@ -229,8 +232,8 @@ function wrapFunction(fn) {
           console.error(`skipping ${fn.name} - unknown out parameter type ${outParam.type}`);
           return null;
         }
-        if (memIdx > 16) {
-          console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx}, which is > 16`);
+        if (memIdx > Math.floor(BYTES_TO_ALLOCATE_FOR_OUT_PARAMS / 4)) {
+          console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx * 4}, which is > ${BYTES_TO_ALLOCATE_FOR_OUT_PARAMS}`);
           return null;
         }
         mapped.push({
@@ -243,13 +246,25 @@ function wrapFunction(fn) {
         return null;
       }
     }
+
+    let ignoreReturn = fn.ret === 'boolean' || fn.ret === 'void';
     if (outParams.length === 1) {
       let outParam = mapped[0];
-      returnType = outParam.type;
-      suffix = `return ${outParam.read};` + suffix;
+      if (ignoreReturn) {
+        returnType = outParam.type;
+        suffix = `return ${outParam.read};` + suffix;
+      } else {
+        returnType = `{ rv: ${fn.ret}, ${outParam.name} : ${outParam.type} }`;
+        suffix = `return { rv: ret, ${outParam.name} : ${outParam.read} };` + suffix;
+      }
     } else {
-      returnType = `{ ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`
-      suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };` + suffix;
+      if (ignoreReturn) {
+        returnType = `{ ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`;
+        suffix = `return { ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };` + suffix;
+      } else {
+        returnType = `{ rv: ${fn.ret}, ${mapped.map(p => `${p.name} : ${p.type}`).join(', ')} }`;
+        suffix = `return { rv: ret, ${mapped.map(p => `${p.name}: ${p.read}`).join(', ')} };` + suffix;
+      }
     }
 
     if (fn.ret === 'boolean') {
@@ -263,6 +278,8 @@ function wrapFunction(fn) {
       returnType += ' | null';
     } else if (fn.ret === 'void') {
       cReturnType = 'void';
+    } else if (isZ3PointerType(fn.ret)) {
+      cReturnType = 'number';
     } else {
       console.error(`skipping ${fn.name} - out parameter for function which returns non-boolean`);
       return null;
@@ -292,6 +309,10 @@ function wrapEnum(name, values) {
   };`;
 }
 
+function getValidOutArrayIndexes(size) {
+  return Array.from({ length: Math.floor(BYTES_TO_ALLOCATE_FOR_OUT_PARAMS / size) }, (_, i) => i).join(' | ');
+}
+
 let out = `
 // @ts-ignore no-implicit-any
 import initModule = require('./z3-built.js');
@@ -319,17 +340,15 @@ export async function init() {
     return Array.from(new Uint32Array(Mod.HEAPU32.buffer, address, count));
   }
 
-  // this supports a up to four out intergers/pointers
-  // or up to two out int64s
-  let outAddress = Mod._malloc(16);
+  let outAddress = Mod._malloc(${BYTES_TO_ALLOCATE_FOR_OUT_PARAMS});
   let outUintArray = (new Uint32Array(Mod.HEAPU32.buffer, outAddress, 4));
-  let getOutUint = (i: 0 | 1 | 2 | 3) => outUintArray[i];
+  let getOutUint = (i: ${getValidOutArrayIndexes(4)}) => outUintArray[i];
   let outIntArray = (new Int32Array(Mod.HEAPU32.buffer, outAddress, 4));
-  let getOutInt = (i: 0 | 1 | 2 | 3) => outIntArray[i];
+  let getOutInt = (i: ${getValidOutArrayIndexes(4)}) => outIntArray[i];
   let outUint64Array = (new BigUint64Array(Mod.HEAPU32.buffer, outAddress, 2));
-  let getOutUint64 = (i: 0 | 1) => outUint64Array[i];
+  let getOutUint64 = (i: ${getValidOutArrayIndexes(8)}) => outUint64Array[i];
   let outInt64Array = (new BigInt64Array(Mod.HEAPU32.buffer, outAddress, 2));
-  let getOutInt64 = (i: 0 | 1) => outInt64Array[i];
+  let getOutInt64 = (i: ${getValidOutArrayIndexes(8)}) => outInt64Array[i];
 
   return {
     em: Mod,
