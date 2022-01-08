@@ -9,10 +9,11 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
 
 type Z3_char_ptr = string;
 type unsigned = number;
-type double = number;
 type int = number;
 type uint64_t = bigint;
 type int64_t = bigint;
+type double = number;
+type float = number;
 
 export type Z3_error_handler = Pointer<'Z3_error_handler'>;
 export type Z3_push_eh = Pointer<'Z3_push_eh'>;
@@ -413,6 +414,7 @@ export enum Z3_goal_prec {
 export async function init() {
   let Mod = await initModule();
 
+  // this works for both signed and unsigned, because JS will wrap for you when constructing the Uint32Array
   function intArrayToByteArr(ints: number[]) {
     return new Uint8Array(new Uint32Array(ints).buffer);
   }
@@ -4497,6 +4499,412 @@ export async function init() {
         );
         return ret;
       },
+      mk_fpa_rounding_mode_sort: Mod._Z3_mk_fpa_rounding_mode_sort as (
+        c: Z3_context
+      ) => Z3_sort,
+      mk_fpa_round_nearest_ties_to_even:
+        Mod._Z3_mk_fpa_round_nearest_ties_to_even as (c: Z3_context) => Z3_ast,
+      mk_fpa_rne: Mod._Z3_mk_fpa_rne as (c: Z3_context) => Z3_ast,
+      mk_fpa_round_nearest_ties_to_away:
+        Mod._Z3_mk_fpa_round_nearest_ties_to_away as (c: Z3_context) => Z3_ast,
+      mk_fpa_rna: Mod._Z3_mk_fpa_rna as (c: Z3_context) => Z3_ast,
+      mk_fpa_round_toward_positive: Mod._Z3_mk_fpa_round_toward_positive as (
+        c: Z3_context
+      ) => Z3_ast,
+      mk_fpa_rtp: Mod._Z3_mk_fpa_rtp as (c: Z3_context) => Z3_ast,
+      mk_fpa_round_toward_negative: Mod._Z3_mk_fpa_round_toward_negative as (
+        c: Z3_context
+      ) => Z3_ast,
+      mk_fpa_rtn: Mod._Z3_mk_fpa_rtn as (c: Z3_context) => Z3_ast,
+      mk_fpa_round_toward_zero: Mod._Z3_mk_fpa_round_toward_zero as (
+        c: Z3_context
+      ) => Z3_ast,
+      mk_fpa_rtz: Mod._Z3_mk_fpa_rtz as (c: Z3_context) => Z3_ast,
+      mk_fpa_sort: Mod._Z3_mk_fpa_sort as (
+        c: Z3_context,
+        ebits: unsigned,
+        sbits: unsigned
+      ) => Z3_sort,
+      mk_fpa_sort_half: Mod._Z3_mk_fpa_sort_half as (c: Z3_context) => Z3_sort,
+      mk_fpa_sort_16: Mod._Z3_mk_fpa_sort_16 as (c: Z3_context) => Z3_sort,
+      mk_fpa_sort_single: Mod._Z3_mk_fpa_sort_single as (
+        c: Z3_context
+      ) => Z3_sort,
+      mk_fpa_sort_32: Mod._Z3_mk_fpa_sort_32 as (c: Z3_context) => Z3_sort,
+      mk_fpa_sort_double: Mod._Z3_mk_fpa_sort_double as (
+        c: Z3_context
+      ) => Z3_sort,
+      mk_fpa_sort_64: Mod._Z3_mk_fpa_sort_64 as (c: Z3_context) => Z3_sort,
+      mk_fpa_sort_quadruple: Mod._Z3_mk_fpa_sort_quadruple as (
+        c: Z3_context
+      ) => Z3_sort,
+      mk_fpa_sort_128: Mod._Z3_mk_fpa_sort_128 as (c: Z3_context) => Z3_sort,
+      mk_fpa_nan: Mod._Z3_mk_fpa_nan as (c: Z3_context, s: Z3_sort) => Z3_ast,
+      mk_fpa_inf: Mod._Z3_mk_fpa_inf as (
+        c: Z3_context,
+        s: Z3_sort,
+        negative: boolean
+      ) => Z3_ast,
+      mk_fpa_zero: Mod._Z3_mk_fpa_zero as (
+        c: Z3_context,
+        s: Z3_sort,
+        negative: boolean
+      ) => Z3_ast,
+      mk_fpa_fp: Mod._Z3_mk_fpa_fp as (
+        c: Z3_context,
+        sgn: Z3_ast,
+        exp: Z3_ast,
+        sig: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_numeral_float: Mod._Z3_mk_fpa_numeral_float as (
+        c: Z3_context,
+        v: float,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_numeral_double: Mod._Z3_mk_fpa_numeral_double as (
+        c: Z3_context,
+        v: double,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_numeral_int: Mod._Z3_mk_fpa_numeral_int as (
+        c: Z3_context,
+        v: int,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_numeral_int_uint: Mod._Z3_mk_fpa_numeral_int_uint as (
+        c: Z3_context,
+        sgn: boolean,
+        exp: int,
+        sig: unsigned,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_numeral_int64_uint64: Mod._Z3_mk_fpa_numeral_int64_uint64 as (
+        c: Z3_context,
+        sgn: boolean,
+        exp: int64_t,
+        sig: uint64_t,
+        ty: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_abs: Mod._Z3_mk_fpa_abs as (c: Z3_context, t: Z3_ast) => Z3_ast,
+      mk_fpa_neg: Mod._Z3_mk_fpa_neg as (c: Z3_context, t: Z3_ast) => Z3_ast,
+      mk_fpa_add: Mod._Z3_mk_fpa_add as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_sub: Mod._Z3_mk_fpa_sub as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_mul: Mod._Z3_mk_fpa_mul as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_div: Mod._Z3_mk_fpa_div as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_fma: Mod._Z3_mk_fpa_fma as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t1: Z3_ast,
+        t2: Z3_ast,
+        t3: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_sqrt: Mod._Z3_mk_fpa_sqrt as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_rem: Mod._Z3_mk_fpa_rem as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_round_to_integral: Mod._Z3_mk_fpa_round_to_integral as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_min: Mod._Z3_mk_fpa_min as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_max: Mod._Z3_mk_fpa_max as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_leq: Mod._Z3_mk_fpa_leq as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_lt: Mod._Z3_mk_fpa_lt as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_geq: Mod._Z3_mk_fpa_geq as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_gt: Mod._Z3_mk_fpa_gt as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_eq: Mod._Z3_mk_fpa_eq as (
+        c: Z3_context,
+        t1: Z3_ast,
+        t2: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_normal: Mod._Z3_mk_fpa_is_normal as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_subnormal: Mod._Z3_mk_fpa_is_subnormal as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_zero: Mod._Z3_mk_fpa_is_zero as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_infinite: Mod._Z3_mk_fpa_is_infinite as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_nan: Mod._Z3_mk_fpa_is_nan as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_negative: Mod._Z3_mk_fpa_is_negative as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_is_positive: Mod._Z3_mk_fpa_is_positive as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_to_fp_bv: Mod._Z3_mk_fpa_to_fp_bv as (
+        c: Z3_context,
+        bv: Z3_ast,
+        s: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_to_fp_float: Mod._Z3_mk_fpa_to_fp_float as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast,
+        s: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_to_fp_real: Mod._Z3_mk_fpa_to_fp_real as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast,
+        s: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_to_fp_signed: Mod._Z3_mk_fpa_to_fp_signed as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast,
+        s: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_to_fp_unsigned: Mod._Z3_mk_fpa_to_fp_unsigned as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast,
+        s: Z3_sort
+      ) => Z3_ast,
+      mk_fpa_to_ubv: Mod._Z3_mk_fpa_to_ubv as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast,
+        sz: unsigned
+      ) => Z3_ast,
+      mk_fpa_to_sbv: Mod._Z3_mk_fpa_to_sbv as (
+        c: Z3_context,
+        rm: Z3_ast,
+        t: Z3_ast,
+        sz: unsigned
+      ) => Z3_ast,
+      mk_fpa_to_real: Mod._Z3_mk_fpa_to_real as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      fpa_get_ebits: Mod._Z3_fpa_get_ebits as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => unsigned,
+      fpa_get_sbits: Mod._Z3_fpa_get_sbits as (
+        c: Z3_context,
+        s: Z3_sort
+      ) => unsigned,
+      fpa_is_numeral_nan: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_nan',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_is_numeral_inf: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_inf',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_is_numeral_zero: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_zero',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_is_numeral_normal: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_normal',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_is_numeral_subnormal: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_subnormal',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_is_numeral_positive: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_positive',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_is_numeral_negative: function (c: Z3_context, t: Z3_ast): boolean {
+        let ret = Mod.ccall(
+          'Z3_fpa_is_numeral_negative',
+          'boolean',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_get_numeral_sign_bv: Mod._Z3_fpa_get_numeral_sign_bv as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      fpa_get_numeral_significand_bv:
+        Mod._Z3_fpa_get_numeral_significand_bv as (
+          c: Z3_context,
+          t: Z3_ast
+        ) => Z3_ast,
+      fpa_get_numeral_sign: function (c: Z3_context, t: Z3_ast): int | null {
+        let ret = Mod.ccall(
+          'Z3_fpa_get_numeral_sign',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, t, outAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutInt(0);
+      },
+      fpa_get_numeral_significand_string: function (
+        c: Z3_context,
+        t: Z3_ast
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_fpa_get_numeral_significand_string',
+          'string',
+          ['number', 'number'],
+          [c, t]
+        );
+        return ret;
+      },
+      fpa_get_numeral_significand_uint64: function (
+        c: Z3_context,
+        t: Z3_ast
+      ): uint64_t | null {
+        let ret = Mod.ccall(
+          'Z3_fpa_get_numeral_significand_uint64',
+          'boolean',
+          ['number', 'number', 'number'],
+          [c, t, outAddress]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutUint64(0);
+      },
+      fpa_get_numeral_exponent_string: function (
+        c: Z3_context,
+        t: Z3_ast,
+        biased: boolean
+      ): string {
+        let ret = Mod.ccall(
+          'Z3_fpa_get_numeral_exponent_string',
+          'string',
+          ['number', 'number', 'boolean'],
+          [c, t, biased]
+        );
+        return ret;
+      },
+      fpa_get_numeral_exponent_int64: function (
+        c: Z3_context,
+        t: Z3_ast,
+        biased: boolean
+      ): int64_t | null {
+        let ret = Mod.ccall(
+          'Z3_fpa_get_numeral_exponent_int64',
+          'boolean',
+          ['number', 'number', 'number', 'boolean'],
+          [c, t, outAddress, biased]
+        );
+        if (!ret) {
+          return null;
+        }
+        return getOutInt64(0);
+      },
+      fpa_get_numeral_exponent_bv: Mod._Z3_fpa_get_numeral_exponent_bv as (
+        c: Z3_context,
+        t: Z3_ast,
+        biased: boolean
+      ) => Z3_ast,
+      mk_fpa_to_ieee_bv: Mod._Z3_mk_fpa_to_ieee_bv as (
+        c: Z3_context,
+        t: Z3_ast
+      ) => Z3_ast,
+      mk_fpa_to_fp_int_real: Mod._Z3_mk_fpa_to_fp_int_real as (
+        c: Z3_context,
+        rm: Z3_ast,
+        exp: Z3_ast,
+        sig: Z3_ast,
+        s: Z3_sort
+      ) => Z3_ast,
     },
   };
 }

@@ -9,6 +9,7 @@ let files = [
   'z3_algebraic.h',
   'z3_ast_containers.h',
   'z3_fixedpoint.h',
+  'z3_fpa.h',
 ];
 
 
@@ -17,16 +18,18 @@ let aliases = {
   Z3_bool: 'boolean',
   Z3_string: 'string',
   bool: 'boolean',
+  signed: 'int',
 };
 
 let primitiveTypes = {
   __proto__: null,
   Z3_char_ptr: 'string',
   unsigned: 'number',
-  double: 'number',
   int: 'number',
   uint64_t: 'bigint',
   int64_t: 'bigint',
+  double: 'number',
+  float: 'number',
 };
 
 let optTypes = {
