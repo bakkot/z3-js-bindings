@@ -1,0 +1,72 @@
+name: WASM Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # do not do this in actual repo
+      - name: Blow away git
+        run: rm -rf .git .gitignore
+
+      # do not do this in actual repo
+      - name: Clone Z3
+        uses: actions/checkout@v2
+        with:
+          repository: Z3Prover/z3
+          path: z3
+          clean: false
+
+      # do not do this in actual repo
+      - name: Move z3
+        run: |
+          mv z3/* .
+          mv some-subdirectory src/api/js
+
+      - name: ls
+        run: |
+          ls
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/*'
+          # only do this in release job
+          registry-url: 'https://registry.npmjs.org'
+
+      # only do this in release job
+      # TODO extract version
+      - name: Prepare for publish
+        run: |
+          echo 'todo extract version and npm publish'
+        working-directory: src/api/js
+
+      - name: Setup emscripten
+        uses: mymindstorm/setup-emsdk@v11
+        with:
+          version: 3.1.0
+          actions-cache-folder: 'emsdk-cache'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: src/api/js
+
+      - name: Build wasm artifact
+        run: npm run build
+        working-directory: src/api/js
+
+      - name: Build TypeScript
+        run: npm run build-ts
+        working-directory: src/api/js
+
+      - name: Test
+        run: npm test
+        working-directory: src/api/js
