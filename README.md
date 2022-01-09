@@ -13,7 +13,7 @@ The first part is complete, and is the focus of the remainder of this readme. Th
 
 ## Building
 
-This repository has the wasm artifact committed, so you don't need to install emscripten unless you want to modify teh artifact for some reason. If you do want that, you can run `npm run build-wasm`; it will take a while.
+This repository has the wasm artifact committed, so you don't need to install emscripten unless you want to modify the artifact for some reason. If you do want that, you can run `npm run build-wasm`; it will take a while.
 
 To build the wrapper, run `npm i` and then `npm run build`.
 
