@@ -33,9 +33,81 @@ Module['ready'] = new Promise(function(resolve, reject) {
   readyPromiseReject = reject;
 });
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_simplify')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_simplify', { configurable: true, get: function() { abort('You are getting _async_Z3_simplify on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_simplify', { configurable: true, set: function() { abort('You are setting _async_Z3_simplify on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_simplify_ex')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_simplify_ex', { configurable: true, get: function() { abort('You are getting _async_Z3_simplify_ex on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_simplify_ex', { configurable: true, set: function() { abort('You are setting _async_Z3_simplify_ex on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_solver_check')) {
         Object.defineProperty(Module['ready'], '_async_Z3_solver_check', { configurable: true, get: function() { abort('You are getting _async_Z3_solver_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_async_Z3_solver_check', { configurable: true, set: function() { abort('You are setting _async_Z3_solver_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_solver_cube')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_solver_cube', { configurable: true, get: function() { abort('You are getting _async_Z3_solver_cube on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_solver_cube', { configurable: true, set: function() { abort('You are setting _async_Z3_solver_cube on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_solver_get_consequences')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_solver_get_consequences', { configurable: true, get: function() { abort('You are getting _async_Z3_solver_get_consequences on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_solver_get_consequences', { configurable: true, set: function() { abort('You are setting _async_Z3_solver_get_consequences on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_tactic_apply')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_tactic_apply', { configurable: true, get: function() { abort('You are getting _async_Z3_tactic_apply on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_tactic_apply', { configurable: true, set: function() { abort('You are setting _async_Z3_tactic_apply on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_tactic_apply_ex')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_tactic_apply_ex', { configurable: true, get: function() { abort('You are getting _async_Z3_tactic_apply_ex on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_tactic_apply_ex', { configurable: true, set: function() { abort('You are setting _async_Z3_tactic_apply_ex on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_optimize_check')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_optimize_check', { configurable: true, get: function() { abort('You are getting _async_Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_optimize_check', { configurable: true, set: function() { abort('You are setting _async_Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_algebraic_eval')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_eval', { configurable: true, get: function() { abort('You are getting _async_Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_eval', { configurable: true, set: function() { abort('You are setting _async_Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query_relations')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_relations', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_relations', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query_from_lvl')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_from_lvl', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query_from_lvl on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_from_lvl', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query_from_lvl on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_polynomial_subresultants')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_polynomial_subresultants', { configurable: true, get: function() { abort('You are getting _async_Z3_polynomial_subresultants on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_polynomial_subresultants', { configurable: true, set: function() { abort('You are setting _async_Z3_polynomial_subresultants on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
       }
     
 
@@ -6243,8 +6315,32 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  410664: function($0, $1) {resolve_async($0, $1);},  
- 410691: function($0) {reject_async($0, 'failed with unknown exception');}
+  410680: function($0, $1) {resolve_async($0, $1);},  
+ 410707: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 410762: function($0, $1) {resolve_async($0, $1);},  
+ 410789: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 410844: function($0, $1) {resolve_async($0, $1);},  
+ 410871: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 410926: function($0, $1) {resolve_async($0, $1);},  
+ 410953: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411008: function($0, $1) {resolve_async($0, $1);},  
+ 411035: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411090: function($0, $1) {resolve_async($0, $1);},  
+ 411117: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411172: function($0, $1) {resolve_async($0, $1);},  
+ 411199: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411254: function($0, $1) {resolve_async($0, $1);},  
+ 411281: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411336: function($0, $1) {resolve_async($0, $1);},  
+ 411363: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411418: function($0, $1) {resolve_async($0, $1);},  
+ 411445: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411500: function($0, $1) {resolve_async($0, $1);},  
+ 411527: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411582: function($0, $1) {resolve_async($0, $1);},  
+ 411609: function($0) {reject_async($0, 'failed with unknown exception');},  
+ 411664: function($0, $1) {resolve_async($0, $1);},  
+ 411691: function($0) {reject_async($0, 'failed with unknown exception');}
 };
 
 
@@ -11172,10 +11268,82 @@ var asm = createWasm();
 var ___wasm_call_ctors = Module["___wasm_call_ctors"] = createExportWrapper("__wasm_call_ctors");
 
 /** @type {function(...*):?} */
+var _async_Z3_simplify = Module["_async_Z3_simplify"] = createExportWrapper("async_Z3_simplify");
+
+/** @type {function(...*):?} */
+var _async_Z3_simplify_ex = Module["_async_Z3_simplify_ex"] = createExportWrapper("async_Z3_simplify_ex");
+
+/** @type {function(...*):?} */
 var _async_Z3_solver_check = Module["_async_Z3_solver_check"] = createExportWrapper("async_Z3_solver_check");
 
 /** @type {function(...*):?} */
+var _async_Z3_solver_cube = Module["_async_Z3_solver_cube"] = createExportWrapper("async_Z3_solver_cube");
+
+/** @type {function(...*):?} */
+var _async_Z3_solver_get_consequences = Module["_async_Z3_solver_get_consequences"] = createExportWrapper("async_Z3_solver_get_consequences");
+
+/** @type {function(...*):?} */
+var _async_Z3_tactic_apply = Module["_async_Z3_tactic_apply"] = createExportWrapper("async_Z3_tactic_apply");
+
+/** @type {function(...*):?} */
+var _async_Z3_tactic_apply_ex = Module["_async_Z3_tactic_apply_ex"] = createExportWrapper("async_Z3_tactic_apply_ex");
+
+/** @type {function(...*):?} */
+var _async_Z3_optimize_check = Module["_async_Z3_optimize_check"] = createExportWrapper("async_Z3_optimize_check");
+
+/** @type {function(...*):?} */
+var _async_Z3_algebraic_eval = Module["_async_Z3_algebraic_eval"] = createExportWrapper("async_Z3_algebraic_eval");
+
+/** @type {function(...*):?} */
+var _async_Z3_fixedpoint_query = Module["_async_Z3_fixedpoint_query"] = createExportWrapper("async_Z3_fixedpoint_query");
+
+/** @type {function(...*):?} */
+var _async_Z3_fixedpoint_query_relations = Module["_async_Z3_fixedpoint_query_relations"] = createExportWrapper("async_Z3_fixedpoint_query_relations");
+
+/** @type {function(...*):?} */
+var _async_Z3_fixedpoint_query_from_lvl = Module["_async_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("async_Z3_fixedpoint_query_from_lvl");
+
+/** @type {function(...*):?} */
+var _async_Z3_polynomial_subresultants = Module["_async_Z3_polynomial_subresultants"] = createExportWrapper("async_Z3_polynomial_subresultants");
+
+/** @type {function(...*):?} */
+var _Z3_simplify = Module["_Z3_simplify"] = createExportWrapper("Z3_simplify");
+
+/** @type {function(...*):?} */
+var _Z3_simplify_ex = Module["_Z3_simplify_ex"] = createExportWrapper("Z3_simplify_ex");
+
+/** @type {function(...*):?} */
 var _Z3_solver_check = Module["_Z3_solver_check"] = createExportWrapper("Z3_solver_check");
+
+/** @type {function(...*):?} */
+var _Z3_solver_cube = Module["_Z3_solver_cube"] = createExportWrapper("Z3_solver_cube");
+
+/** @type {function(...*):?} */
+var _Z3_solver_get_consequences = Module["_Z3_solver_get_consequences"] = createExportWrapper("Z3_solver_get_consequences");
+
+/** @type {function(...*):?} */
+var _Z3_tactic_apply = Module["_Z3_tactic_apply"] = createExportWrapper("Z3_tactic_apply");
+
+/** @type {function(...*):?} */
+var _Z3_tactic_apply_ex = Module["_Z3_tactic_apply_ex"] = createExportWrapper("Z3_tactic_apply_ex");
+
+/** @type {function(...*):?} */
+var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query = Module["_Z3_fixedpoint_query"] = createExportWrapper("Z3_fixedpoint_query");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query_from_lvl = Module["_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("Z3_fixedpoint_query_from_lvl");
+
+/** @type {function(...*):?} */
+var _Z3_polynomial_subresultants = Module["_Z3_polynomial_subresultants"] = createExportWrapper("Z3_polynomial_subresultants");
 
 /** @type {function(...*):?} */
 var _Z3_mk_array_sort = Module["_Z3_mk_array_sort"] = createExportWrapper("Z3_mk_array_sort");
@@ -11781,10 +11949,7 @@ var _Z3_fixedpoint_add_rule = Module["_Z3_fixedpoint_add_rule"] = createExportWr
 var _Z3_fixedpoint_add_fact = Module["_Z3_fixedpoint_add_fact"] = createExportWrapper("Z3_fixedpoint_add_fact");
 
 /** @type {function(...*):?} */
-var _Z3_fixedpoint_query = Module["_Z3_fixedpoint_query"] = createExportWrapper("Z3_fixedpoint_query");
-
-/** @type {function(...*):?} */
-var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
+var _Z3_get_sort_kind = Module["_Z3_get_sort_kind"] = createExportWrapper("Z3_get_sort_kind");
 
 /** @type {function(...*):?} */
 var _Z3_fixedpoint_get_answer = Module["_Z3_fixedpoint_get_answer"] = createExportWrapper("Z3_fixedpoint_get_answer");
@@ -11836,9 +12001,6 @@ var _Z3_fixedpoint_get_param_descrs = Module["_Z3_fixedpoint_get_param_descrs"] 
 
 /** @type {function(...*):?} */
 var _Z3_fixedpoint_set_params = Module["_Z3_fixedpoint_set_params"] = createExportWrapper("Z3_fixedpoint_set_params");
-
-/** @type {function(...*):?} */
-var _Z3_fixedpoint_query_from_lvl = Module["_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("Z3_fixedpoint_query_from_lvl");
 
 /** @type {function(...*):?} */
 var _Z3_fixedpoint_get_ground_sat_answer = Module["_Z3_fixedpoint_get_ground_sat_answer"] = createExportWrapper("Z3_fixedpoint_get_ground_sat_answer");
@@ -11914,9 +12076,6 @@ var _Z3_optimize_push = Module["_Z3_optimize_push"] = createExportWrapper("Z3_op
 
 /** @type {function(...*):?} */
 var _Z3_optimize_pop = Module["_Z3_optimize_pop"] = createExportWrapper("Z3_optimize_pop");
-
-/** @type {function(...*):?} */
-var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
 
 /** @type {function(...*):?} */
 var _Z3_optimize_get_unsat_core = Module["_Z3_optimize_get_unsat_core"] = createExportWrapper("Z3_optimize_get_unsat_core");
@@ -12036,9 +12195,6 @@ var _Z3_algebraic_neq = Module["_Z3_algebraic_neq"] = createExportWrapper("Z3_al
 var _Z3_algebraic_roots = Module["_Z3_algebraic_roots"] = createExportWrapper("Z3_algebraic_roots");
 
 /** @type {function(...*):?} */
-var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
-
-/** @type {function(...*):?} */
 var _Z3_algebraic_get_poly = Module["_Z3_algebraic_get_poly"] = createExportWrapper("Z3_algebraic_get_poly");
 
 /** @type {function(...*):?} */
@@ -12154,12 +12310,6 @@ var _Z3_probe_get_descr = Module["_Z3_probe_get_descr"] = createExportWrapper("Z
 
 /** @type {function(...*):?} */
 var _Z3_probe_apply = Module["_Z3_probe_apply"] = createExportWrapper("Z3_probe_apply");
-
-/** @type {function(...*):?} */
-var _Z3_tactic_apply = Module["_Z3_tactic_apply"] = createExportWrapper("Z3_tactic_apply");
-
-/** @type {function(...*):?} */
-var _Z3_tactic_apply_ex = Module["_Z3_tactic_apply_ex"] = createExportWrapper("Z3_tactic_apply_ex");
 
 /** @type {function(...*):?} */
 var _Z3_apply_result_inc_ref = Module["_Z3_apply_result_inc_ref"] = createExportWrapper("Z3_apply_result_inc_ref");
@@ -12354,16 +12504,7 @@ var _Z3_get_domain = Module["_Z3_get_domain"] = createExportWrapper("Z3_get_doma
 var _Z3_get_range = Module["_Z3_get_range"] = createExportWrapper("Z3_get_range");
 
 /** @type {function(...*):?} */
-var _Z3_get_sort_kind = Module["_Z3_get_sort_kind"] = createExportWrapper("Z3_get_sort_kind");
-
-/** @type {function(...*):?} */
 var _Z3_get_bool_value = Module["_Z3_get_bool_value"] = createExportWrapper("Z3_get_bool_value");
-
-/** @type {function(...*):?} */
-var _Z3_simplify = Module["_Z3_simplify"] = createExportWrapper("Z3_simplify");
-
-/** @type {function(...*):?} */
-var _Z3_simplify_ex = Module["_Z3_simplify_ex"] = createExportWrapper("Z3_simplify_ex");
 
 /** @type {function(...*):?} */
 var _Z3_simplify_get_help = Module["_Z3_simplify_get_help"] = createExportWrapper("Z3_simplify_get_help");
@@ -12487,9 +12628,6 @@ var _Z3_mk_pbge = Module["_Z3_mk_pbge"] = createExportWrapper("Z3_mk_pbge");
 
 /** @type {function(...*):?} */
 var _Z3_mk_pbeq = Module["_Z3_mk_pbeq"] = createExportWrapper("Z3_mk_pbeq");
-
-/** @type {function(...*):?} */
-var _Z3_polynomial_subresultants = Module["_Z3_polynomial_subresultants"] = createExportWrapper("Z3_polynomial_subresultants");
 
 /** @type {function(...*):?} */
 var _Z3_mk_goal = Module["_Z3_mk_goal"] = createExportWrapper("Z3_mk_goal");
@@ -13089,12 +13227,6 @@ var _Z3_solver_to_dimacs_string = Module["_Z3_solver_to_dimacs_string"] = create
 var _Z3_get_implied_equalities = Module["_Z3_get_implied_equalities"] = createExportWrapper("Z3_get_implied_equalities");
 
 /** @type {function(...*):?} */
-var _Z3_solver_get_consequences = Module["_Z3_solver_get_consequences"] = createExportWrapper("Z3_solver_get_consequences");
-
-/** @type {function(...*):?} */
-var _Z3_solver_cube = Module["_Z3_solver_cube"] = createExportWrapper("Z3_solver_cube");
-
-/** @type {function(...*):?} */
 var _Z3_solver_propagate_register = Module["_Z3_solver_propagate_register"] = createExportWrapper("Z3_solver_propagate_register");
 
 /** @type {function(...*):?} */
@@ -13387,8 +13519,8 @@ var ___cxa_can_catch = Module["___cxa_can_catch"] = createExportWrapper("__cxa_c
 /** @type {function(...*):?} */
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = createExportWrapper("__cxa_is_pointer_type");
 
-var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 411448;
-var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 407340;
+var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 412460;
+var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 409964;
 function invoke_vi(index,a1) {
 var sp = stackSave();
 try {
@@ -13466,65 +13598,10 @@ try {
 }
 }
 
-function invoke_viii(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiiiiii(index,a1,a2,a3,a4,a5,a6) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
 function invoke_iiiii(index,a1,a2,a3,a4) {
 var sp = stackSave();
 try {
   return getWasmTableEntry(index)(a1,a2,a3,a4);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_dii(index,a1,a2) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiiid(index,a1,a2,a3,a4,a5) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiii(index,a1,a2,a3,a4) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3,a4);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -13543,109 +13620,10 @@ try {
 }
 }
 
-function invoke_viiiii(index,a1,a2,a3,a4,a5) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiiiiiii(index,a1,a2,a3,a4,a5,a6,a7) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiiiii(index,a1,a2,a3,a4,a5,a6) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viid(index,a1,a2,a3) {
+function invoke_viii(index,a1,a2,a3) {
 var sp = stackSave();
 try {
   getWasmTableEntry(index)(a1,a2,a3);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viiiiiii(index,a1,a2,a3,a4,a5,a6,a7) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_id(index,a1) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8,a9) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8,a9);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiid(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -13664,10 +13642,164 @@ try {
 }
 }
 
-function invoke_iiji(index,a1,a2,a3) {
+function invoke_iiij(index,a1,a2,a3) {
 var sp = stackSave();
 try {
   return getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiii(index,a1,a2,a3,a4) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiii(index,a1,a2,a3,a4,a5) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiiiiii(index,a1,a2,a3,a4,a5,a6) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viid(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_vid(index,a1,a2) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_id(index,a1) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_dii(index,a1,a2) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiiiii(index,a1,a2,a3,a4,a5,a6,a7) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiiii(index,a1,a2,a3,a4,a5,a6) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiiiiiii(index,a1,a2,a3,a4,a5,a6,a7) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viiiid(index,a1,a2,a3,a4,a5) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viji(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -13679,6 +13811,39 @@ function invoke_jii(index,a1,a2) {
 var sp = stackSave();
 try {
   return getWasmTableEntry(index)(a1,a2);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiiiiiiiii(index,a1,a2,a3,a4,a5,a6,a7,a8,a9) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7,a8,a9);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiid(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_iiji(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  return getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
@@ -14049,28 +14214,6 @@ try {
 }
 }
 
-function invoke_vid(index,a1,a2) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viji(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
 function invoke_vifi(index,a1,a2,a3) {
 var sp = stackSave();
 try {
@@ -14119,17 +14262,6 @@ function invoke_viiiiijj(index,a1,a2,a3,a4,a5,a6,a7) {
 var sp = stackSave();
 try {
   getWasmTableEntry(index)(a1,a2,a3,a4,a5,a6,a7);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_iiij(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  return getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
