@@ -1,4 +1,7 @@
-node_modules/
+some-subdirectory/node_modules/
 z3/
 *.js
-!scripts/*.js
+!some-subdirectory/scripts/*.js
+!some-subdirectory/src/*.js
+!some-subdirectory/build/z3-built.js
+!some-subdirectory/build/z3-built.worker.js
