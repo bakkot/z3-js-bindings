@@ -1,6 +1,8 @@
 node_modules/
 z3/
-example.js
-example-raw.js
-build/*.js
+build/lib.js
+build/wrapper.js
 build/lib.ts
+example-raw.js
+example.js
+test-js-api.js
