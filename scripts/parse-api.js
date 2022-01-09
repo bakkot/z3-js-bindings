@@ -3,7 +3,6 @@
 let fs = require('fs');
 let path = require('path');
 
-
 let files = [
   'z3_api.h',
   'z3_algebraic.h',
@@ -15,7 +14,6 @@ let files = [
   'z3_rcf.h',
   'z3_spacer.h',
 ];
-
 
 let aliases = {
   __proto__: null,
@@ -77,7 +75,9 @@ for (let file of files) {
   // unfortunately we also need to parse the actual declarations so we know the parameter names also
   let pytypes = Object.create(null);
 
-  let typeMatches = contents.matchAll(/def_Type\(\s*'(?<name>[A-Za-z0-9_]+)',\s*'(?<cname>[A-Za-z0-9_]+)',\s*'(?<pname>[A-Za-z0-9_]+)'\)/g);
+  let typeMatches = contents.matchAll(
+    /def_Type\(\s*'(?<name>[A-Za-z0-9_]+)',\s*'(?<cname>[A-Za-z0-9_]+)',\s*'(?<pname>[A-Za-z0-9_]+)'\)/g,
+  );
   for (let { groups } of typeMatches) {
     pytypes[groups.name] = groups.cname;
   }
@@ -85,7 +85,9 @@ for (let file of files) {
   // we filter first to ensure our regex isn't too strict
   let apiLines = contents.split('\n').filter(l => /def_API|extra_API/.test(l));
   for (let line of apiLines) {
-    let match = line.match(/^\s*(?<def>def_API|extra_API) *\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\s*\)\s*$/);
+    let match = line.match(
+      /^\s*(?<def>def_API|extra_API) *\(\s*'(?<name>[A-Za-z0-9_]+)'\s*,\s*(?<ret>[A-Za-z0-9_]+)\s*,\s*\((?<params>((_in|_out|_in_array|_out_array|_inout_array)\([^)]+\)\s*,?\s*)*)\)\s*\)\s*$/,
+    );
     if (match == null) {
       throw new Error(`failed to match def_API call ${JSON.stringify(line)}`);
     }
@@ -124,14 +126,12 @@ for (let file of files) {
     defApis[name] = { params: parsedParams, ret, extra: def === 'extra_API' };
   }
 
-
-
   for (let match of contents.matchAll(/DEFINE_TYPE\((?<type>[A-Za-z0-9_]+)\)/g)) {
     types[match.groups.type] = match.groups.type;
   }
 
   // parse enum declarations
-  for (let idx = 0; idx < contents.length;) {
+  for (let idx = 0; idx < contents.length; ) {
     let nextIdx = contents.indexOf('typedef enum', idx);
     if (nextIdx === -1) {
       break;
@@ -196,7 +196,7 @@ for (let file of files) {
   }
 
   // parse function declarations
-  for (let idx = 0; idx < contents.length;) {
+  for (let idx = 0; idx < contents.length; ) {
     let nextIdx = contents.indexOf(' Z3_API ', idx);
     if (nextIdx === -1) {
       break;
@@ -243,7 +243,9 @@ for (let file of files) {
         } else {
           ({ match, text } = eat(text, /^[A-Za-z0-9_]+/));
           if (match === null) {
-            throw new Error(`failed to parse param name in ${JSON.stringify(slice)} for param ${JSON.stringify(param)}`);
+            throw new Error(
+              `failed to parse param name in ${JSON.stringify(slice)} for param ${JSON.stringify(param)}`,
+            );
           }
           paramName = match[0];
           text = eatWs(text);
@@ -326,7 +328,6 @@ for (let fn of functions) {
     ++idx;
   }
 }
-
 
 function eat(str, regex) {
   const match = str.match(regex);

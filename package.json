@@ -2,7 +2,8 @@
   "scripts": {
     "build-ts-wrapper": "node scripts/make-ts-wrapper.js > build/wrapper.ts && tsc --noEmit build/wrapper.ts && cp src/lib.ts build",
     "build-wasm": "node scripts/make-cc-wrapper.js > build/async-fns.cc && ./build-wasm.sh",
-    "build-ts": "tsc"
+    "build-ts": "tsc",
+    "format": "prettier --write --single-quote --arrow-parens avoid --print-width 120 --trailing-comma all '{,src/,scripts/}*.{js,ts}'"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",

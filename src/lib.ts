@@ -1,6 +1,17 @@
 // see the Python API: https://github.com/Z3Prover/z3/blob/a90b66134d74fa2e6b36968955d306902ccc3cc6/src/api/python/z3/z3.py
 
-import type { Z3_context, Z3_solver, Z3_model, Z3_ast, Z3_sort, Z3_symbol, Z3_lbool, Z3_func_interp, Z3_func_decl, Z3_app } from '../build/wrapper';
+import type {
+  Z3_context,
+  Z3_solver,
+  Z3_model,
+  Z3_ast,
+  Z3_sort,
+  Z3_symbol,
+  Z3_lbool,
+  Z3_func_interp,
+  Z3_func_decl,
+  Z3_app,
+} from '../build/wrapper';
 import { init as initZ3 } from '../build/wrapper';
 
 export async function init() {
@@ -53,7 +64,7 @@ export async function init() {
     declare solver: Z3_solver;
     constructor() {
       let ctx = main_ctx();
-      let solver = Z3.mk_solver(ctx.ref());;
+      let solver = Z3.mk_solver(ctx.ref());
       Z3.solver_inc_ref(ctx.ref(), solver);
 
       this.ctx = ctx;
@@ -86,7 +97,7 @@ export async function init() {
 
     model() {
       let m = Z3.solver_get_model(this.ctx.ref(), this.solver);
-      if (m as unknown as number === 0) {
+      if ((m as unknown as number) === 0) {
         throw new Error('failed to get model');
       }
       return new ModelRef(m, this.ctx);
@@ -142,7 +153,7 @@ export async function init() {
       // }
       if (decl.arity() == 0) {
         let _r = Z3.model_get_const_interp(this.ctx.ref(), this.model, decl.ast);
-        if (_r as unknown as number === 0) {
+        if ((_r as unknown as number) === 0) {
           throw new Error('npe in get_interp');
         }
         let r = _to_expr_ref(_r as unknown as Z3_ast, this.ctx);
@@ -153,7 +164,7 @@ export async function init() {
         }
       } else {
         let interp = Z3.model_get_func_interp(this.ctx.ref(), this.model, decl.ast);
-        if (interp as unknown as number === 0) {
+        if ((interp as unknown as number) === 0) {
           return null;
         }
         return new FuncInterp(interp as unknown as Z3_func_interp, this.ctx);
@@ -177,7 +188,6 @@ export async function init() {
       this.ctx = ctx;
     }
   }
-
 
   class AstRef {
     declare ast: Z3_ast;
@@ -344,7 +354,7 @@ export async function init() {
 
   let is_const = (a: unknown) => is_app(a) && (a as ExprRef).num_args() === 0;
 
-  let is_as_array = (n: unknown) => (n instanceof ExprRef) && Z3.is_as_array(n.ctx.ref(), n.ast);
+  let is_as_array = (n: unknown) => n instanceof ExprRef && Z3.is_as_array(n.ctx.ref(), n.ast);
 
   function _to_expr_ref(a: Z3_ast, ctx: Context) {
     let k = Z3.get_ast_kind(ctx.ref(), a);
@@ -356,7 +366,7 @@ export async function init() {
       if (k === /* Z3_NUMERAL_AST */ 0) {
         return new IntNumRef(a, ctx);
       }
-      return new ArithRef(a, ctx)
+      return new ArithRef(a, ctx);
     }
     throw new Error(`unknown sort kind ${sk}`);
   }
@@ -448,7 +458,7 @@ export async function init() {
     if (Math.floor(val) !== val || !Number.isFinite(val)) {
       throw new Error(`IntVal expects an int (got ${val}`);
     }
-    return new IntNumRef(Z3.mk_numeral(ctx.ref(), _to_int_str(val), IntSort(ctx).ast), ctx)
+    return new IntNumRef(Z3.mk_numeral(ctx.ref(), _to_int_str(val), IntSort(ctx).ast), ctx);
   }
 
   function BoolSort(ctx = main_ctx()) {
@@ -470,7 +480,13 @@ export async function init() {
       throw new Error('at least one argument to Distinct must be a Z3 expression');
     }
     let coerced = _coerce_expr_list(args, ctx);
-    let out = new BoolRef(Z3.mk_distinct(ctx.ref(), coerced.map(c => c.ast)), ctx);
+    let out = new BoolRef(
+      Z3.mk_distinct(
+        ctx.ref(),
+        coerced.map(c => c.ast),
+      ),
+      ctx,
+    );
 
     // Module._free(_args);
     return out;
@@ -479,11 +495,7 @@ export async function init() {
   function lboolToString(r: Z3_lbool) {
     // intentionally not implemented like python
     // TODO pull out the Z3_lbool enum
-    return r === -1
-      ? 'unsat'
-      : r === 1
-      ? 'sat'
-      : 'unknown';
+    return r === -1 ? 'unsat' : r === 1 ? 'sat' : 'unknown';
   }
 
   return {

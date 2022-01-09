@@ -5,7 +5,6 @@ import { init } from './build/lib';
 (async () => {
   let { em, rawZ3: Z3 } = await init();
 
-
   Z3.global_param_set('verbose', '10');
   console.log('verbosity:', Z3.global_param_get('verbose'));
 
@@ -23,7 +22,7 @@ import { init } from './build/lib';
 
   let bv = Z3.mk_bv_numeral(ctx, [true, true, false]);
   let bs = Z3.mk_ubv_to_str(ctx, bv);
-  console.log(Z3.ast_to_string(ctx, bs))
+  console.log(Z3.ast_to_string(ctx, bs));
 
   let intSort = Z3.mk_int_sort(ctx);
   let big = Z3.mk_int64(ctx, 42n, intSort);
@@ -32,12 +31,19 @@ import { init } from './build/lib';
 
   console.log(Z3.get_version());
 
-  let head_tail = [ Z3.mk_string_symbol(ctx, "car"), Z3.mk_string_symbol(ctx, "cdr") ];
+  let head_tail = [Z3.mk_string_symbol(ctx, 'car'), Z3.mk_string_symbol(ctx, 'cdr')];
 
-  let nil_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "nil"), Z3.mk_string_symbol(ctx, "is_nil"), [], [], []);
-  let cons_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, "cons"), Z3.mk_string_symbol(ctx, "is_cons"), head_tail, [null, null], [0, 0]);
+  let nil_con = Z3.mk_constructor(ctx, Z3.mk_string_symbol(ctx, 'nil'), Z3.mk_string_symbol(ctx, 'is_nil'), [], [], []);
+  let cons_con = Z3.mk_constructor(
+    ctx,
+    Z3.mk_string_symbol(ctx, 'cons'),
+    Z3.mk_string_symbol(ctx, 'is_cons'),
+    head_tail,
+    [null, null],
+    [0, 0],
+  );
 
-  let cell = Z3.mk_datatype(ctx, Z3.mk_string_symbol(ctx, "cell"), [nil_con, cons_con]);
+  let cell = Z3.mk_datatype(ctx, Z3.mk_string_symbol(ctx, 'cell'), [nil_con, cons_con]);
   console.log(Z3.query_constructor(ctx, nil_con, 0));
   console.log(Z3.query_constructor(ctx, cons_con, 2));
 
@@ -45,7 +51,6 @@ import { init } from './build/lib';
   Z3.del_context(ctx);
 
   em.PThread.terminateAllThreads();
-
 })().catch(e => {
   console.error('error', e);
   process.exit(1);

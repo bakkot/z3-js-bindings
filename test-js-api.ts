@@ -307,6 +307,7 @@ let printf = (str: string, ...args: unknown[]) => console.log(sprintf(str.replac
     Z3.del_context(ctx);
   }
 
+  // https://github.com/Z3Prover/z3/blob/174889ad5ea8b1e1127aeec8a4121a5687ac9a2b/examples/c/test_capi.c#L2230
   async function unsat_core_and_proof_example() {
     let ctx: Z3_context = mk_proof_context();
     let s: Z3_solver = mk_solver(ctx);

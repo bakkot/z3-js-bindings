@@ -25,7 +25,7 @@ function reject_async(val) {
   }, 0);
 }
 
-Module.async_call = function(f, ...args) {
+Module.async_call = function (f, ...args) {
   if (capability !== null) {
     throw new Error(`you can't execute multiple async functions at the same time; let the previous one finish first`);
   }
@@ -34,4 +34,4 @@ Module.async_call = function(f, ...args) {
   });
   f(...args);
   return promise;
-}
+};

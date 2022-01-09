@@ -8,11 +8,12 @@ let asyncFns = require('./async-fns.js');
 
 let subtypes = {
   __proto__: null,
-  'Z3_sort': 'Z3_ast',
-  'Z3_func_decl': 'Z3_ast',
+  Z3_sort: 'Z3_ast',
+  Z3_func_decl: 'Z3_ast',
 };
 
-let makePointerType = t => `export type ${t} = ` + (t in subtypes ? `Subpointer<'${t}', '${subtypes[t]}'>;` : `Pointer<'${t}'>;`);
+let makePointerType = t =>
+  `export type ${t} = ` + (t in subtypes ? `Subpointer<'${t}', '${subtypes[t]}'>;` : `Pointer<'${t}'>;`);
 
 // this supports a up to 6 out intergers/pointers
 // or up to 3 out int64s
@@ -73,11 +74,12 @@ function wrapFunction(fn) {
   let outParams = fn.params.map((p, idx) => ({ ...p, idx })).filter(p => !isInParam(p));
 
   // we'll figure out how to deal with these cases later
-  let unknownInParam = inParams.find(p =>
-      p.isPtr
-      || p.type === 'Z3_char_ptr'
-      || p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned' || p.type === 'int' || p.type === 'boolean')
-    );
+  let unknownInParam = inParams.find(
+    p =>
+      p.isPtr ||
+      p.type === 'Z3_char_ptr' ||
+      (p.isArray && !(isZ3PointerType(p.type) || p.type === 'unsigned' || p.type === 'int' || p.type === 'boolean')),
+  );
   if (unknownInParam) {
     console.error(`skipping ${fn.name} - unknown in parameter ${JSON.stringify(unknownInParam)}`);
     return null;
@@ -90,7 +92,11 @@ function wrapFunction(fn) {
   // console.error(fn.name);
 
   let isAsync = asyncFns.includes(fn.name);
-  let trivial = !['string', 'boolean'].includes(fn.ret) && !fn.nullableRet && outParams.length === 0 && !inParams.some(p => p.type === 'string' || p.isArray || p.nullable);
+  let trivial =
+    !['string', 'boolean'].includes(fn.ret) &&
+    !fn.nullableRet &&
+    outParams.length === 0 &&
+    !inParams.some(p => p.type === 'string' || p.isArray || p.nullable);
 
   let name = fn.name.startsWith('Z3_') ? fn.name.substring(3) : fn.name;
 
@@ -119,14 +125,8 @@ function wrapFunction(fn) {
 
   // otherwise fall back to ccall
 
-  let ctypes = fn.params.map((p) =>
-    p.kind === "in_array"
-      ? "array"
-      : p.kind === "out_array"
-      ? "number"
-      : p.isPtr
-      ? "number"
-      : toEmType(p.type)
+  let ctypes = fn.params.map(p =>
+    p.kind === 'in_array' ? 'array' : p.kind === 'out_array' ? 'number' : p.isPtr ? 'number' : toEmType(p.type),
   );
 
   let prefix = '';
@@ -160,7 +160,9 @@ function wrapFunction(fn) {
 
     let sizeParam = fn.params[sizeIndex];
     if (!(sizeParam.kind === 'in' && sizeParam.type === 'unsigned' && !sizeParam.isPtr && !sizeParam.isArray)) {
-      throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${sizeParam.type})`);
+      throw new Error(
+        `size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${sizeParam.type})`,
+      );
     }
     args[sizeIndex] = `${p.name}.length`;
     params[sizeIndex] = null;
@@ -184,7 +186,9 @@ function wrapFunction(fn) {
           } else {
             let sizeParam = fn.params[sizeIndex];
             if (!(sizeParam.kind === 'in' && sizeParam.type === 'unsigned' && !sizeParam.isPtr && !sizeParam.isArray)) {
-              throw new Error(`size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${sizeParam.type})`);
+              throw new Error(
+                `size index is not unsigned int (for fn ${fn.name} parameter ${sizeIndex} got ${sizeParam.type})`,
+              );
             }
             count = sizeParam.name;
           }
@@ -193,7 +197,8 @@ function wrapFunction(fn) {
             let ${outArrayAddress} = Mod._malloc(4 * ${count});
             try {
           `.trim();
-          suffix = `
+          suffix =
+            `
             } finally {
               Mod._free(${outArrayAddress});
             }
@@ -201,7 +206,9 @@ function wrapFunction(fn) {
           args[outParam.idx] = outArrayAddress;
           mapped.push({
             name: outParam.name,
-            read: `readUintArray(${outArrayAddress}, ${count})` + (outParam.type === 'unsigned' ? '' : `as unknown as ${outParam.type}[]`),
+            read:
+              `readUintArray(${outArrayAddress}, ${count})` +
+              (outParam.type === 'unsigned' ? '' : `as unknown as ${outParam.type}[]`),
             type: `${outParam.type}[]`,
           });
         } else {
@@ -233,14 +240,14 @@ function wrapFunction(fn) {
           if (memIdx % 2 === 1) {
             ++memIdx;
           }
-          read = `getOutUint64(${memIdx/2})`;
+          read = `getOutUint64(${memIdx / 2})`;
           setArg();
           memIdx += 2;
         } else if (outParam.type === 'int64_t') {
           if (memIdx % 2 === 1) {
             ++memIdx;
           }
-          read = `getOutInt64(${memIdx/2})`;
+          read = `getOutInt64(${memIdx / 2})`;
           setArg();
           memIdx += 2;
         } else {
@@ -248,6 +255,7 @@ function wrapFunction(fn) {
           return null;
         }
         if (memIdx > Math.floor(BYTES_TO_ALLOCATE_FOR_OUT_PARAMS / 4)) {
+          // prettier-ignore
           console.error(`skipping ${fn.name} - out parameter sizes sum to ${memIdx * 4}, which is > ${BYTES_TO_ALLOCATE_FOR_OUT_PARAMS}`);
           return null;
         }
@@ -311,9 +319,9 @@ function wrapFunction(fn) {
   }
 
   if (isAsync) {
-
   }
 
+  // prettier-ignore
   let invocation = `Mod.ccall('${isAsync ? 'async_' : ''}${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
 
   if (isAsync) {
@@ -338,7 +346,7 @@ function wrapFunction(fn) {
 function wrapEnum(name, values) {
   let enumEntries = Object.entries(values);
   return `export enum ${name} {
-    ${enumEntries.map(([k, v], i) => k + (v === ((enumEntries[i - 1]?.[1] ?? -1) + 1) ? '' : ` = ${v}`) + ',').join('\n')}
+    ${enumEntries.map(([k, v], i) => k + (v === (enumEntries[i - 1]?.[1] ?? -1) + 1 ? '' : ` = ${v}`) + ',').join('\n')}
   };`;
 }
 
@@ -359,11 +367,19 @@ interface Subpointer<T extends string, S extends string> extends Pointer<S> {
   readonly __typeName2: T;
 }
 
-${Object.entries(primitiveTypes).filter(e => e[0] !== 'void').map(e => `type ${e[0]} = ${e[1]};`).join('\n')}
+${Object.entries(primitiveTypes)
+  .filter(e => e[0] !== 'void')
+  .map(e => `type ${e[0]} = ${e[1]};`)
+  .join('\n')}
 
-${Object.keys(types).filter(k => k.startsWith('Z3')).map(makePointerType).join('\n')}
+${Object.keys(types)
+  .filter(k => k.startsWith('Z3'))
+  .map(makePointerType)
+  .join('\n')}
 
-${Object.entries(enums).map(e => wrapEnum(e[0], e[1])).join('\n\n')}
+${Object.entries(enums)
+  .map(e => wrapEnum(e[0], e[1]))
+  .join('\n\n')}
 
 export async function init() {
   let Mod = await initModule();
@@ -394,7 +410,10 @@ export async function init() {
   return {
     em: Mod,
     Z3: {
-     ${functions.map(wrapFunction).filter(f => f != null).join(',\n')}
+     ${functions
+       .map(wrapFunction)
+       .filter(f => f != null)
+       .join(',\n')}
     }
   };
 }

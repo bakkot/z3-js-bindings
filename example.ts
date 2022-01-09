@@ -89,16 +89,9 @@ import { init } from './build/lib';
     }
   }
 
-
   async function solve(str: string) {
     let s = new Z3.Solver();
-    let cells = Array.from(
-      { length: 9 },
-      (_, col) => Array.from(
-        { length: 9 },
-        (_, row) => Z3.Int(`c_${row}_${col}`),
-      ),
-    );
+    let cells = Array.from({ length: 9 }, (_, col) => Array.from({ length: 9 }, (_, row) => Z3.Int(`c_${row}_${col}`)));
     for (let { row, col, value } of sudokuToConstraints(str)) {
       s.add(cells[row][col].eq(value));
     }
@@ -113,7 +106,7 @@ import { init } from './build/lib';
       let str = '';
       for (let row = 0; row < 9; ++row) {
         for (let col = 0; col < 9; ++col) {
-          str += model.evaluate(cells[row][col]).as_string() + ' '
+          str += model.evaluate(cells[row][col]).as_string() + ' ';
           if (col === 2 || col === 5) {
             str += ' ';
           }
@@ -140,7 +133,6 @@ import { init } from './build/lib';
   `);
 
   em.PThread.terminateAllThreads();
- 
 })().catch(e => {
   console.error('error', e);
   process.exit(1);
