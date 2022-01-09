@@ -366,13 +366,13 @@ let printf = (str: string, ...args: unknown[]) => console.log(sprintf(str.replac
         m = Z3.solver_get_model(ctx, s);
         if (m) Z3.model_inc_ref(ctx, m);
         display_model(ctx, m);
-        break;
+        throw new Error('result was undef, should have been unsat');
       case Z3_lbool.Z3_L_TRUE:
         printf('sat\n');
         m = Z3.solver_get_model(ctx, s);
         if (m) Z3.model_inc_ref(ctx, m);
         display_model(ctx, m);
-        break;
+        throw new Error('result was sat, should have been unsat');
     }
 
     /* delete logical context */
