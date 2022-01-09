@@ -51,6 +51,12 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_solver_check_assumptions')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_solver_check_assumptions', { configurable: true, get: function() { abort('You are getting _async_Z3_solver_check_assumptions on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_solver_check_assumptions', { configurable: true, set: function() { abort('You are setting _async_Z3_solver_check_assumptions on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_solver_cube')) {
         Object.defineProperty(Module['ready'], '_async_Z3_solver_cube', { configurable: true, get: function() { abort('You are getting _async_Z3_solver_cube on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_async_Z3_solver_cube', { configurable: true, set: function() { abort('You are setting _async_Z3_solver_cube on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
@@ -75,9 +81,33 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_optimize_check')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_optimize_check', { configurable: true, get: function() { abort('You are getting _async_Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_optimize_check', { configurable: true, set: function() { abort('You are setting _async_Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_algebraic_roots')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_roots', { configurable: true, get: function() { abort('You are getting _async_Z3_algebraic_roots on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_roots', { configurable: true, set: function() { abort('You are setting _async_Z3_algebraic_roots on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_algebraic_eval')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_eval', { configurable: true, get: function() { abort('You are getting _async_Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_eval', { configurable: true, set: function() { abort('You are setting _async_Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query')) {
         Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+      }
+    
+
+      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query_relations')) {
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_relations', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
+        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_relations', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
       }
     
 
@@ -6299,26 +6329,36 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  410684: function($0) {resolve_async($0);},  
- 410707: function() {reject_async('failed with unknown exception');},  
- 410758: function($0) {resolve_async($0);},  
- 410781: function() {reject_async('failed with unknown exception');},  
- 410832: function($0) {resolve_async($0);},  
- 410855: function() {reject_async('failed with unknown exception');},  
- 410906: function($0) {resolve_async($0);},  
- 410929: function() {reject_async('failed with unknown exception');},  
- 410980: function($0) {resolve_async($0);},  
- 411003: function() {reject_async('failed with unknown exception');},  
- 411054: function($0) {resolve_async($0);},  
- 411077: function() {reject_async('failed with unknown exception');},  
- 411128: function($0) {resolve_async($0);},  
- 411151: function() {reject_async('failed with unknown exception');},  
- 411202: function($0) {resolve_async($0);},  
- 411225: function() {reject_async('failed with unknown exception');},  
- 411276: function($0) {resolve_async($0);},  
- 411299: function() {reject_async('failed with unknown exception');},  
- 411350: function($0) {resolve_async($0);},  
- 411373: function() {reject_async('failed with unknown exception');}
+  410664: function($0) {resolve_async($0);},  
+ 410687: function() {reject_async('failed with unknown exception');},  
+ 410738: function($0) {resolve_async($0);},  
+ 410761: function() {reject_async('failed with unknown exception');},  
+ 410812: function($0) {resolve_async($0);},  
+ 410835: function() {reject_async('failed with unknown exception');},  
+ 410886: function($0) {resolve_async($0);},  
+ 410909: function() {reject_async('failed with unknown exception');},  
+ 410960: function($0) {resolve_async($0);},  
+ 410983: function() {reject_async('failed with unknown exception');},  
+ 411034: function($0) {resolve_async($0);},  
+ 411057: function() {reject_async('failed with unknown exception');},  
+ 411108: function($0) {resolve_async($0);},  
+ 411131: function() {reject_async('failed with unknown exception');},  
+ 411182: function($0) {resolve_async($0);},  
+ 411205: function() {reject_async('failed with unknown exception');},  
+ 411256: function($0) {resolve_async($0);},  
+ 411279: function() {reject_async('failed with unknown exception');},  
+ 411330: function($0) {resolve_async($0);},  
+ 411353: function() {reject_async('failed with unknown exception');},  
+ 411404: function($0) {resolve_async($0);},  
+ 411427: function() {reject_async('failed with unknown exception');},  
+ 411478: function($0) {resolve_async($0);},  
+ 411501: function() {reject_async('failed with unknown exception');},  
+ 411552: function($0) {resolve_async($0);},  
+ 411575: function() {reject_async('failed with unknown exception');},  
+ 411626: function($0) {resolve_async($0);},  
+ 411649: function() {reject_async('failed with unknown exception');},  
+ 411700: function($0) {resolve_async($0);},  
+ 411723: function() {reject_async('failed with unknown exception');}
 };
 
 
@@ -11255,6 +11295,9 @@ var _async_Z3_simplify_ex = Module["_async_Z3_simplify_ex"] = createExportWrappe
 var _async_Z3_solver_check = Module["_async_Z3_solver_check"] = createExportWrapper("async_Z3_solver_check");
 
 /** @type {function(...*):?} */
+var _async_Z3_solver_check_assumptions = Module["_async_Z3_solver_check_assumptions"] = createExportWrapper("async_Z3_solver_check_assumptions");
+
+/** @type {function(...*):?} */
 var _async_Z3_solver_cube = Module["_async_Z3_solver_cube"] = createExportWrapper("async_Z3_solver_cube");
 
 /** @type {function(...*):?} */
@@ -11267,7 +11310,19 @@ var _async_Z3_tactic_apply = Module["_async_Z3_tactic_apply"] = createExportWrap
 var _async_Z3_tactic_apply_ex = Module["_async_Z3_tactic_apply_ex"] = createExportWrapper("async_Z3_tactic_apply_ex");
 
 /** @type {function(...*):?} */
+var _async_Z3_optimize_check = Module["_async_Z3_optimize_check"] = createExportWrapper("async_Z3_optimize_check");
+
+/** @type {function(...*):?} */
+var _async_Z3_algebraic_roots = Module["_async_Z3_algebraic_roots"] = createExportWrapper("async_Z3_algebraic_roots");
+
+/** @type {function(...*):?} */
+var _async_Z3_algebraic_eval = Module["_async_Z3_algebraic_eval"] = createExportWrapper("async_Z3_algebraic_eval");
+
+/** @type {function(...*):?} */
 var _async_Z3_fixedpoint_query = Module["_async_Z3_fixedpoint_query"] = createExportWrapper("async_Z3_fixedpoint_query");
+
+/** @type {function(...*):?} */
+var _async_Z3_fixedpoint_query_relations = Module["_async_Z3_fixedpoint_query_relations"] = createExportWrapper("async_Z3_fixedpoint_query_relations");
 
 /** @type {function(...*):?} */
 var _async_Z3_fixedpoint_query_from_lvl = Module["_async_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("async_Z3_fixedpoint_query_from_lvl");
@@ -11285,6 +11340,9 @@ var _Z3_simplify_ex = Module["_Z3_simplify_ex"] = createExportWrapper("Z3_simpli
 var _Z3_solver_check = Module["_Z3_solver_check"] = createExportWrapper("Z3_solver_check");
 
 /** @type {function(...*):?} */
+var _Z3_solver_check_assumptions = Module["_Z3_solver_check_assumptions"] = createExportWrapper("Z3_solver_check_assumptions");
+
+/** @type {function(...*):?} */
 var _Z3_solver_cube = Module["_Z3_solver_cube"] = createExportWrapper("Z3_solver_cube");
 
 /** @type {function(...*):?} */
@@ -11297,7 +11355,19 @@ var _Z3_tactic_apply = Module["_Z3_tactic_apply"] = createExportWrapper("Z3_tact
 var _Z3_tactic_apply_ex = Module["_Z3_tactic_apply_ex"] = createExportWrapper("Z3_tactic_apply_ex");
 
 /** @type {function(...*):?} */
+var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_roots = Module["_Z3_algebraic_roots"] = createExportWrapper("Z3_algebraic_roots");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
+
+/** @type {function(...*):?} */
 var _Z3_fixedpoint_query = Module["_Z3_fixedpoint_query"] = createExportWrapper("Z3_fixedpoint_query");
+
+/** @type {function(...*):?} */
+var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
 
 /** @type {function(...*):?} */
 var _Z3_fixedpoint_query_from_lvl = Module["_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("Z3_fixedpoint_query_from_lvl");
@@ -11912,9 +11982,6 @@ var _Z3_fixedpoint_add_fact = Module["_Z3_fixedpoint_add_fact"] = createExportWr
 var _Z3_get_sort_kind = Module["_Z3_get_sort_kind"] = createExportWrapper("Z3_get_sort_kind");
 
 /** @type {function(...*):?} */
-var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
-
-/** @type {function(...*):?} */
 var _Z3_fixedpoint_get_answer = Module["_Z3_fixedpoint_get_answer"] = createExportWrapper("Z3_fixedpoint_get_answer");
 
 /** @type {function(...*):?} */
@@ -12041,9 +12108,6 @@ var _Z3_optimize_push = Module["_Z3_optimize_push"] = createExportWrapper("Z3_op
 var _Z3_optimize_pop = Module["_Z3_optimize_pop"] = createExportWrapper("Z3_optimize_pop");
 
 /** @type {function(...*):?} */
-var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
-
-/** @type {function(...*):?} */
 var _Z3_optimize_get_unsat_core = Module["_Z3_optimize_get_unsat_core"] = createExportWrapper("Z3_optimize_get_unsat_core");
 
 /** @type {function(...*):?} */
@@ -12156,12 +12220,6 @@ var _Z3_algebraic_eq = Module["_Z3_algebraic_eq"] = createExportWrapper("Z3_alge
 
 /** @type {function(...*):?} */
 var _Z3_algebraic_neq = Module["_Z3_algebraic_neq"] = createExportWrapper("Z3_algebraic_neq");
-
-/** @type {function(...*):?} */
-var _Z3_algebraic_roots = Module["_Z3_algebraic_roots"] = createExportWrapper("Z3_algebraic_roots");
-
-/** @type {function(...*):?} */
-var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
 
 /** @type {function(...*):?} */
 var _Z3_algebraic_get_poly = Module["_Z3_algebraic_get_poly"] = createExportWrapper("Z3_algebraic_get_poly");
@@ -13169,9 +13227,6 @@ var _Z3_solver_get_trail = Module["_Z3_solver_get_trail"] = createExportWrapper(
 var _pthread_self = Module["_pthread_self"] = createExportWrapper("pthread_self");
 
 /** @type {function(...*):?} */
-var _Z3_solver_check_assumptions = Module["_Z3_solver_check_assumptions"] = createExportWrapper("Z3_solver_check_assumptions");
-
-/** @type {function(...*):?} */
 var _Z3_solver_get_model = Module["_Z3_solver_get_model"] = createExportWrapper("Z3_solver_get_model");
 
 /** @type {function(...*):?} */
@@ -13488,8 +13543,8 @@ var ___cxa_can_catch = Module["___cxa_can_catch"] = createExportWrapper("__cxa_c
 /** @type {function(...*):?} */
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = createExportWrapper("__cxa_is_pointer_type");
 
-var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 412120;
-var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 408148;
+var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 412476;
+var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 409948;
 function invoke_vi(index,a1) {
 var sp = stackSave();
 try {
@@ -13655,6 +13710,17 @@ try {
 }
 }
 
+function invoke_viid(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
 function invoke_vid(index,a1,a2) {
 var sp = stackSave();
 try {
@@ -13747,17 +13813,6 @@ function invoke_viiiid(index,a1,a2,a3,a4,a5) {
 var sp = stackSave();
 try {
   getWasmTableEntry(index)(a1,a2,a3,a4,a5);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
-function invoke_viid(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;

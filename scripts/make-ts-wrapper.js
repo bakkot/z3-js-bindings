@@ -117,10 +117,6 @@ function wrapFunction(fn) {
     return `${name}: Mod._${fn.name} as ((${params.join(', ')}) => ${fn.ret})`;
   }
 
-  if (isAsync) {
-    throw new Error(`nontrivial async functions are not yet supported (for function ${fn.name})`);
-  }
-
   // otherwise fall back to ccall
 
   let ctypes = fn.params.map((p) =>
@@ -314,9 +310,18 @@ function wrapFunction(fn) {
     `.trim();
   }
 
-  let invocation = `Mod.ccall('${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
+  if (isAsync) {
 
-  let out = `${name}: function(${params.filter(p => p != null).join(', ')}): ${returnType} {
+  }
+
+  let invocation = `Mod.ccall('${isAsync ? 'async_' : ''}${fn.name}', '${cReturnType}', ${JSON.stringify(ctypes)}, [${args.map(toEm).join(', ')}])`;
+
+  if (isAsync) {
+    invocation = `await Mod.async_call(() => ${invocation})`;
+    returnType = `Promise<${returnType}>`;
+  }
+
+  let out = `${name}: ${isAsync ? 'async' : ''} function(${params.filter(p => p != null).join(', ')}): ${returnType} {
     ${prefix}`;
   if (infix === '' && suffix === '' && rv === 'ret') {
     out += `return ${invocation};`;

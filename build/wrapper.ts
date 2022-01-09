@@ -3753,21 +3753,23 @@ export async function init() {
       solver_check: function (c: Z3_context, s: Z3_solver): Promise<Z3_lbool> {
         return Mod.async_call(Mod._async_Z3_solver_check, c, s);
       },
-      solver_check_assumptions: function (
+      solver_check_assumptions: async function (
         c: Z3_context,
         s: Z3_solver,
         assumptions: Z3_ast[]
-      ): Z3_lbool {
-        return Mod.ccall(
-          'Z3_solver_check_assumptions',
-          'number',
-          ['number', 'number', 'number', 'array'],
-          [
-            c,
-            s,
-            assumptions.length,
-            intArrayToByteArr(assumptions as unknown as number[]),
-          ]
+      ): Promise<Z3_lbool> {
+        return await Mod.async_call(() =>
+          Mod.ccall(
+            'async_Z3_solver_check_assumptions',
+            'number',
+            ['number', 'number', 'number', 'array'],
+            [
+              c,
+              s,
+              assumptions.length,
+              intArrayToByteArr(assumptions as unknown as number[]),
+            ]
+          )
         );
       },
       get_implied_equalities: function (
@@ -4056,24 +4058,32 @@ export async function init() {
           [c, a, b]
         );
       },
-      algebraic_roots: function (
+      algebraic_roots: async function (
         c: Z3_context,
         p: Z3_ast,
         a: Z3_ast[]
-      ): Z3_ast_vector {
-        return Mod.ccall(
-          'Z3_algebraic_roots',
-          'number',
-          ['number', 'number', 'number', 'array'],
-          [c, p, a.length, intArrayToByteArr(a as unknown as number[])]
+      ): Promise<Z3_ast_vector> {
+        return await Mod.async_call(() =>
+          Mod.ccall(
+            'async_Z3_algebraic_roots',
+            'number',
+            ['number', 'number', 'number', 'array'],
+            [c, p, a.length, intArrayToByteArr(a as unknown as number[])]
+          )
         );
       },
-      algebraic_eval: function (c: Z3_context, p: Z3_ast, a: Z3_ast[]): int {
-        return Mod.ccall(
-          'Z3_algebraic_eval',
-          'number',
-          ['number', 'number', 'number', 'array'],
-          [c, p, a.length, intArrayToByteArr(a as unknown as number[])]
+      algebraic_eval: async function (
+        c: Z3_context,
+        p: Z3_ast,
+        a: Z3_ast[]
+      ): Promise<int> {
+        return await Mod.async_call(() =>
+          Mod.ccall(
+            'async_Z3_algebraic_eval',
+            'number',
+            ['number', 'number', 'number', 'array'],
+            [c, p, a.length, intArrayToByteArr(a as unknown as number[])]
+          )
         );
       },
       algebraic_get_poly: Mod._Z3_algebraic_get_poly as (
@@ -4228,21 +4238,23 @@ export async function init() {
       ): Promise<Z3_lbool> {
         return Mod.async_call(Mod._async_Z3_fixedpoint_query, c, d, query);
       },
-      fixedpoint_query_relations: function (
+      fixedpoint_query_relations: async function (
         c: Z3_context,
         d: Z3_fixedpoint,
         relations: Z3_func_decl[]
-      ): Z3_lbool {
-        return Mod.ccall(
-          'Z3_fixedpoint_query_relations',
-          'number',
-          ['number', 'number', 'number', 'array'],
-          [
-            c,
-            d,
-            relations.length,
-            intArrayToByteArr(relations as unknown as number[]),
-          ]
+      ): Promise<Z3_lbool> {
+        return await Mod.async_call(() =>
+          Mod.ccall(
+            'async_Z3_fixedpoint_query_relations',
+            'number',
+            ['number', 'number', 'number', 'array'],
+            [
+              c,
+              d,
+              relations.length,
+              intArrayToByteArr(relations as unknown as number[]),
+            ]
+          )
         );
       },
       fixedpoint_get_answer: Mod._Z3_fixedpoint_get_answer as (
@@ -4827,21 +4839,23 @@ export async function init() {
         c: Z3_context,
         d: Z3_optimize
       ) => void,
-      optimize_check: function (
+      optimize_check: async function (
         c: Z3_context,
         o: Z3_optimize,
         assumptions: Z3_ast[]
-      ): Z3_lbool {
-        return Mod.ccall(
-          'Z3_optimize_check',
-          'number',
-          ['number', 'number', 'number', 'array'],
-          [
-            c,
-            o,
-            assumptions.length,
-            intArrayToByteArr(assumptions as unknown as number[]),
-          ]
+      ): Promise<Z3_lbool> {
+        return await Mod.async_call(() =>
+          Mod.ccall(
+            'async_Z3_optimize_check',
+            'number',
+            ['number', 'number', 'number', 'array'],
+            [
+              c,
+              o,
+              assumptions.length,
+              intArrayToByteArr(assumptions as unknown as number[]),
+            ]
+          )
         );
       },
       optimize_get_reason_unknown: function (
