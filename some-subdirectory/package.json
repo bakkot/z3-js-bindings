@@ -5,7 +5,7 @@
     "build-ts": "tsc",
     "build": "npm run build-ts-wrapper && npm run build-ts",
     "format": "prettier --write --single-quote --arrow-parens avoid --print-width 120 --trailing-comma all '{,src/,scripts/}*.{js,ts}'",
-    "test": "node test-ts-api.js"
+    "test": "node --experimental-wasm-threads --experimental-wasm-bulk-memory test-ts-api.js"
   },
   "devDependencies": {
     "@types/node": "^17.0.8",
