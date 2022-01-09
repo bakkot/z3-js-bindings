@@ -30,6 +30,10 @@ jobs:
           # only do this in release job
           registry-url: 'https://registry.npmjs.org'
 
+      - name: ls
+        run: |
+          ls
+
       # only do this in release job
       # TODO extract version
       - name: Prepare for publish
