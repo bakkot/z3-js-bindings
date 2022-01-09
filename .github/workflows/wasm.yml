@@ -27,7 +27,9 @@ jobs:
 
       # do not do this in actual repo
       - name: Move z3
-        run: mv z3/* .
+        run: |
+          mv z3/* .
+          move some-subdirectory src/api/js
 
       - name: ls
         run: |
