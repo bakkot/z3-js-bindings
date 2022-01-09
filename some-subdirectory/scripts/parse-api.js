@@ -61,7 +61,7 @@ let defApis = Object.create(null);
 let functions = [];
 let enums = Object.create(null);
 for (let file of files) {
-  let contents = fs.readFileSync(path.join(__dirname, '..', 'src', 'api', file), 'utf8');
+  let contents = fs.readFileSync(path.join(__dirname, '..', '..', 'src', 'api', file), 'utf8');
 
   // we _could_ use an actual C++ parser, which accounted for macros and everything
   // but that's super painful
