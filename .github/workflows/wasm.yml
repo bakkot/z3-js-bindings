@@ -47,7 +47,7 @@ jobs:
       - name: Prepare for publish
         run: |
           echo 'todo extract version and npm publish'
-        working-directory: some-subdirectory
+        working-directory: src/api/js
 
       - name: Setup emscripten
         uses: mymindstorm/setup-emsdk@v11
@@ -57,16 +57,16 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-        working-directory: some-subdirectory
+        working-directory: src/api/js
 
       - name: Build wasm artifact
         run: npm run build
-        working-directory: some-subdirectory
+        working-directory: src/api/js
 
       - name: Build TypeScript
         run: npm run build-ts
-        working-directory: some-subdirectory
+        working-directory: src/api/js
 
       - name: Test
         run: npm test
-        working-directory: some-subdirectory
+        working-directory: src/api/js
