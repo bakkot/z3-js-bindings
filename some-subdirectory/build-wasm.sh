@@ -2,15 +2,9 @@
 
 set -euxo pipefail
 
-if [ ! -d "z3" ]; then
-  echo 'Please `git clone git@github.com:Z3Prover/z3.git`'
-  exit 1
-fi
-
-
 
 export ROOT=$PWD
-cd z3
+cd ..
 export CXXFLAGS="-pthread -s USE_PTHREADS=1 -s DISABLE_EXCEPTION_CATCHING=0"
 export LDFLAGS="-s WASM_BIGINT -s -pthread -s USE_PTHREADS=1"
 if [ ! -f "build/Makefile" ]; then
