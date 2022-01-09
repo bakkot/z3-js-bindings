@@ -19,7 +19,10 @@ jobs:
 
       # do not do this in actual repo
       - name: Clone Z3
-        run: git clone git@github.com:Z3Prover/z3.git
+        uses: actions/checkout@v2
+        with:
+          repository: Z3Prover/z3
+          path: z3
 
       - name: Setup node
         uses: actions/setup-node@v2
