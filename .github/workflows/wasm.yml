@@ -29,7 +29,7 @@ jobs:
       - name: Move z3
         run: |
           mv z3/* .
-          move some-subdirectory src/api/js
+          mv some-subdirectory src/api/js
 
       - name: ls
         run: |
