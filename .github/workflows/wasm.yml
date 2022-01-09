@@ -1,0 +1,50 @@
+name: WASM Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+defaults:
+  run:
+    working-directory: some-subdirectory
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      # do not do this in actual repo
+      - name: Clone Z3
+        run: git clone git@github.com:Z3Prover/z3.git
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts'
+          # only do this in release job
+          registry-url: 'https://registry.npmjs.org'
+
+      # only do this in release job
+      # TODO extract version
+      - name: Prepare for publish
+        run: |
+          mv ../.npmrc .
+
+      - name: Setup emscripten
+        uses: mymindstorm/setup-emsdk@v9
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build wasm artifact
+        run: npm run build
+
+      - name: Build TypeScript
+        run: npm run build-ts
+
+      - name: Test
+        run: npm test
