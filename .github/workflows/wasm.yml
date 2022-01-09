@@ -39,7 +39,7 @@ jobs:
       # TODO extract version
       - name: Prepare for publish
         run: |
-          find .. -name npmrc
+          echo 'todo extract version and npm publish'
 
       - name: Setup emscripten
         uses: mymindstorm/setup-emsdk@v9
