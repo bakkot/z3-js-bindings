@@ -151,12 +151,12 @@ export async function init() {
       // if (is_const(decl)) {
       //   decl = decl.decl();
       // }
-      if (decl.arity() == 0) {
+      if (decl.arity() === 0) {
         let _r = Z3.model_get_const_interp(this.ctx.ref(), this.model, decl.ast);
-        if ((_r as unknown as number) === 0) {
+        if (_r == null) {
           throw new Error('npe in get_interp');
         }
-        let r = _to_expr_ref(_r as unknown as Z3_ast, this.ctx);
+        let r = _to_expr_ref(_r, this.ctx);
         if (is_as_array(r)) {
           throw new Error('unimplement: get_interp of as_array');
         } else {
@@ -164,10 +164,10 @@ export async function init() {
         }
       } else {
         let interp = Z3.model_get_func_interp(this.ctx.ref(), this.model, decl.ast);
-        if ((interp as unknown as number) === 0) {
+        if (interp == null) {
           return null;
         }
-        return new FuncInterp(interp as unknown as Z3_func_interp, this.ctx);
+        return new FuncInterp(interp, this.ctx);
       }
     }
 
