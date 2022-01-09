@@ -1,24 +1,24 @@
 // this wrapper works with async-fns to provide promise-based off-thread versions of some functions
-let capabilities = [];
 
-function resolve_async(idx, val) {
+let capability = null;
+function resolve_async(val) {
   // setTimeout is a workaround for https://github.com/emscripten-core/emscripten/issues/15900
-  let cap = capabilities[idx];
-  if (cap == null) {
+  if (capability == null) {
     return;
   }
-  capabilities[idx] = null;
+  let cap = capability;
+  capability = null;
 
   setTimeout(() => {
     cap.resolve(val);
   }, 0);
 }
-function reject_async(idx, val) {
-  let cap = capabilities[idx];
-  if (cap == null) {
+function reject_async(val) {
+  if (capability == null) {
     return;
   }
-  capabilities[idx] = null;
+  let cap = capability;
+  capability = null;
 
   setTimeout(() => {
     cap.reject(val);
@@ -26,10 +26,12 @@ function reject_async(idx, val) {
 }
 
 Module.async_call = function(f, ...args) {
-  let idx = capabilities.length;
+  if (capability !== null) {
+    throw new Error(`you can't execute multiple async functions at the same time; let the previous one finish first`);
+  }
   let promise = new Promise((resolve, reject) => {
-    capabilities.push({ resolve, reject });
+    capability = { resolve, reject };
   });
-  f(idx, ...args);
+  f(...args);
   return promise;
 }

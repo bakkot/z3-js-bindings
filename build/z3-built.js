@@ -75,27 +75,9 @@ Module['ready'] = new Promise(function(resolve, reject) {
       }
     
 
-      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_optimize_check')) {
-        Object.defineProperty(Module['ready'], '_async_Z3_optimize_check', { configurable: true, get: function() { abort('You are getting _async_Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-        Object.defineProperty(Module['ready'], '_async_Z3_optimize_check', { configurable: true, set: function() { abort('You are setting _async_Z3_optimize_check on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-      }
-    
-
-      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_algebraic_eval')) {
-        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_eval', { configurable: true, get: function() { abort('You are getting _async_Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-        Object.defineProperty(Module['ready'], '_async_Z3_algebraic_eval', { configurable: true, set: function() { abort('You are setting _async_Z3_algebraic_eval on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-      }
-    
-
       if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query')) {
         Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
         Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-      }
-    
-
-      if (!Object.getOwnPropertyDescriptor(Module['ready'], '_async_Z3_fixedpoint_query_relations')) {
-        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_relations', { configurable: true, get: function() { abort('You are getting _async_Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
-        Object.defineProperty(Module['ready'], '_async_Z3_fixedpoint_query_relations', { configurable: true, set: function() { abort('You are setting _async_Z3_fixedpoint_query_relations on the Promise object, instead of the instance. Use .then() to get called back with the instance, see the MODULARIZE docs in src/settings.js') } });
       }
     
 
@@ -4410,26 +4392,26 @@ Module['ready'] = new Promise(function(resolve, reject) {
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
 // this wrapper works with async-fns to provide promise-based off-thread versions of some functions
-let capabilities = [];
 
-function resolve_async(idx, val) {
+let capability = null;
+function resolve_async(val) {
   // setTimeout is a workaround for https://github.com/emscripten-core/emscripten/issues/15900
-  let cap = capabilities[idx];
-  if (cap == null) {
+  if (capability == null) {
     return;
   }
-  capabilities[idx] = null;
+  let cap = capability;
+  capability = null;
 
   setTimeout(() => {
     cap.resolve(val);
   }, 0);
 }
-function reject_async(idx, val) {
-  let cap = capabilities[idx];
-  if (cap == null) {
+function reject_async(val) {
+  if (capability == null) {
     return;
   }
-  capabilities[idx] = null;
+  let cap = capability;
+  capability = null;
 
   setTimeout(() => {
     cap.reject(val);
@@ -4437,11 +4419,13 @@ function reject_async(idx, val) {
 }
 
 Module.async_call = function(f, ...args) {
-  let idx = capabilities.length;
+  if (capability !== null) {
+    throw new Error(`you can't execute multiple async functions at the same time; let the previous one finish first`);
+  }
   let promise = new Promise((resolve, reject) => {
-    capabilities.push({ resolve, reject });
+    capability = { resolve, reject };
   });
-  f(idx, ...args);
+  f(...args);
   return promise;
 }
 
@@ -6315,32 +6299,26 @@ var tempI64;
 // === Body ===
 
 var ASM_CONSTS = {
-  410680: function($0, $1) {resolve_async($0, $1);},  
- 410707: function($0) {reject_async($0, 'failed with unknown exception');},  
- 410762: function($0, $1) {resolve_async($0, $1);},  
- 410789: function($0) {reject_async($0, 'failed with unknown exception');},  
- 410844: function($0, $1) {resolve_async($0, $1);},  
- 410871: function($0) {reject_async($0, 'failed with unknown exception');},  
- 410926: function($0, $1) {resolve_async($0, $1);},  
- 410953: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411008: function($0, $1) {resolve_async($0, $1);},  
- 411035: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411090: function($0, $1) {resolve_async($0, $1);},  
- 411117: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411172: function($0, $1) {resolve_async($0, $1);},  
- 411199: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411254: function($0, $1) {resolve_async($0, $1);},  
- 411281: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411336: function($0, $1) {resolve_async($0, $1);},  
- 411363: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411418: function($0, $1) {resolve_async($0, $1);},  
- 411445: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411500: function($0, $1) {resolve_async($0, $1);},  
- 411527: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411582: function($0, $1) {resolve_async($0, $1);},  
- 411609: function($0) {reject_async($0, 'failed with unknown exception');},  
- 411664: function($0, $1) {resolve_async($0, $1);},  
- 411691: function($0) {reject_async($0, 'failed with unknown exception');}
+  410684: function($0) {resolve_async($0);},  
+ 410707: function() {reject_async('failed with unknown exception');},  
+ 410758: function($0) {resolve_async($0);},  
+ 410781: function() {reject_async('failed with unknown exception');},  
+ 410832: function($0) {resolve_async($0);},  
+ 410855: function() {reject_async('failed with unknown exception');},  
+ 410906: function($0) {resolve_async($0);},  
+ 410929: function() {reject_async('failed with unknown exception');},  
+ 410980: function($0) {resolve_async($0);},  
+ 411003: function() {reject_async('failed with unknown exception');},  
+ 411054: function($0) {resolve_async($0);},  
+ 411077: function() {reject_async('failed with unknown exception');},  
+ 411128: function($0) {resolve_async($0);},  
+ 411151: function() {reject_async('failed with unknown exception');},  
+ 411202: function($0) {resolve_async($0);},  
+ 411225: function() {reject_async('failed with unknown exception');},  
+ 411276: function($0) {resolve_async($0);},  
+ 411299: function() {reject_async('failed with unknown exception');},  
+ 411350: function($0) {resolve_async($0);},  
+ 411373: function() {reject_async('failed with unknown exception');}
 };
 
 
@@ -11289,16 +11267,7 @@ var _async_Z3_tactic_apply = Module["_async_Z3_tactic_apply"] = createExportWrap
 var _async_Z3_tactic_apply_ex = Module["_async_Z3_tactic_apply_ex"] = createExportWrapper("async_Z3_tactic_apply_ex");
 
 /** @type {function(...*):?} */
-var _async_Z3_optimize_check = Module["_async_Z3_optimize_check"] = createExportWrapper("async_Z3_optimize_check");
-
-/** @type {function(...*):?} */
-var _async_Z3_algebraic_eval = Module["_async_Z3_algebraic_eval"] = createExportWrapper("async_Z3_algebraic_eval");
-
-/** @type {function(...*):?} */
 var _async_Z3_fixedpoint_query = Module["_async_Z3_fixedpoint_query"] = createExportWrapper("async_Z3_fixedpoint_query");
-
-/** @type {function(...*):?} */
-var _async_Z3_fixedpoint_query_relations = Module["_async_Z3_fixedpoint_query_relations"] = createExportWrapper("async_Z3_fixedpoint_query_relations");
 
 /** @type {function(...*):?} */
 var _async_Z3_fixedpoint_query_from_lvl = Module["_async_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("async_Z3_fixedpoint_query_from_lvl");
@@ -11328,16 +11297,7 @@ var _Z3_tactic_apply = Module["_Z3_tactic_apply"] = createExportWrapper("Z3_tact
 var _Z3_tactic_apply_ex = Module["_Z3_tactic_apply_ex"] = createExportWrapper("Z3_tactic_apply_ex");
 
 /** @type {function(...*):?} */
-var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
-
-/** @type {function(...*):?} */
-var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
-
-/** @type {function(...*):?} */
 var _Z3_fixedpoint_query = Module["_Z3_fixedpoint_query"] = createExportWrapper("Z3_fixedpoint_query");
-
-/** @type {function(...*):?} */
-var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
 
 /** @type {function(...*):?} */
 var _Z3_fixedpoint_query_from_lvl = Module["_Z3_fixedpoint_query_from_lvl"] = createExportWrapper("Z3_fixedpoint_query_from_lvl");
@@ -11952,6 +11912,9 @@ var _Z3_fixedpoint_add_fact = Module["_Z3_fixedpoint_add_fact"] = createExportWr
 var _Z3_get_sort_kind = Module["_Z3_get_sort_kind"] = createExportWrapper("Z3_get_sort_kind");
 
 /** @type {function(...*):?} */
+var _Z3_fixedpoint_query_relations = Module["_Z3_fixedpoint_query_relations"] = createExportWrapper("Z3_fixedpoint_query_relations");
+
+/** @type {function(...*):?} */
 var _Z3_fixedpoint_get_answer = Module["_Z3_fixedpoint_get_answer"] = createExportWrapper("Z3_fixedpoint_get_answer");
 
 /** @type {function(...*):?} */
@@ -12078,6 +12041,9 @@ var _Z3_optimize_push = Module["_Z3_optimize_push"] = createExportWrapper("Z3_op
 var _Z3_optimize_pop = Module["_Z3_optimize_pop"] = createExportWrapper("Z3_optimize_pop");
 
 /** @type {function(...*):?} */
+var _Z3_optimize_check = Module["_Z3_optimize_check"] = createExportWrapper("Z3_optimize_check");
+
+/** @type {function(...*):?} */
 var _Z3_optimize_get_unsat_core = Module["_Z3_optimize_get_unsat_core"] = createExportWrapper("Z3_optimize_get_unsat_core");
 
 /** @type {function(...*):?} */
@@ -12193,6 +12159,9 @@ var _Z3_algebraic_neq = Module["_Z3_algebraic_neq"] = createExportWrapper("Z3_al
 
 /** @type {function(...*):?} */
 var _Z3_algebraic_roots = Module["_Z3_algebraic_roots"] = createExportWrapper("Z3_algebraic_roots");
+
+/** @type {function(...*):?} */
+var _Z3_algebraic_eval = Module["_Z3_algebraic_eval"] = createExportWrapper("Z3_algebraic_eval");
 
 /** @type {function(...*):?} */
 var _Z3_algebraic_get_poly = Module["_Z3_algebraic_get_poly"] = createExportWrapper("Z3_algebraic_get_poly");
@@ -13519,8 +13488,8 @@ var ___cxa_can_catch = Module["___cxa_can_catch"] = createExportWrapper("__cxa_c
 /** @type {function(...*):?} */
 var ___cxa_is_pointer_type = Module["___cxa_is_pointer_type"] = createExportWrapper("__cxa_is_pointer_type");
 
-var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 412460;
-var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 409964;
+var __emscripten_main_thread_futex = Module['__emscripten_main_thread_futex'] = 412120;
+var __emscripten_allow_main_runtime_queued_calls = Module['__emscripten_allow_main_runtime_queued_calls'] = 408148;
 function invoke_vi(index,a1) {
 var sp = stackSave();
 try {
@@ -13686,17 +13655,6 @@ try {
 }
 }
 
-function invoke_viid(index,a1,a2,a3) {
-var sp = stackSave();
-try {
-  getWasmTableEntry(index)(a1,a2,a3);
-} catch(e) {
-  stackRestore(sp);
-  if (e !== e+0 && e !== 'longjmp') throw e;
-  _setThrew(1, 0);
-}
-}
-
 function invoke_vid(index,a1,a2) {
 var sp = stackSave();
 try {
@@ -13789,6 +13747,17 @@ function invoke_viiiid(index,a1,a2,a3,a4,a5) {
 var sp = stackSave();
 try {
   getWasmTableEntry(index)(a1,a2,a3,a4,a5);
+} catch(e) {
+  stackRestore(sp);
+  if (e !== e+0 && e !== 'longjmp') throw e;
+  _setThrew(1, 0);
+}
+}
+
+function invoke_viid(index,a1,a2,a3) {
+var sp = stackSave();
+try {
+  getWasmTableEntry(index)(a1,a2,a3);
 } catch(e) {
   stackRestore(sp);
   if (e !== e+0 && e !== 'longjmp') throw e;
