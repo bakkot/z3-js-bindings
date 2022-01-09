@@ -48,7 +48,7 @@ jobs:
         working-directory: some-subdirectory
 
       - name: Setup emscripten
-        uses: mymindstorm/setup-emsdk@v9
+        uses: mymindstorm/setup-emsdk@v11
         with:
           version: 3.1.0
           actions-cache-folder: 'emsdk-cache'
