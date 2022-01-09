@@ -1,9 +1,9 @@
-import { init } from './build/lib';
+import { init } from './build/wrapper';
 
 // demonstrates use of the raw API
 
 (async () => {
-  let { em, rawZ3: Z3 } = await init();
+  let { em, Z3 } = await init();
 
   Z3.global_param_set('verbose', '10');
   console.log('verbosity:', Z3.global_param_get('verbose'));

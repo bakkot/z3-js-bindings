@@ -1,4 +1,4 @@
-import { init } from './build/lib';
+import { init } from './lib';
 
 // solve a sudoku!
 // most of the interesting stuff is in `solve`

@@ -1,8 +1,14 @@
 # Z3 TypeScript Bindings
 
-This is a WIP project to provide TypeScript bindings for the [Z3 theorem prover](https://github.com/Z3Prover/z3), following the design of the Python bindings.
+This is a project to provide TypeScript bindings for the [Z3 theorem prover](https://github.com/Z3Prover/z3).
 
 Right now Z3 is compiled to wasm, which works in browsers as well as node, but it should be fairly straightforward to replace it with a native Node-API package for use in node (with better performance than wasm).
+
+There are two parts to the effort:
+1. exposing a low-level wrapper around the raw API (but not so low-level that you need to do your own `malloc`s)
+1. exposing a high-level wrapper around that, like the Python bindings.
+
+The first part is complete, and is the focus of the remainder of this readme. The second part is in progress under [`fancy-wrapper`](./fancy-wrapper).
 
 
 ## Building
@@ -18,7 +24,7 @@ I would not recommend using this in production right now. The organization of th
 
 Only a small part of the API is exposed currently, but it's enough to implement a simple sudoku solver: see [`example.ts`](./example.ts).
 
-This requires threads, which means you'll need to be running in an environment which supports `SharedArrayBuffer`. In browsers, in addition to ensuring your browser supports SAB, you'll need to serve your page with [special headers](https://web.dev/coop-coep/). There's a [neat trick](https://github.com/gzuidhof/coi-serviceworker) for doing that client-side on e.g. Github Pages, though you shouldn't use that trick in more complex applications. 
+This requires threads, which means you'll need to be running in an environment which supports `SharedArrayBuffer`. In browsers, in addition to ensuring your browser supports SAB, you'll need to serve your page with [special headers](https://web.dev/coop-coep/). There's a [neat trick](https://github.com/gzuidhof/coi-serviceworker) for doing that client-side on e.g. Github Pages, though you shouldn't use that trick in more complex applications.
 
 
 ## Contributing
